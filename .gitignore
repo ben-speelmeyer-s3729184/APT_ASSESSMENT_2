@@ -11,3 +11,12 @@
 # Build/Bin directories
 build/
 bin/
+
+# Executable files (assuming no extension)
+*
+!/**/
+!*.*
+!Makefile
+
+# cpp object files
+*.o
