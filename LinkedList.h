@@ -8,33 +8,35 @@
 #include "Tile.h"
 
 class LinkedList {
-   public:
-    LinkedList();
-    ~LinkedList();
+ public:
+  LinkedList();
+  ~LinkedList();
 
-    void addTile(Tile* tile);
+  Tile* getTile(Tile* tile);
 
-    //Remove Tile From the tail
-    Tile* removeFront();
+  void addTile(Tile* tile);
 
-    //Remove First instance of tile
-    Tile* removeTile(Tile* tile);
+  // Remove Tile From the tail
+  void removeFront();
 
-    //Return size of linked List
-    int size();
+  // Remove First instance of tile
+  bool removeTile(Tile* tile);
 
-    //Check for a tile
-    bool contains(Tile tile);
+  // Return size of linked List
+  int size();
 
-    //String representation of the linkedList
-    std::string toString();
+  // Check for a tile
+  bool contains(Tile tile);
 
-   private:
-    Node* head;
-    Node* tail;
-    int count;
+  // String representation of the linkedList
+  std::string toString();
 
-    void clear();
+ private:
+  Node* head;
+  Node* tail;
+  int count;
+
+  void clear();
 };
 
 #endif  // ASSIGN2_LINKEDLIST_H

@@ -1,95 +1,115 @@
 
 #include "LinkedList.h"
 
+#include <iostream>
 LinkedList::LinkedList() {
-    head = nullptr;
-    tail = nullptr;
-    count = 0;
+  this->head = nullptr;
+  this->tail = nullptr;
 }
 
-LinkedList::~LinkedList() {
-    clear();
+LinkedList::~LinkedList() { clear(); }
+
+Tile* LinkedList::getTile(Tile* tile) {
+  bool tileNotFound = true;
+  Tile* retTile = nullptr;
+  if (size() > 0) {
+    Node* currentNode = head;
+    while (tileNotFound && currentNode != nullptr) {
+      if (currentNode->containsTile(tile)) {
+        tileNotFound = false;
+        retTile = new Tile(*currentNode->tile);
+        removeTile(retTile);
+      } else {
+        currentNode = currentNode->next;
+      }
+    }
+  }
+  return retTile;
 }
 
 void LinkedList::addTile(Tile* tile) {
-    Node* newNode = new Node(tile, nullptr);
-    if (head == nullptr) {
-        head = newNode;
-        tail = newNode;
-    } else {
-        tail->next = new Node(tile, nullptr);
-        tail = tail->next;
-    }
-    ++count;
+  Node* newNode = new Node(tile, nullptr);
+  if (head == nullptr) {
+    head = newNode;
+    tail = newNode;
+  } else {
+    tail->next = newNode;
+    tail = tail->next;
+  }
 }
 
-//Front of list removal
-Tile* LinkedList::removeFront() {
-    Tile* retTile = nullptr;
-    if (count > 0) {
-        Node* toDelete = head;
-        retTile = new Tile(*head->tile);
-        head = head->next;
-        if (head == nullptr) {
-            tail = nullptr;
-        }
-        delete toDelete;
-        --count;
+// Front of list removal
+void LinkedList::removeFront() {
+  if (size() > 0) {
+    Node* toDelete = head;
+    head = head->next;
+    if (head == nullptr) {
+      tail = nullptr;
     }
-    return retTile;
+    delete toDelete;
+  }
 }
 
 //
-Tile* LinkedList::removeTile(Tile* tile) {
-    bool tileNotFound = true;
-    Node* prevNode = head;
-    Node* currentNode = head;
-    Tile* retTile = nullptr;
+bool LinkedList::removeTile(Tile* tile) {
+  bool tileNotFound = true;
+  Node* prevNode = head;
+  Node* currentNode = head;
+  Tile* retTile = nullptr;
 
-    if (count > 0) {
-        if (head == tail && head->containsTile(tile)) {
-            retTile = removeFront();
+  if (size() > 0) {
+    if (head == tail || head->containsTile(tile)) {
+      removeFront();
+    } else {
+      while (tileNotFound && currentNode != nullptr) {
+        if (currentNode->containsTile(tile)) {
+          tileNotFound = false;
+          prevNode->next = currentNode->next;
+          delete currentNode;
         } else {
-            while (tileNotFound && currentNode != nullptr) {
-                if (currentNode->containsTile(tile)) {
-                    tileNotFound = true;
-                    retTile = new Tile(*currentNode->tile);
-                    prevNode->next = currentNode->next;
-                    delete currentNode;
-                } else {
-                    prevNode = currentNode;
-                    currentNode = currentNode->next;
-                }
-            }
-            --count;
+          prevNode = currentNode;
+          currentNode = currentNode->next;
         }
+      }
     }
-    return retTile;
+  }
+  return retTile;
 }
 int LinkedList::size() {
-    return count;
+  int count = 0;
+  Node* currentNode = head;
+  while (currentNode != nullptr) {
+    currentNode = currentNode->next;
+    ++count;
+  }
+  return count;
 }
 
-bool LinkedList::contains(Tile tile) {
-    return true;
-}
+bool LinkedList::contains(Tile tile) { return true; }
 
 std::string LinkedList::toString() {
-    if (count > 0) {
-        int index = 0;
-        Node* currentNode = head;
-        std::string listDetails = "";
-        while (index < count) {
-            Tile* tile = currentNode->tile;
-            listDetails.append(tile->colour + tile->shape + ",");
-            currentNode = currentNode->next;
-            ++index;
-        }
+  std::string listDetails;
+  if (true) {
+    int index = 0;
+    int count = size();
+    Node* currentNode = head;
+    listDetails = "";
+    while (index < count) {
+      Tile tile = *currentNode->tile;
+      std::cout << tile.colour << tile.shape;
+      if (index < count - 1) {
+        std::cout << ",";
+      }
+      currentNode = currentNode->next;
+      ++index;
     }
+  }
+  std::cout << std::endl;
+  return listDetails;
 }
 
 void LinkedList::clear() {
-    while (head != nullptr) {
-        removeFront();
-    }
+  while (head != nullptr) {
+    removeFront();
+  }
 }

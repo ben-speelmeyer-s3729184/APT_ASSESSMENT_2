@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include "TileCodes.h"
+
 // Define a Colour type
 typedef char Colour;
 

@@ -13,6 +13,8 @@ class Node {
     Tile* tile;
     Node* next;
 
+    bool containsTile(Tile* tile);
+
    private:
 };
 
