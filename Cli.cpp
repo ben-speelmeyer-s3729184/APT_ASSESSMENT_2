@@ -1,9 +1,7 @@
 #include "Cli.h"
 
 
-// enum for main menu options, we start at one and the
-// compiler will increment for us
-enum { NEW_GAME=1, LOAD_GAME, CREDITS, QUIT };
+
 
 /*
 * Takes the user's input and stores it in buffer.
@@ -37,8 +35,6 @@ bool Cli::nextInput() {
 
 
 void Cli::printMenu() const {
-
-    std::cout << "Welcome to Qwirkle!\n" << "-------------------\n" << std::endl;
 
     std::cout << "Menu\n";
     std::cout << "----\n";

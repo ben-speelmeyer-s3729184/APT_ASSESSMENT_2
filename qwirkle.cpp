@@ -10,9 +10,15 @@ int main(void) {
    LinkedList* list = new LinkedList();
    delete list;
 
+   // create CLI object
    Cli console;
 
+   // print greating
+   std::cout << "Welcome to Qwirkle!\n" << "-------------------\n" << std::endl;
+
    console.printMenu();
+
+
 
    // main loop
    while (!console.nextInput()) {

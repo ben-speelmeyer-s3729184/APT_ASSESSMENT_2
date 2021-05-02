@@ -2,6 +2,7 @@
 #define GAMESTATE_H
 
 #include "LinkedList.h"
+#include <iostream>
 
 class GameState
 {
@@ -12,7 +13,7 @@ private:
     LinkedList player1Hand;
     LinkedList player2Hand;
 public:
-    GameState(/* args */);
+    GameState();
     ~GameState();
 
 

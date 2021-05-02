@@ -15,13 +15,16 @@ private:
     bool exit = false;
     GameState game;
 
+    // enum for main menu options, we start at one and the
+    // compiler will increment for us
+    enum { NEW_GAME=1, LOAD_GAME, CREDITS, QUIT };
 
     /*
     * Initialises new game
     */
     void newGame();
 
-    /*
+    /*-GameS
     * Checks the input player name to make sure it complies with specifications.
     */
     bool checkName(const std::string& name) const;
