@@ -38,6 +38,15 @@ void LinkedList::addTile(Tile* tile) {
   }
 }
 
+Tile* LinkedList::takeFront() {
+  Tile* toReturn = nullptr;
+  if (size() > 0) {
+    toReturn = new Tile(*head->tile);
+    removeFront();
+  }
+  return toReturn;
+}
+
 // Front of list removal
 void LinkedList::removeFront() {
   if (size() > 0) {
@@ -51,11 +60,10 @@ void LinkedList::removeFront() {
 }
 
 //
-bool LinkedList::removeTile(Tile* tile) {
+void LinkedList::removeTile(Tile* tile) {
   bool tileNotFound = true;
   Node* prevNode = head;
   Node* currentNode = head;
-  Tile* retTile = nullptr;
 
   if (size() > 0) {
     if (head == tail || head->containsTile(tile)) {
@@ -73,7 +81,6 @@ bool LinkedList::removeTile(Tile* tile) {
       }
     }
   }
-  return retTile;
 }
 int LinkedList::size() {
   int count = 0;
@@ -96,15 +103,16 @@ std::string LinkedList::toString() {
     listDetails = "";
     while (index < count) {
       Tile tile = *currentNode->tile;
-      std::cout << tile.colour << tile.shape;
+      listDetails.append(tile.colour + std::to_string(tile.shape));
       if (index < count - 1) {
-        std::cout << ",";
+        listDetails.append(",");
+      } else {
+        listDetails.append("\n");
       }
       currentNode = currentNode->next;
       ++index;
     }
   }
-  std::cout << std::endl;
   return listDetails;
 }
 

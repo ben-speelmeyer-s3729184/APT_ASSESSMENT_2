@@ -1,39 +1,41 @@
 
 #include <iostream>
 
+#include "Hand.h"
 #include "LinkedList.h"
-
+#include "Tile.h"
+#include "TileBag.h"
 #define EXIT_SUCCESS 0
 
 int main(void) {
-  LinkedList* list = new LinkedList();
+  Hand* hand = new Hand();
+  TileBag* tileBag = new TileBag();
 
-  // Test
   Tile* tile1 = new Tile(RED, CIRCLE);
-  Tile* tile2 = new Tile(ORANGE, STAR_4);
-  Tile* tile3 = new Tile(YELLOW, DIAMOND);
-  Tile* tile4 = new Tile(GREEN, SQUARE);
-  Tile* tile5 = new Tile(BLUE, STAR_6);
-  Tile* tile6 = new Tile(PURPLE, CLOVER);
+  Tile* tile2 = new Tile(BLUE, CIRCLE);
+  Tile* tile3 = new Tile(GREEN, DIAMOND);
 
-  list->addTile(tile1);
-  list->addTile(tile2);
-  list->addTile(tile3);
-  list->addTile(tile4);
-  list->addTile(tile5);
-  list->addTile(tile6);
-  list->toString();
-  list->removeTile(tile1);
-  list->removeTile(tile4);
-  list->toString();
-  list->removeTile(tile2);
-  list->removeTile(tile3);
-  list->toString();
-  list->removeTile(tile6);
-  list->removeTile(tile5);
-  list->toString();
-  Tile* tile = new Tile(RED, CIRCLE);
-  list->addTile(tile);
-  delete list;
+  tileBag->returnTile(tile1);
+  tileBag->returnTile(tile2);
+  tileBag->returnTile(tile3);
+  // Test
+
+  std::cout << hand->handDetails() << std::endl;
+  std::cout << tileBag->tileBagDetails() << std::endl;
+
+  hand->addTile(tileBag->drawTile());
+  hand->addTile(tileBag->drawTile());
+
+  std::cout << hand->handDetails() << std::endl;
+  std::cout << tileBag->tileBagDetails() << std::endl;
+  Tile tile(RED, CIRCLE);
+  Tile* tempTile = hand->retrieveTile(&tile);
+  tileBag->returnTile(tempTile);
+
+  std::cout << hand->handDetails() << std::endl;
+  std::cout << tileBag->tileBagDetails() << std::endl;
+
+  delete hand;
+  delete tileBag;
   return EXIT_SUCCESS;
 }

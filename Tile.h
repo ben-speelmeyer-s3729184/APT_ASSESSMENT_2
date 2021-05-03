@@ -19,7 +19,6 @@ class Tile {
 
     Colour colour;
     Shape shape;
-    std::string toString();
 };
 
 #endif  // ASSIGN2_TILE_H

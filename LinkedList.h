@@ -14,13 +14,15 @@ class LinkedList {
 
   Tile* getTile(Tile* tile);
 
+  Tile* takeFront();
+
   void addTile(Tile* tile);
 
   // Remove Tile From the tail
   void removeFront();
 
   // Remove First instance of tile
-  bool removeTile(Tile* tile);
+  void removeTile(Tile* tile);
 
   // Return size of linked List
   int size();
