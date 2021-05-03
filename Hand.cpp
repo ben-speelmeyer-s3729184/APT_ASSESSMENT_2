@@ -12,3 +12,5 @@ Tile* Hand::retrieveTile(Tile* tile) {
 void Hand::addTile(Tile* tile) { hand->addTile(tile); }
 
 std::string Hand::handDetails() { return hand->toString(); }
+
+int Hand::handSize() { return hand->size(); }
