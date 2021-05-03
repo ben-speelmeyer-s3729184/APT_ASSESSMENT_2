@@ -1,15 +1,41 @@
 
-#include "LinkedList.h"
-
 #include <iostream>
 
-#define EXIT_SUCCESS    0
+#include "Hand.h"
+#include "LinkedList.h"
+#include "Tile.h"
+#include "TileBag.h"
+#define EXIT_SUCCESS 0
 
 int main(void) {
-   LinkedList* list = new LinkedList();
-   delete list;
+  Hand* hand = new Hand();
+  TileBag* tileBag = new TileBag();
 
-   std::cout << "TODO: Implement Qwirkle!" << std::endl;
+  Tile* tile1 = new Tile(RED, CIRCLE);
+  Tile* tile2 = new Tile(BLUE, CIRCLE);
+  Tile* tile3 = new Tile(GREEN, DIAMOND);
 
-   return EXIT_SUCCESS;
+  tileBag->returnTile(tile1);
+  tileBag->returnTile(tile2);
+  tileBag->returnTile(tile3);
+  // Test
+
+  std::cout << hand->handDetails() << std::endl;
+  std::cout << tileBag->tileBagDetails() << std::endl;
+
+  hand->addTile(tileBag->drawTile());
+  hand->addTile(tileBag->drawTile());
+
+  std::cout << hand->handDetails() << std::endl;
+  std::cout << tileBag->tileBagDetails() << std::endl;
+  Tile tile(RED, CIRCLE);
+  Tile* tempTile = hand->retrieveTile(&tile);
+  tileBag->returnTile(tempTile);
+
+  std::cout << hand->handDetails() << std::endl;
+  std::cout << tileBag->tileBagDetails() << std::endl;
+
+  delete hand;
+  delete tileBag;
+  return EXIT_SUCCESS;
 }
