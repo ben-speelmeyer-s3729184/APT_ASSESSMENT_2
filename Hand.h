@@ -12,7 +12,6 @@ class Hand {
   Tile* retrieveTile(Tile* tile);
   void addTile(Tile* tile);
   std::string handDetails();
-  int handSize();
 
  private:
   LinkedList* hand;
