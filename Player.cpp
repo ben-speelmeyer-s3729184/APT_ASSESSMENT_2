@@ -5,6 +5,7 @@
 Player::Player(std::string playerName) {
     playerHand = new Hand();
     this->playerName = playerName;
+    playerScore = 0;
 }
 
 Player::~Player() {
@@ -24,4 +25,14 @@ void Player::addTileToHand(Tile* tile) {
 Tile* Player::playTile(Tile* tile) {
     return playerHand->retrieveTile(tile);
 }
-std::string Player::playerDetails() {}
+std::string Player::getPlayerName() {
+    return playerName;
+}
+
+std::string Player::getPlayerHand() {
+    return playerHand->handDetails();
+}
+
+int Player::getPlayerScore() {
+    return playerScore;
+}

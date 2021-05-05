@@ -30,11 +30,16 @@ class Player {
     int handSize();
     bool hasTile(Colour colour, Shape shape);
     void addTileToHand(Tile* tile);
-    Tile* playTile(Tile* tile);
-    std::string playerDetails();
+    Tile* retrieveTile(Tile* tile);
+
+    std::string getPlayerName();
+    std::string getPlayerHand();
+    int getPlayerScore();
+    void addScore(int scoreModifier);
 
    private:
     std::string playerName;
+    int playerScore;
     Hand* playerHand;
 };
 
