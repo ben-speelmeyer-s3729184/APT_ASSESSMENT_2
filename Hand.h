@@ -5,17 +5,18 @@
 #include "Tile.h"
 
 class Hand {
- public:
-  Hand();
-  ~Hand();
+   public:
+    Hand();
+    ~Hand();
 
-  Tile* retrieveTile(Tile* tile);
-  void addTile(Tile* tile);
-  std::string handDetails();
-  int handSize();
+    Tile* retrieveTile(Tile* tile);
+    void addTile(Tile* tile);
+    std::string handDetails();
+    int handSize();
+    bool containsTile(Colour colour, Shape shape);
 
- private:
-  LinkedList* hand;
+   private:
+    LinkedList* hand;
 };
 
 #endif  // ASSIGN2_HAND_H

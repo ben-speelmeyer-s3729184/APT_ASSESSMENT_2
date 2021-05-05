@@ -16,7 +16,7 @@ class Tile {
    public:
     Tile(Colour colour, Shape shape);
     Tile(Tile& tile);
-
+    std::string toString();
     Colour colour;
     Shape shape;
 };
