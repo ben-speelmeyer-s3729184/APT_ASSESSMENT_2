@@ -15,7 +15,9 @@ void Board::addTile(Tile tile,int row, int col){
     vecOfTiles[row][col] = tile;
 }
 
-
+void Board::initilizeBoard(){
+    
+}
 
 
 
@@ -24,7 +26,7 @@ void Board::addTile(Tile tile,int row, int col){
 void Board::displayBoard(){
     for(int i = 0; i < 25;i++){
         for(int j = 0; j < 25;j++){
-            cout << vecOfTiles[i][j];// need tile to string method
+            cout << vecOfTiles[i][j];
         }
 
     }

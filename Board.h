@@ -20,13 +20,15 @@ class Board{
 
         void Board::addTile(Tile tile, int row, int col);
 
+        void Board::initilizeBoard();
+
         
 
         
     
     
     private:
-        std::vector<std::vector<Tile>> vecOfTiles(25, std::vector<Tile>(25));
+        std::vector<std::vector<Tile>> vecOfTiles;
         
 
     
