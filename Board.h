@@ -16,11 +16,12 @@ class Board{
 
         ~Board();
 
-        void Board::displayBoard();
 
-        void Board::addTile(Tile tile, int row, int col);
+        void Board::addTile(Tile* tile, int row, int col);
 
-        void Board::initilizeBoard();
+        void Board::printBoard();
+
+        void Board::resizeBoard(int row, int col);
 
         
 
@@ -28,7 +29,7 @@ class Board{
     
     
     private:
-        std::vector<std::vector<Tile>> vecOfTiles;
+        std::vector<std::vector<Tile*>> vecOfTiles;
         
 
     
