@@ -1,7 +1,7 @@
 #ifndef ASSIGN2_GAME_ENGINE_H
 #define ASSIGN2_GAME_ENGINE_H
 
-//#include "Board.h"
+#include "Board.h"
 #include "GameState.h"
 #include "Player.h"
 /**
@@ -33,9 +33,12 @@ class GameEngine {
     Player* player2;
     GameState* gameState;
     LinkedList* tileBag;
-    //Board* board;
+    Board* board;
     void topUpPlayerHand(Player* player);
     void updateScore(Player* player, int col, int row);
+
+    bool checkLeftRightTiles(int row, int col, Tile* tile);
+    bool checkUpDownTiles(int row, int col, Tile* tile);
 };
 
 #endif  // ASSIGN2_GAME_ENGINE_H
