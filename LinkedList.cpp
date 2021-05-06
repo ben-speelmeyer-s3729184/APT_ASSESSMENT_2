@@ -70,6 +70,10 @@ void LinkedList::removeTile(Tile* tile) {
             removeFront();
         } else {
             while (tileNotFound && currentNode != nullptr) {
+                if (currentNode == tail) {
+                    prevNode->next = nullptr;
+                    tail = prevNode;
+                }
                 if (currentNode->containsTile(tile)) {
                     tileNotFound = false;
                     prevNode->next = currentNode->next;

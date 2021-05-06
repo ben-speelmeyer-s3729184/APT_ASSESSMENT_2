@@ -1,5 +1,7 @@
 #include "GameEngine.h"
 
+#include "utils.h"
+
 GameEngine::GameEngine(bool randomSeed) {
     noOfPlayers = 0;
     gameState = new GameState();
@@ -46,22 +48,14 @@ bool GameEngine::playTile(int currentPlayer, int row, int col, Tile* tile) {
             if (board->getTile(row, col) == nullptr) {
                 bool adjacentTiles = checkForAdjacency(row, col);
                 if (initialTilePlaced && adjacentTiles) {
-                    bool leftRightCheck = checkLeftRightTiles(row, col, tile);
-                    bool upDownCheck = checkUpDownTiles(row, col, tile);
+                    bool leftRightCheck = checkAdjacentTiles(row, 0, col, 1, tile);
+                    bool upDownCheck = checkAdjacentTiles(row, 1, col, 0, tile);
 
                     if (leftRightCheck && upDownCheck) {
-                        Tile* tileFromHand = player->retrieveTile(tile);
-                        board->addTile(tileFromHand, row, col);
+                        attemptTilePlacement(player, row, col, tile);
                     }
-                    updateScore(player, col, row);
                 } else if (!initialTilePlaced) {
-                    bool leftRightCheck = checkLeftRightTiles(row, col, tile);
-                    bool upDownCheck = checkUpDownTiles(row, col, tile);
-                    if (leftRightCheck && upDownCheck) {
-                        Tile* tileFromHand = player->retrieveTile(tile);
-                        board->addTile(tileFromHand, row, col);
-                    }
-                    updateScore(player, col, row);
+                    attemptTilePlacement(player, row, col, tile);
                     initialTilePlaced = true;
                 }
             }
@@ -69,6 +63,12 @@ bool GameEngine::playTile(int currentPlayer, int row, int col, Tile* tile) {
     }
     topUpPlayerHand(player);
     return playedTile;
+}
+
+void GameEngine::attemptTilePlacement(Player* player, int row, int col, Tile* tile) {
+    Tile* tileFromHand = player->retrieveTile(tile);
+    board->addTile(tileFromHand, row, col);
+    updateScore(player, board, row, col, initialTilePlaced);
 }
 
 bool GameEngine::replaceTile(int currentPlayer, Tile* tile) {
@@ -105,7 +105,9 @@ bool GameEngine::addPlayer(std::string name) {
     return playerAdded;
 }
 
-void GameEngine::updateScore(Player* player, int col, int row) {
+void GameEngine::updateScore(Player* player, Board* board, int row, int col, bool initialTilePlaced) {
+    utils utils;
+    utils.updateScores(player, board, row, col, initialTilePlaced);
 }
 
 void GameEngine::updateGameState() {
@@ -116,115 +118,67 @@ GameState* GameEngine::retrieveGameState() {
 }
 
 void GameEngine::topUpPlayerHand(Player* player) {
-    while (player->handSize() < HANDSIZE) {
+    while (player->handSize() < HANDSIZE && tileBag->size() > 0) {
         Tile* tile = tileBag->takeFront();
         player->addTileToHand(tile);
     }
 }
 
-bool GameEngine::checkLeftRightTiles(int row, int col, Tile* tile) {
+bool GameEngine::checkAdjacentTiles(int row, int rowAdjustment, int col, int colAdjustment, Tile* tile) {
     bool validMove = false;
-    Tile* leftTile = board->getTile(row, col - 1);
-    Tile* rightTile = board->getTile(row, col + 1);
+    Tile* prevTile = board->getTile(row - rowAdjustment, col - colAdjustment);
+    Tile* postTile = board->getTile(row + rowAdjustment, col + colAdjustment);
+
+    bool colourMatch = false;
+    bool shapeMatch = false;
 
     //check whether tile to be added can be placed between
-    //the positions to the left and right.
-    if (leftTile == nullptr && rightTile == nullptr) {
-        validMove = true;
-    } else if (leftTile == nullptr) {
-        if (tile->colour == rightTile->colour || tile->shape == rightTile->shape) {
-            validMove = true;
-        }
-    } else if (rightTile == nullptr) {
-        if (tile->colour == leftTile->colour || tile->shape == leftTile->shape) {
-            validMove = true;
-        }
-    } else {
-        if ((leftTile->colour == tile->colour && rightTile->colour == tile->colour) ||
-            (leftTile->shape == tile->shape && rightTile->shape == tile->shape)) {
-            validMove = true;
-        }
-    }
+    //the positions above and below chosen position.
+    utils utilities;
+    utilities.adjacentTileChecker(validMove, colourMatch, shapeMatch, prevTile, postTile, tile);
+
     //If a tile can be placed next to the adjacent left and right tiles, checks if placing this tile will
     //create a line greater than 6 tiles in this position. If no, then a valid move is confirmed.
     if (validMove) {
         int adjacentTiles = 0;
         bool adjacentTile = true;
-        int currentCol = col - 1;
+        int currentRow = row - rowAdjustment;
+        int currentCol = col - colAdjustment;
         //Checks to left of chosen position first.
-        while (adjacentTile) {
-            if (board->getTile(row, currentCol) != nullptr) {
-                --currentCol;
+        while (adjacentTile && validMove) {
+            Tile* tileCheck = board->getTile(currentRow, currentCol);
+            if (tileCheck != nullptr) {
+                if (colourMatch && tile->colour != tileCheck->colour) {
+                    validMove = false;
+                } else if (shapeMatch && tile->shape != tileCheck->shape) {
+                    validMove = false;
+                } else if (tileCheck == tile) {
+                    validMove = false;
+                }
+                currentCol -= colAdjustment;
+                currentRow -= rowAdjustment;
                 ++adjacentTiles;
             } else {
                 adjacentTile = false;
             }
         }
         //Checks right of chosen position.
-        currentCol = col + 1;
+        currentRow = row + rowAdjustment;
+        currentCol = col + colAdjustment;
         adjacentTile = true;
-        while (adjacentTile) {
-            if (board->getTile(row, currentCol) != nullptr) {
-                ++currentCol;
-                ++adjacentTiles;
-            } else {
-                adjacentTile = false;
-            }
-        }
-        //Final check. If number of adjacent tiles in this column is more than 5
-        //then tile cannot be placed.
-        if (adjacentTiles > 5) {
-            validMove = false;
-        }
-    }
-    return validMove;
-}
+        while (adjacentTile && validMove) {
+            Tile* tileCheck = board->getTile(currentRow, currentCol);
 
-bool GameEngine::checkUpDownTiles(int row, int col, Tile* tile) {
-    bool validMove = false;
-    Tile* upTile = board->getTile(row - 1, col);
-    Tile* downTile = board->getTile(row + 1, col);
-    //check whether tile to be added can be placed between
-    //the positions above and below chosen position.
-    if (upTile == nullptr && downTile == nullptr) {
-        validMove = true;
-
-    } else if (upTile == nullptr) {
-        if (tile->colour == downTile->colour || tile->shape == downTile->shape) {
-            validMove = true;
-        }
-    } else if (downTile == nullptr) {
-        if (tile->colour == upTile->colour || tile->shape == upTile->shape) {
-            validMove = true;
-        }
-    } else {
-        if ((upTile->colour == tile->colour && downTile->colour == tile->colour) ||
-            (upTile->shape == tile->shape && downTile->shape == tile->shape)) {
-            validMove = true;
-        }
-    }
-    //If a tile can be placed next to any adjacent tiles, checks if placing this tile will
-    //create a line greater than 6 tiles in this position. If no, then a valid move is confirmed.
-    if (validMove) {
-        int adjacentTiles = 0;
-        bool adjacentTile = true;
-
-        //Checks rows above current position first.
-        int currentRow = row - 1;
-        while (adjacentTile) {
-            if (board->getTile(currentRow, col) != nullptr) {
-                --currentRow;
-                ++adjacentTiles;
-            } else {
-                adjacentTile = false;
-            }
-        }
-        //Checks rows below current position.
-        currentRow = col + 1;
-        adjacentTile = true;
-        while (adjacentTile) {
-            if (board->getTile(currentRow, col) != nullptr) {
-                ++currentRow;
+            if (tileCheck != nullptr) {
+                if (colourMatch && tile->colour != tileCheck->colour) {
+                    validMove = false;
+                } else if (shapeMatch && tile->shape != tileCheck->shape) {
+                    validMove = false;
+                } else if (tileCheck == tile) {
+                    validMove = false;
+                }
+                currentCol += colAdjustment;
+                currentRow += rowAdjustment;
                 ++adjacentTiles;
             } else {
                 adjacentTile = false;
@@ -257,7 +211,7 @@ std::string GameEngine::toString() {
     gameData.append(std::to_string(player1->getPlayerScore()) + "\n");
     gameData.append(player1->getPlayerHand());
     gameData.append(player2->getPlayerName() + "\n");
-    gameData.append(std::to_string(player1->getPlayerScore()) + "\n");
+    gameData.append(std::to_string(player2->getPlayerScore()) + "\n");
     gameData.append(player2->getPlayerHand());
     gameData.append(tileBag->toString());
     gameData.append(board->boardToString());

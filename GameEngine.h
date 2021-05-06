@@ -43,12 +43,11 @@ class GameEngine {
     GameState* gameState;
     LinkedList* tileBag;
     Board* board;
-
+    void attemptTilePlacement(Player* player, int row, int col, Tile* tile);
     void topUpPlayerHand(Player* player);
-    void updateScore(Player* player, int row, int col);
+    void updateScore(Player* player, Board* board, int col, int row, bool initialTilePlaced);
     bool checkForAdjacency(int row, int col);
-    bool checkLeftRightTiles(int row, int col, Tile* tile);
-    bool checkUpDownTiles(int row, int col, Tile* tile);
+    bool checkAdjacentTiles(int row, int rowAdjustment, int col, int colAdjustment, Tile* tile);
     void fillTileBag(bool randomSeed);
     void fillTileBag(std::string loadedTileBag);
 };

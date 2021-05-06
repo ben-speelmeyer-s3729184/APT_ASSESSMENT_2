@@ -41,12 +41,13 @@ void testGameEngine() {
     Tile tile4(BLUE, CLOVER);
     Tile tile3(BLUE, CIRCLE);
     Tile tile5(YELLOW, 4);
-
+    Tile tile6(BLUE, 2);
     gameEngine->playTile(1, 3, 3, &tile);
     gameEngine->playTile(2, 3, 4, &tile2);
     gameEngine->playTile(1, 2, 3, &tile3);
     gameEngine->playTile(2, 2, 4, &tile4);
     gameEngine->playTile(1, 2, 5, &tile5);
+    gameEngine->playTile(2, 4, 4, &tile6);
     gameEngine->printBoard();
     std::cout << gameEngine->toString();
     delete gameEngine;
