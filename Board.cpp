@@ -60,17 +60,24 @@ Tile* Board::getTile(int row, int col) {
 }
 
 string Board::boardToString() {
+    boardState = "";
+    boardState.append(std::to_string(rows) + "," + std::to_string(cols));
+    boardState.append("\n");
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             if (vecOfTiles[i][j] != nullptr) {
                 boardState.append(vecOfTiles[i][j]->toString());
                 boardState.append("@");
                 boardState.push_back(intToAscii(i));
-                boardState.push_back(j);
-                boardState.append(" , ");
+                string str = to_string(j);
+                boardState.append(str);
+                boardState.append(", ");
             }
         }
     }
+    boardState.pop_back();
+    boardState.pop_back();
+    boardState.append("\n");
     return boardState;
 }
 

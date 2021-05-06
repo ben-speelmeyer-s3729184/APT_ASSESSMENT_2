@@ -26,8 +26,8 @@ int main(void) {
     // // delete hand;
     // // delete tileBag;
     GameEngine* gameEngine = new GameEngine(false);
-    gameEngine->addPlayer("RANDOM2");
     gameEngine->addPlayer("RANDOM1");
+    gameEngine->addPlayer("RANDOM2");
     Tile tile(RED, CIRCLE);
     Tile tile2(BLUE, CIRCLE);
     Tile tile4(BLUE, CLOVER);
@@ -39,7 +39,7 @@ int main(void) {
     gameEngine->playTile(1, 2, 3, &tile3);
     gameEngine->playTile(2, 2, 4, &tile4);
     gameEngine->playTile(1, 2, 5, &tile5);
-
+    gameEngine->printBoard();
     std::cout << gameEngine->toString();
     delete gameEngine;
     return EXIT_SUCCESS;
