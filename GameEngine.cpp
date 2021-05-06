@@ -8,6 +8,10 @@ GameEngine::GameEngine(bool randomSeed) {
     fillTileBag(randomSeed);
     initialTilePlaced = false;
 }
+
+GameEngine::GameEngine(std::string fileName) {
+}
+
 GameEngine::~GameEngine() {
     delete player1;
     delete player2;
@@ -54,7 +58,6 @@ bool GameEngine::playTile(int currentPlayer, int row, int col, Tile* tile) {
             }
         }
     }
-    board->printBoard();
     return playedTile;
 }
 
@@ -234,6 +237,10 @@ bool GameEngine::checkForAdjacency(int row, int col) {
     return tileAdjacent;
 }
 
+void GameEngine::printBoard() {
+    board->printBoard();
+}
+
 std::string GameEngine::toString() {
     std::string gameData;
     gameData.append(player1->getPlayerName() + "\n");
@@ -243,5 +250,6 @@ std::string GameEngine::toString() {
     gameData.append(std::to_string(player1->getPlayerScore()) + "\n");
     gameData.append(player2->getPlayerHand());
     gameData.append(tileBag->toString());
+    gameData.append(board->boardToString());
     return gameData;
 }

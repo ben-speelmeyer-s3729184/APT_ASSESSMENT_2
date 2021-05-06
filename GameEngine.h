@@ -18,6 +18,7 @@
 class GameEngine {
    public:
     GameEngine(bool randomSeed);
+    GameEngine(std::string fileName);
     ~GameEngine();
 
     // Initialise the board, players, tileBags, and fill hands and tileBag with
@@ -32,6 +33,7 @@ class GameEngine {
 
     GameState* retrieveGameState();
     std::string toString();
+    void printBoard();
 
    private:
     bool initialTilePlaced;
@@ -41,6 +43,7 @@ class GameEngine {
     GameState* gameState;
     LinkedList* tileBag;
     Board* board;
+
     void topUpPlayerHand(Player* player);
     void updateScore(Player* player, int row, int col);
     bool checkForAdjacency(int row, int col);
