@@ -19,6 +19,7 @@
 #define ASSIGN1_PLAYER_H
 
 #define HANDSIZE 6
+#include "LinkedList.h"
 
 class Player {
    public:
