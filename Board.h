@@ -28,7 +28,7 @@ class Board{
 
         void setGridToNullPtr();
 
-        string boardToString();
+        std::string boardToString();
 
         
     
@@ -37,6 +37,7 @@ class Board{
         std::vector<std::vector<Tile*>> vecOfTiles;
         int rows;
         int cols;
+        std::string boardState;
         
 
     

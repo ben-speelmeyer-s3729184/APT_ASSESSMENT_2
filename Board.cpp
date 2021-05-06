@@ -57,7 +57,15 @@ Tile* Board::getTile(int row,int col){
 }
 
 string Board::boardToString(){
-    
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++){
+            if(vecOfTiles[i][j] != nullptr){
+                boardState.append(vecOfTiles[i][j]->toString());
+                boardState.append("@");
+                
+            }
+        }
+    }
 }
 
 
