@@ -29,9 +29,9 @@ class GameEngine {
 
     bool addPlayer(std::string name);
 
-    void updateGameState();
+        GameState* getGameState();
+    void loadGameState(GameState* loadedState);
 
-    GameState* retrieveGameState();
     std::string toString();
     void printBoard();
 
@@ -40,7 +40,6 @@ class GameEngine {
     Player* player1;
     Player* player2;
     int noOfPlayers;
-    GameState* gameState;
     LinkedList* tileBag;
     Board* board;
     void attemptTilePlacement(Player* player, int row, int col, Tile* tile);

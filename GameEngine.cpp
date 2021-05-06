@@ -4,7 +4,6 @@
 
 GameEngine::GameEngine(bool randomSeed) {
     noOfPlayers = 0;
-    gameState = new GameState();
     board = new Board();
     board->resizeBoard(25, 25);
     fillTileBag(randomSeed);
@@ -19,7 +18,6 @@ GameEngine::~GameEngine() {
     delete player1;
     delete player2;
     delete tileBag;
-    delete gameState;
     delete board;
 }
 
@@ -100,6 +98,7 @@ bool GameEngine::addPlayer(std::string name) {
     } else if (noOfPlayers == 1) {
         player2 = new Player(name);
         topUpPlayerHand(player2);
+        ++noOfPlayers;
         playerAdded = true;
     }
     return playerAdded;
@@ -110,11 +109,24 @@ void GameEngine::updateScore(Player* player, Board* board, int row, int col, boo
     utils.updateScores(player, board, row, col, initialTilePlaced);
 }
 
-void GameEngine::updateGameState() {
+GameState* GameEngine::getGameState() {
+    GameState* gameState = new GameState(player1, player2, board, tileBag);
+    return gameState;
 }
 
-GameState* GameEngine::retrieveGameState() {
-    return gameState;
+void GameEngine::loadGameState(GameState* loadedState) {
+    Player* playerToDelete = player1;
+    player1 = loadedState->getPlayer1();
+    delete playerToDelete;
+    Player* playerToDelete = player2;
+    player1 = loadedState->getPlayer1();
+    delete playerToDelete;
+    Board* boardToDelete = board;
+    board = loadedState->getBoard();
+    delete board;
+    LinkedList* tileBagToDelete = tileBag;
+    tileBag = loadedState->getTileBag();
+    delete tileBagToDelete;
 }
 
 void GameEngine::topUpPlayerHand(Player* player) {
