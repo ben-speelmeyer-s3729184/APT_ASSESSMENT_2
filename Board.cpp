@@ -11,6 +11,15 @@ using namespace std;
 Board::Board(){};
 
 Board::~Board() {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (vecOfTiles[i][j] != nullptr) {
+                Tile* tileToDelete = vecOfTiles[i][j];
+                vecOfTiles[i][j] = nullptr;
+                delete tileToDelete;
+            }
+        }
+    }
     vecOfTiles.clear();
 }
 

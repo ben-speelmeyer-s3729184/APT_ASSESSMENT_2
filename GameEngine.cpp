@@ -9,7 +9,8 @@ GameEngine::GameEngine(bool randomSeed) {
     initialTilePlaced = false;
 }
 
-GameEngine::GameEngine(std::string fileName) {
+GameEngine::GameEngine(std::string fileName, bool fileLoaded) {
+    //loadGame(fileName);
 }
 
 GameEngine::~GameEngine() {
@@ -27,6 +28,11 @@ void GameEngine::fillTileBag(bool randomSeed) {
     tileBag = tileFactory.createTileBag(randomSeed);
 }
 
+void GameEngine::fillTileBag(std::string loadedTileBag) {
+    TileFactory tileFactory;
+    tileBag = tileFactory.createTileBag(loadedTileBag);
+}
+
 bool GameEngine::playTile(int currentPlayer, int row, int col, Tile* tile) {
     bool playedTile = false;
     Player* player = nullptr;
@@ -42,15 +48,18 @@ bool GameEngine::playTile(int currentPlayer, int row, int col, Tile* tile) {
                 if (initialTilePlaced && adjacentTiles) {
                     bool leftRightCheck = checkLeftRightTiles(row, col, tile);
                     bool upDownCheck = checkUpDownTiles(row, col, tile);
+
                     if (leftRightCheck && upDownCheck) {
-                        board->addTile(tile, row, col);
+                        Tile* tileFromHand = player->retrieveTile(tile);
+                        board->addTile(tileFromHand, row, col);
                     }
                     updateScore(player, col, row);
                 } else if (!initialTilePlaced) {
                     bool leftRightCheck = checkLeftRightTiles(row, col, tile);
                     bool upDownCheck = checkUpDownTiles(row, col, tile);
                     if (leftRightCheck && upDownCheck) {
-                        board->addTile(tile, row, col);
+                        Tile* tileFromHand = player->retrieveTile(tile);
+                        board->addTile(tileFromHand, row, col);
                     }
                     updateScore(player, col, row);
                     initialTilePlaced = true;
@@ -58,6 +67,7 @@ bool GameEngine::playTile(int currentPlayer, int row, int col, Tile* tile) {
             }
         }
     }
+    topUpPlayerHand(player);
     return playedTile;
 }
 

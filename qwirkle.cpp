@@ -6,6 +6,8 @@
 #include "Tile.h"
 #define EXIT_SUCCESS 0
 
+void testGameEngine();
+
 int main(void) {
     // create CLI object
     // Cli console;
@@ -25,6 +27,12 @@ int main(void) {
 
     // // delete hand;
     // // delete tileBag;
+    testGameEngine();
+
+    return EXIT_SUCCESS;
+}
+
+void testGameEngine() {
     GameEngine* gameEngine = new GameEngine(false);
     gameEngine->addPlayer("RANDOM1");
     gameEngine->addPlayer("RANDOM2");
@@ -42,5 +50,4 @@ int main(void) {
     gameEngine->printBoard();
     std::cout << gameEngine->toString();
     delete gameEngine;
-    return EXIT_SUCCESS;
 }

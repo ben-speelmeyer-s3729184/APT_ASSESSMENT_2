@@ -18,7 +18,7 @@
 class GameEngine {
    public:
     GameEngine(bool randomSeed);
-    GameEngine(std::string fileName);
+    GameEngine(std::string fileName, bool fileLoaded);
     ~GameEngine();
 
     // Initialise the board, players, tileBags, and fill hands and tileBag with
@@ -50,6 +50,7 @@ class GameEngine {
     bool checkLeftRightTiles(int row, int col, Tile* tile);
     bool checkUpDownTiles(int row, int col, Tile* tile);
     void fillTileBag(bool randomSeed);
+    void fillTileBag(std::string loadedTileBag);
 };
 
 #endif  // ASSIGN2_GAME_ENGINE_H

@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <random>
+#include <sstream>
 #include <string>
 
 TileFactory::TileFactory() {}
@@ -13,21 +14,19 @@ LinkedList* TileFactory::createTileBag(bool randomSeed) {
     int tileCount = 0;
     TilesImport tiles;
     importTileList(tiles);
-
     std::uniform_int_distribution<int> uniform_dist(0, MAX_TILE_BAG_SIZE - 1);
-    std::default_random_engine randomNum;
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine randomNum(seed);
+    std::default_random_engine randomNumStatic(0);
 
     //creates the random number generator with either a set seed or random seed.
-    if (randomSeed) {
-        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-        std::default_random_engine randomNum(seed);
-    } else {
-        std::default_random_engine randomNum(0);
-    }
-
     while (tileCount < MAX_TILE_BAG_SIZE) {
         int randIndex = 0;
-        randIndex = uniform_dist(randomNum);
+        if (randomSeed) {
+            randIndex = uniform_dist(randomNum);
+        } else {
+            randIndex = uniform_dist(randomNumStatic);
+        }
 
         if (tiles[randIndex][COLOUR_IND] != '\0' && tiles[randIndex][SHAPE_IND] != '\0') {
             Colour colour = tiles[randIndex][COLOUR_IND];
@@ -43,7 +42,18 @@ LinkedList* TileFactory::createTileBag(bool randomSeed) {
 }
 
 LinkedList* TileFactory::createTileBag(std::string loadedTileBag) {
-    return nullptr;
+    LinkedList* tileBag = new LinkedList();
+    std::string tileData;
+    std::istringstream iss(loadedTileBag);
+
+    while (std::getline(iss, tileData, ',')) {
+        std::cout << tileData << " " << tileData[0] << std::endl;
+        Colour colour = tileData[COLOUR_IND];
+        Shape shape = readShape(tileData[SHAPE_IND]);
+        Tile* tile = new Tile(colour, shape);
+        tileBag->addTile(tile);
+    }
+    return tileBag;
 }
 
 LinkedList* TileFactory::createHand(std::string hand) {

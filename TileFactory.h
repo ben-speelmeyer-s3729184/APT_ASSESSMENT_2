@@ -3,8 +3,8 @@
 
 #define MAX_TILE_BAG_SIZE 72
 #define TILE_ATTRIBUTES 2
-#define SHAPE_IND 0
-#define COLOUR_IND 1
+#define COLOUR_IND 0
+#define SHAPE_IND 1
 
 typedef char TilesImport[MAX_TILE_BAG_SIZE][TILE_ATTRIBUTES];
 
