@@ -26,7 +26,7 @@ int main(void) {
 
     // // delete hand;
     // // delete tileBag;
-    GameEngine* gameEngine = new GameEngine(true);
+    GameEngine* gameEngine = new GameEngine(false);
     gameEngine->addPlayer("RANDOM2");
     gameEngine->addPlayer("RANDOM1");
     Tile tile(RED, CIRCLE);
