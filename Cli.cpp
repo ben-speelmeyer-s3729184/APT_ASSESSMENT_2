@@ -42,6 +42,8 @@ void Cli::printMenu() const {
     std::cout << "2. Load Game\n";
     std::cout << "3. Credits (Show student information)\n";
     std::cout << "4. Quit\n" << std::endl;
+
+    
 }
 
 
