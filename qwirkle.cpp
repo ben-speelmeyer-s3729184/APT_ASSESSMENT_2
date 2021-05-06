@@ -8,6 +8,8 @@
 #include "LinkedList.h"
 #include "Tile.h"
 #include "TileBag.h"
+#include "Board.h"
+
 #define EXIT_SUCCESS 0
 
 int main(void) {
@@ -40,19 +42,21 @@ int main(void) {
   // std::cout << tileBag->tileBagDetails() << std::endl;
 
    // create CLI object
-   Cli console;
+   //Cli console;
 
    // print greating
-   std::cout << "Welcome to Qwirkle!\n" << "-------------------\n" << std::endl;
+  // std::cout << "Welcome to Qwirkle!\n" << "-------------------\n" << std::endl;
 
-   console.printMenu();
+   //console.printMenu();
 
    // main loop
-   while (!console.nextInput()) {
-   }
+   //while (!console.nextInput()) {
+   //}
 
-   std::cout << "Goodbye" << std::endl;
-
+   //std::cout << "Goodbye" << std::endl;
+  // Board *gameBoard = new Board();
+  // gameBoard->resizeBoard(25,25);
+  // gameBoard->printBoard();
 
   // delete hand;
   // delete tileBag;

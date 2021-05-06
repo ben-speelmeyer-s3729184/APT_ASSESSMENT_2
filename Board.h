@@ -12,24 +12,28 @@ typedef std::vector<std::vector<Tile>> twoDVector;
 
 class Board{
     public:
-        Board();
+        Board(){};
 
         ~Board();
 
 
-        void Board::addTile(Tile* tile, int row, int col);
+        bool addTile(Tile* tile, int row, int col);
 
-        void Board::printBoard();
+        Tile* getTile(int row,int col);
 
-        void Board::resizeBoard(int row, int col);
+        void printBoard();
 
-        
+        void resizeBoard(int row, int col);
+
+        void setGridToNullPtr();
 
         
     
     
     private:
         std::vector<std::vector<Tile*>> vecOfTiles;
+        int rows;
+        int cols;
         
 
     
