@@ -56,18 +56,22 @@ Tile* Board::getTile(int row,int col){
     return vecOfTiles[row][col];
 }
 
-string Board::boardToString(){
+void Board::boardToString(){
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < cols; j++){
             if(vecOfTiles[i][j] != nullptr){
                 boardState.append(vecOfTiles[i][j]->toString());
                 boardState.append("@");
                 boardState.push_back(intToAscii(i));
-                boardState.push_back(j);
+                string str = to_string(j);
+                boardState.append(str);
                 boardState.append(" , ");
             }
         }
     }
+    cout << endl;
+    cout << boardState;
+    cout << endl;
 }
 
 int Board::asciiToInt(char letter){
@@ -81,6 +85,8 @@ char Board::intToAscii(int dec){
     char letter = dec;
     return letter; 
 }
+
+
 
 
     

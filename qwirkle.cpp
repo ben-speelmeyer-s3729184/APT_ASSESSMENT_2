@@ -57,6 +57,12 @@ int main(void) {
   // Board *gameBoard = new Board();
   // gameBoard->resizeBoard(25,25);
   // gameBoard->printBoard();
+  // gameBoard->addTile(tile1,4,4);
+  // gameBoard->addTile(tile2,5,5);
+  // gameBoard->addTile(tile3,0,0);
+  // gameBoard->printBoard();
+  // gameBoard->boardToString();
+  
 
   // delete hand;
   // delete tileBag;

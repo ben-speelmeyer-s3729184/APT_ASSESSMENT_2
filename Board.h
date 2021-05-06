@@ -28,13 +28,13 @@ class Board{
 
         void setGridToNullPtr();
 
-        std::string boardToString();
+        void boardToString();
 
         int asciiToInt(char letter);
 
         char intToAscii(int dec);
     
-    
+        
     private:
         std::vector<std::vector<Tile*>> vecOfTiles;
         int rows;
