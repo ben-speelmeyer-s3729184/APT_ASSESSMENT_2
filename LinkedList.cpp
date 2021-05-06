@@ -92,12 +92,11 @@ int LinkedList::size() {
     return count;
 }
 
-bool LinkedList::contains(Colour colour, Shape shape) {
-    Tile tile(colour, shape);
+bool LinkedList::contains(Tile* tile) {
     Node* currentNode = head;
     bool containsTile = false;
     while (currentNode != nullptr && !containsTile) {
-        if (currentNode->containsTile(&tile)) {
+        if (currentNode->containsTile(tile)) {
             containsTile = true;
         }
     }
@@ -114,10 +113,13 @@ std::string LinkedList::toString() {
         while (index < count) {
             Tile tile = *currentNode->tile;
             listDetails.append(tile.toString());
-
+            if (index < count - 1) {
+                listDetails.append(",");
+            }
             currentNode = currentNode->next;
             ++index;
         }
+        listDetails.append("\n");
     }
     return listDetails;
 }

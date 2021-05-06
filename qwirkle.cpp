@@ -1,60 +1,37 @@
 
-#include "LinkedList.h"
-#include "Cli.h"
-
 #include <iostream>
 
-#include "Hand.h"
+#include "Cli.h"
+#include "GameEngine.h"
 #include "LinkedList.h"
 #include "Tile.h"
-#include "TileBag.h"
 #define EXIT_SUCCESS 0
 
 int main(void) {
-  // Hand* hand = new Hand();
-  // TileBag* tileBag = new TileBag();
+    // create CLI object
+    // Cli console;
 
-  // Tile* tile1 = new Tile(RED, CIRCLE);
-  // Tile* tile2 = new Tile(BLUE, CIRCLE);
-  // Tile* tile3 = new Tile(GREEN, DIAMOND);
+    // // print greating
+    // std::cout << "Welcome to Qwirkle!\n"
+    //           << "-------------------\n"
+    //           << std::endl;
 
-  // tileBag->returnTile(tile1);
-  // tileBag->returnTile(tile2);
-  // tileBag->returnTile(tile3);
-  // // Test
+    // console.printMenu();
 
-  // std::cout << hand->handDetails() << std::endl;
-  // std::cout << tileBag->tileBagDetails() << std::endl;
+    // // main loop
+    // while (!console.nextInput()) {
+    // }
 
-  // hand->addTile(tileBag->drawTile());
-  // hand->addTile(tileBag->drawTile());
+    // std::cout << "Goodbye" << std::endl;
 
-  // std::cout << hand->handDetails() << std::endl;
-  // std::cout << tileBag->tileBagDetails() << std::endl;
-  // Tile tile(RED, CIRCLE);
-  // Tile* tempTile = hand->retrieveTile(&tile);
-  // tileBag->returnTile(tempTile);
-
-
-  // std::cout << hand->handDetails() << std::endl;
-  // std::cout << tileBag->tileBagDetails() << std::endl;
-
-   // create CLI object
-   Cli console;
-
-   // print greating
-   std::cout << "Welcome to Qwirkle!\n" << "-------------------\n" << std::endl;
-
-   console.printMenu();
-
-   // main loop
-   while (!console.nextInput()) {
-   }
-
-   std::cout << "Goodbye" << std::endl;
-
-
-  // delete hand;
-  // delete tileBag;
-  return EXIT_SUCCESS;
+    // // delete hand;
+    // // delete tileBag;
+    GameEngine* gameEngine = new GameEngine(true);
+    gameEngine->addPlayer("RANDOM2");
+    gameEngine->addPlayer("RANDOM1");
+    Tile tile(RED, CIRCLE);
+    gameEngine->playTile(1, 3, 3, &tile);
+    std::cout << gameEngine->toString();
+    delete gameEngine;
+    return EXIT_SUCCESS;
 }

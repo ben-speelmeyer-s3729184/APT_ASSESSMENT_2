@@ -18,9 +18,8 @@
 #ifndef ASSIGN1_PLAYER_H
 #define ASSIGN1_PLAYER_H
 
-#include "Hand.h"
-
 #define HANDSIZE 6
+#include "LinkedList.h"
 
 class Player {
    public:
@@ -28,7 +27,7 @@ class Player {
     ~Player();
 
     int handSize();
-    bool hasTile(Colour colour, Shape shape);
+    bool hasTile(Tile* tile);
     void addTileToHand(Tile* tile);
     Tile* retrieveTile(Tile* tile);
 
@@ -40,7 +39,8 @@ class Player {
    private:
     std::string playerName;
     int playerScore;
-    Hand* playerHand;
+    //Hand* playerHand;
+    LinkedList* playerHand;
 };
 
 #endif  // ASSIGN1_PLAYER_H

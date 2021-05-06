@@ -28,7 +28,7 @@ class LinkedList {
     int size();
 
     // Check for a tile
-    bool contains(Colour colour, Shape shape);
+    bool contains(Tile* tile);
 
     // String representation of the linkedList
     std::string toString();
