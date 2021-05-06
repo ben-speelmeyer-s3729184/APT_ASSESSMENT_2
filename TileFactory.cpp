@@ -1,5 +1,6 @@
 #include "TileFactory.h"
 
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <random>
@@ -7,17 +8,27 @@
 
 TileFactory::TileFactory() {}
 
-LinkedList* TileFactory::createTileBag() {
+LinkedList* TileFactory::createTileBag(bool randomSeed) {
     LinkedList* tileBag = new LinkedList();
     int tileCount = 0;
     TilesImport tiles;
     importTileList(tiles);
-    std::random_device randomSeed;
+
     std::uniform_int_distribution<int> uniform_dist(0, MAX_TILE_BAG_SIZE - 1);
+    std::default_random_engine randomNum;
+
+    //creates the random number generator with either a set seed or random seed.
+    if (randomSeed) {
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::default_random_engine randomNum(seed);
+    } else {
+        std::default_random_engine randomNum(0);
+    }
 
     while (tileCount < MAX_TILE_BAG_SIZE) {
-        //implement random choice
-        int randIndex = uniform_dist(randomSeed);
+        int randIndex = 0;
+        randIndex = uniform_dist(randomNum);
+
         if (tiles[randIndex][COLOUR_IND] != '\0' && tiles[randIndex][SHAPE_IND] != '\0') {
             Colour colour = tiles[randIndex][COLOUR_IND];
             Shape shape = readShape(tiles[randIndex][SHAPE_IND]);

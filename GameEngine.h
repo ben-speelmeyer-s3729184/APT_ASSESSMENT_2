@@ -17,7 +17,7 @@
 
 class GameEngine {
    public:
-    GameEngine();
+    GameEngine(bool randomSeed);
     ~GameEngine();
 
     // Initialise the board, players, tileBags, and fill hands and tileBag with
@@ -45,7 +45,7 @@ class GameEngine {
 
     bool checkLeftRightTiles(int row, int col, Tile* tile);
     bool checkUpDownTiles(int row, int col, Tile* tile);
-    void fillTileBag();
+    void fillTileBag(bool randomSeed);
 };
 
 #endif  // ASSIGN2_GAME_ENGINE_H

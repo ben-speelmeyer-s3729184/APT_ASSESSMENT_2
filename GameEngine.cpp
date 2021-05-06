@@ -1,10 +1,11 @@
 #include "GameEngine.h"
 
-GameEngine::GameEngine() {
+GameEngine::GameEngine(bool randomSeed) {
     noOfPlayers = 0;
     gameState = new GameState();
     board = new Board();
-    fillTileBag();
+    board->resizeBoard(25, 25);
+    fillTileBag(randomSeed);
 }
 GameEngine::~GameEngine() {
     delete player1;
@@ -16,9 +17,9 @@ GameEngine::~GameEngine() {
 
 // Initialise the board, players, tileBags, and fill hands and tileBag with
 // tiles.
-void GameEngine::fillTileBag() {
+void GameEngine::fillTileBag(bool randomSeed) {
     TileFactory tileFactory;
-    tileBag = tileFactory.createTileBag();
+    tileBag = tileFactory.createTileBag(randomSeed);
 }
 
 bool GameEngine::playTile(int currentPlayer, int row, int col, Tile* tile) {
@@ -43,6 +44,7 @@ bool GameEngine::playTile(int currentPlayer, int row, int col, Tile* tile) {
             }
         }
     }
+    board->printBoard();
     return playedTile;
 }
 
@@ -79,6 +81,7 @@ bool GameEngine::addPlayer(std::string name) {
     }
     return playerAdded;
 }
+
 void GameEngine::updateScore(Player* player, int col, int row) {
 }
 
