@@ -3,6 +3,7 @@
 
 #include "Tile.h"
 #include <vector> 
+#include <string>
 #define EMPTY_SPACE "  "
 #define WALL "|"
 #define HEADER "__"
@@ -26,6 +27,8 @@ class Board{
         void resizeBoard(int row, int col);
 
         void setGridToNullPtr();
+
+        string boardToString();
 
         
     

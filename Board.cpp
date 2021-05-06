@@ -56,6 +56,11 @@ Tile* Board::getTile(int row,int col){
     return vecOfTiles[row][col];
 }
 
+string Board::boardToString(){
+    
+}
+
+
 
     
     
