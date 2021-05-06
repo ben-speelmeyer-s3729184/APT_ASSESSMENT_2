@@ -6,6 +6,7 @@ GameEngine::GameEngine(bool randomSeed) {
     board = new Board();
     board->resizeBoard(25, 25);
     fillTileBag(randomSeed);
+    initialTilePlaced = false;
 }
 GameEngine::~GameEngine() {
     delete player1;
@@ -32,15 +33,24 @@ bool GameEngine::playTile(int currentPlayer, int row, int col, Tile* tile) {
     }
     if (player != nullptr) {
         if (player->hasTile(tile)) {
-            if (board->getTile(row, col) != nullptr) {
-                bool leftRightCheck = checkLeftRightTiles(row, col, tile);
-                bool upDownCheck = checkUpDownTiles(row, col, tile);
-                if (leftRightCheck && upDownCheck) {
-                    board->addTile(tile, row, col);
+            if (board->getTile(row, col) == nullptr) {
+                bool adjacentTiles = checkForAdjacency(row, col);
+                if (initialTilePlaced && adjacentTiles) {
+                    bool leftRightCheck = checkLeftRightTiles(row, col, tile);
+                    bool upDownCheck = checkUpDownTiles(row, col, tile);
+                    if (leftRightCheck && upDownCheck) {
+                        board->addTile(tile, row, col);
+                    }
+                    updateScore(player, col, row);
+                } else if (!initialTilePlaced) {
+                    bool leftRightCheck = checkLeftRightTiles(row, col, tile);
+                    bool upDownCheck = checkUpDownTiles(row, col, tile);
+                    if (leftRightCheck && upDownCheck) {
+                        board->addTile(tile, row, col);
+                    }
+                    updateScore(player, col, row);
+                    initialTilePlaced = true;
                 }
-            }
-            {
-                updateScore(player, col, row);
             }
         }
     }
@@ -165,6 +175,7 @@ bool GameEngine::checkUpDownTiles(int row, int col, Tile* tile) {
     //the positions above and below chosen position.
     if (upTile == nullptr && downTile == nullptr) {
         validMove = true;
+
     } else if (upTile == nullptr) {
         if (tile->colour == downTile->colour || tile->shape == downTile->shape) {
             validMove = true;
@@ -213,6 +224,14 @@ bool GameEngine::checkUpDownTiles(int row, int col, Tile* tile) {
         }
     }
     return validMove;
+}
+
+bool GameEngine::checkForAdjacency(int row, int col) {
+    bool tileAdjacent = false;
+    if (board->getTile(row - 1, col) != nullptr || board->getTile(row + 1, col) != nullptr || board->getTile(row, col - 1) != nullptr || board->getTile(row, col + 1) != nullptr) {
+        tileAdjacent = true;
+    }
+    return tileAdjacent;
 }
 
 std::string GameEngine::toString() {

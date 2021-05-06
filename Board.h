@@ -13,7 +13,7 @@ typedef std::vector<std::vector<Tile>> twoDVector;
 
 class Board {
    public:
-    Board(){};
+    Board();
 
     ~Board();
 

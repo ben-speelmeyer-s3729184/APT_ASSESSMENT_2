@@ -34,6 +34,7 @@ class GameEngine {
     std::string toString();
 
    private:
+    bool initialTilePlaced;
     Player* player1;
     Player* player2;
     int noOfPlayers;
@@ -42,7 +43,7 @@ class GameEngine {
     Board* board;
     void topUpPlayerHand(Player* player);
     void updateScore(Player* player, int row, int col);
-
+    bool checkForAdjacency(int row, int col);
     bool checkLeftRightTiles(int row, int col, Tile* tile);
     bool checkUpDownTiles(int row, int col, Tile* tile);
     void fillTileBag(bool randomSeed);

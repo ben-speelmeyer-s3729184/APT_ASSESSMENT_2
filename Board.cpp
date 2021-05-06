@@ -8,7 +8,8 @@
 
 using namespace std;
 
-Board::Board() {}
+Board::Board(){};
+
 Board::~Board() {
     vecOfTiles.clear();
 }
@@ -70,6 +71,7 @@ string Board::boardToString() {
             }
         }
     }
+    return boardState;
 }
 
 int Board::asciiToInt(char letter) {

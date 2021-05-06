@@ -99,6 +99,7 @@ bool LinkedList::contains(Tile* tile) {
         if (currentNode->containsTile(tile)) {
             containsTile = true;
         }
+        currentNode = currentNode->next;
     }
     return containsTile;
 }
