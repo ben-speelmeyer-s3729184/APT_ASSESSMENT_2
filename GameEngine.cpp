@@ -2,8 +2,8 @@
 
 GameEngine::GameEngine() {
     noOfPlayers = 0;
-    //gameState = new GameState();
-    //board = new Board();
+    gameState = new GameState();
+    board = new Board();
     fillTileBag();
 }
 GameEngine::~GameEngine() {
@@ -11,7 +11,7 @@ GameEngine::~GameEngine() {
     delete player2;
     delete tileBag;
     delete gameState;
-    //delete board;
+    delete board;
 }
 
 // Initialise the board, players, tileBags, and fill hands and tileBag with
