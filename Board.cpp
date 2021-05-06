@@ -62,12 +62,25 @@ string Board::boardToString(){
             if(vecOfTiles[i][j] != nullptr){
                 boardState.append(vecOfTiles[i][j]->toString());
                 boardState.append("@");
-                
+                boardState.push_back(intToAscii(i));
+                boardState.push_back(j);
+                boardState.append(" , ");
             }
         }
     }
 }
 
+int Board::asciiToInt(char letter){
+    int i = int(letter);
+    i = i - 65;
+    return i;
+}
+
+char Board::intToAscii(int dec){
+    dec = dec + 65;
+    char letter = dec;
+    return letter; 
+}
 
 
     

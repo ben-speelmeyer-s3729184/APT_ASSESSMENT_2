@@ -30,7 +30,9 @@ class Board{
 
         std::string boardToString();
 
-        
+        int asciiToInt(char letter);
+
+        char intToAscii(int dec);
     
     
     private:
