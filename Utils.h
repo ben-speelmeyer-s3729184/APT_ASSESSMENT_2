@@ -8,13 +8,16 @@
 #include "Player.h"
 
 class utils {
-   public:
-    utils();
-    void updateScores(Player* player, Board* board, int row, int col, bool initialTurn);
-    void adjacentTileChecker(bool& validMove, bool& colourMatch, bool& shapeMatch, Tile* tile1, Tile* tile2, Tile* toAddTile);
+ public:
+  utils();
+  void updateScores(Player* player, Board* board, int row, int col,
+                    bool initialTurn);
+  void adjacentTileChecker(bool& validMove, bool& colourMatch, bool& shapeMatch,
+                           Tile* tile1, Tile* tile2, Tile* toAddTile);
 
-   private:
-    int calculateLineScore(Board* board, int row, int rowIncrement, int col, int colIncrement);
+ private:
+  int calculateLineScore(Board* board, int row, int rowIncrement, int col,
+                         int colIncrement);
 };
 
-#endif  //ASSIGN2_UTILS_H
+#endif  // ASSIGN2_UTILS_H

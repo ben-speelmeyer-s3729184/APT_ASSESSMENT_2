@@ -1,5 +1,6 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
+#define MAX_NUM_OF_PLAYERS 2
 
 #include <iostream>
 
@@ -10,19 +11,16 @@
 class GameState {
  private:
   /* data */
-  Player* player1;
-  Player* player2;
+  Player** players;
   LinkedList* tileBag;
   Board* board;
 
  public:
   GameState();
-  GameState(Player* player1, Player* player2, LinkedList* tileBag,
-            Board* board);
+  GameState(Player** players, LinkedList* tileBag, Board* board);
   ~GameState();
 
-  Player* getPlayer1();
-  Player* getPlayer2();
+  Player** getPlayers();
   Board* getBoard();
   LinkedList* getTileBag();
 };

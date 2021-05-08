@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Tile.h"
+
 #define EMPTY_SPACE "  "
 #define WALL "|"
 #define HEADER "__"
@@ -12,31 +13,41 @@
 typedef std::vector<std::vector<Tile>> twoDVector;
 
 class Board {
-   public:
-    Board();
+ public:
+  Board();
 
-    ~Board();
+  ~Board();
 
-    bool addTile(Tile* tile, int row, int col);
+  bool addTile(Tile* tile, int row, int col);
 
-    Tile* getTile(int row, int col);
+  Tile* getTile(int row, int col);
 
-    void printBoard();
+  // void printBoard();
 
-    void resizeBoard(int row, int col);
+  void resizeBoard(int row, int col);
 
-    void setGridToNullPtr();
+  void setGridToNullPtr();
 
-    std::string boardToString();
+  std::string boardToString();
 
-    int asciiToInt(char letter);
+  // Matt's additions:
+  bool checkTilePlacement(Tile* tile, int row, int col, bool initialTilePlaced);
+  std::string boardDetails();
+  std::string printBoard();
 
-    char intToAscii(int dec);
+ private:
+  std::vector<std::vector<Tile*>> boardVecs;
+  int rows;
+  int cols;
 
-   private:
-    std::vector<std::vector<Tile*>> vecOfTiles;
-    int rows;
-    int cols;
-    std::string boardState;
+  int asciiToInt(char letter);
+  char intToAscii(int dec);
+
+  // Matt Additions
+  bool checkForAdjacency(int row, int col);
+  bool checkAdjacentTiles(int row, int rowAdjustment, int col,
+                          int colAdjustment, Tile* tile);
+  int lineChecker(int row, int col, int rowAdjustment, int colAdjustment,
+                  bool shapeMatch, bool colourMatch, Tile* tile);
 };
 #endif
