@@ -43,24 +43,27 @@ void testGameEngine() {
   Tile tile5(YELLOW, 4);
   Tile tile6(BLUE, 2);
   Player* player = gameEngine->getPlayer(0);
-  gameEngine->checkTilePlacement(player, 3, 3, &tile);
-  gameEngine->endOfRoundCalculations(player, 3, 3, &tile);
+
+  bool validMove = false;
+
+  gameEngine->checkTilePlacement(player, 1, 0, &tile);
+  gameEngine->endOfRoundCalculations(player, 1, 0, &tile);
   player = gameEngine->getPlayer(1);
-  gameEngine->checkTilePlacement(player, 3, 4, &tile2);
-  gameEngine->endOfRoundCalculations(player, 3, 4, &tile2);
+  validMove = gameEngine->checkTilePlacement(player, 0, 0, &tile2);
+  if (validMove) gameEngine->endOfRoundCalculations(player, 0, 0, &tile2);
   player = gameEngine->getPlayer(0);
-  gameEngine->checkTilePlacement(player, 2, 3, &tile3);
-  gameEngine->endOfRoundCalculations(player, 2, 3, &tile3);
+  validMove = gameEngine->checkTilePlacement(player, 1, 1, &tile3);
+  if (validMove) gameEngine->endOfRoundCalculations(player, 1, 1, &tile3);
   player = gameEngine->getPlayer(1);
-  gameEngine->checkTilePlacement(player, 2, 4, &tile4);
-  gameEngine->endOfRoundCalculations(player, 2, 4, &tile4);
+  validMove = gameEngine->checkTilePlacement(player, 0, 1, &tile4);
+  if (validMove) gameEngine->endOfRoundCalculations(player, 0, 1, &tile4);
   player = gameEngine->getPlayer(0);
-  gameEngine->checkTilePlacement(player, 2, 5, &tile5);
-  gameEngine->endOfRoundCalculations(player, 2, 5, &tile5);
+  validMove = gameEngine->checkTilePlacement(player, 0, 2, &tile5);
+  if (validMove) gameEngine->endOfRoundCalculations(player, 0, 2, &tile5);
   player = gameEngine->getPlayer(1);
-  gameEngine->checkTilePlacement(player, 4, 4, &tile6);
-  gameEngine->endOfRoundCalculations(player, 4, 4, &tile6);
-  gameEngine->printBoard();
+  validMove = gameEngine->checkTilePlacement(player, 2, 1, &tile6);
+  if (validMove) gameEngine->endOfRoundCalculations(player, 2, 1, &tile6);
+  std::cout << gameEngine->printBoard();
   std::cout << gameEngine->toString();
   delete gameEngine;
 }

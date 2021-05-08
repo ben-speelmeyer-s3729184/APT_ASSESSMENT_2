@@ -6,7 +6,7 @@ GameEngine::GameEngine(bool randomSeed) {
   noOfPlayers = 0;
   board = new Board();
   players = new Player*[MAX_NUM_OF_PLAYERS];
-  board->resizeBoard(25, 25);
+  board->resizeBoard(26, 26);
   fillTileBag(randomSeed);
   initialTilePlaced = false;
 }
@@ -32,7 +32,7 @@ bool GameEngine::checkTilePlacement(Player* player, int row, int col,
   bool playedTile = false;
   if (player != nullptr) {
     if (player->hasTile(tile)) {
-      board->checkTilePlacement(tile, row, col, initialTilePlaced);
+      playedTile = board->checkTilePlacement(tile, row, col, initialTilePlaced);
     }
   }
   topUpPlayerHand(player);

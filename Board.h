@@ -34,6 +34,8 @@ class Board {
   bool checkTilePlacement(Tile* tile, int row, int col, bool initialTilePlaced);
   std::string boardDetails();
   std::string printBoard();
+  int getRows();
+  int getCols();
 
  private:
   std::vector<std::vector<Tile*>> boardVecs;

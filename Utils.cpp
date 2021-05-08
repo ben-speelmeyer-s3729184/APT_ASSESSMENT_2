@@ -19,8 +19,11 @@ int utils::calculateLineScore(Board* board, int row, int rowIncrement, int col,
   bool adjacentTile = true;
   int currentRow = row - rowIncrement;
   int currentCol = col - colIncrement;
+
   while (adjacentTile) {
-    if (board->getTile(currentRow, currentCol) != nullptr) {
+    if (currentRow < 0 || currentCol < 0) {
+      adjacentTile = false;
+    } else if (board->getTile(currentRow, currentCol) != nullptr) {
       currentRow -= rowIncrement;
       currentCol -= colIncrement;
       ++otherTilesInLine;
@@ -29,10 +32,13 @@ int utils::calculateLineScore(Board* board, int row, int rowIncrement, int col,
     }
   }
   // Checks right of chosen position.
-  currentRow = row + 1;
+  currentRow = row + rowIncrement;
+  currentCol = col + colIncrement;
   adjacentTile = true;
   while (adjacentTile) {
-    if (board->getTile(currentRow, currentCol) != nullptr) {
+    if (currentRow > board->getRows() || currentCol > board->getCols()) {
+      adjacentTile = false;
+    } else if (board->getTile(currentRow, currentCol) != nullptr) {
       currentRow += rowIncrement;
       currentCol += colIncrement;
       ++otherTilesInLine;

@@ -36,20 +36,22 @@ bool Board::addTile(Tile* tile, int row, int col) {
 
 std::string Board::printBoard() {
   std::string boardAppearance;
-  string Alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   int alphaCount = 0;
+  boardAppearance.append(EMPTY_SPACE " ");
   boardAppearance.append(
-      "  0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 "
+      "0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 "
       "23 24 25\n");
+  boardAppearance.append(EMPTY_SPACE " ");
   boardAppearance.append(
-      "  "
       "------------------------------------------------------------------------"
       "-----\n");
 
   for (int i = 0; i < rows; i++) {
     if (alphaCount < 26) {
-      boardAppearance.append(Alpha.at(alphaCount) + WALL);
-      alphaCount++;
+      boardAppearance.push_back(alpha[i]);
+      boardAppearance.push_back(' ');
+      boardAppearance.append(WALL);
     }
     for (int j = 0; j < cols; j++) {
       if (boardVecs[i][j] == nullptr) {
@@ -73,6 +75,8 @@ void Board::resizeBoard(int row, int col) {
 }
 
 Tile* Board::getTile(int row, int col) { return boardVecs[row][col]; }
+int Board::getRows() { return rows; }
+int Board::getCols() { return cols; }
 
 string Board::boardToString() {
   std::string boardState = "";
@@ -132,9 +136,14 @@ bool Board::checkTilePlacement(Tile* tile, int row, int col,
 bool Board::checkAdjacentTiles(int row, int rowAdjustment, int col,
                                int colAdjustment, Tile* tile) {
   bool validMove = false;
-  Tile* prevTile = boardVecs[row - rowAdjustment][col - colAdjustment];
-  Tile* postTile = boardVecs[row + rowAdjustment][col + colAdjustment];
-
+  Tile* prevTile = nullptr;
+  Tile* postTile = nullptr;
+  if (row - rowAdjustment >= 0 && col - colAdjustment >= 0) {
+    prevTile = boardVecs[row - rowAdjustment][col - colAdjustment];
+  }
+  if (row + rowAdjustment < rows && col + colAdjustment < cols) {
+    postTile = boardVecs[row + rowAdjustment][col + colAdjustment];
+  }
   bool colourMatch = false;
   bool shapeMatch = false;
 
@@ -177,7 +186,8 @@ int Board::lineChecker(int row, int col, int rowAdjustment, int colAdjustment,
   bool adjacentTile = true;
   while (adjacentTile && validMove) {
     Tile* tileCheck;
-    if (currentRow > rows || currentCol > cols) {
+    if (currentRow > rows || currentCol > cols || currentCol < 0 ||
+        currentRow < 0) {
       tileCheck = nullptr;
     } else {
       tileCheck = boardVecs[currentRow][currentCol];
@@ -209,11 +219,25 @@ int Board::lineChecker(int row, int col, int rowAdjustment, int colAdjustment,
 bool Board::checkForAdjacency(int row, int col) {
   bool tileAdjacent = false;
   // Add bounds checking.
-  if (boardVecs[row - 1][col] != nullptr ||
-      boardVecs[row + 1][col] != nullptr ||
-      boardVecs[row][col - 1] != nullptr ||
-      boardVecs[row][col + 1] != nullptr) {
-    tileAdjacent = true;
+  if (row - 1 >= 0) {
+    if (boardVecs[row - 1][col] != nullptr) {
+      tileAdjacent = true;
+    }
+  }
+  if (col - 1 >= 0) {
+    if (boardVecs[row][col - 1] != nullptr) {
+      tileAdjacent = true;
+    }
+  }
+  if (row + 1 < rows) {
+    if (boardVecs[row + 1][col] != nullptr) {
+      tileAdjacent = true;
+    }
+  }
+  if (col + 1 < cols) {
+    if (boardVecs[row][col + 1] != nullptr) {
+      tileAdjacent = true;
+    }
   }
   return tileAdjacent;
 }
