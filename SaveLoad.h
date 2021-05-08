@@ -13,7 +13,7 @@ class SaveLoad {
     SaveLoad();
     ~SaveLoad();
 
-    void saveGame();
+    void saveGame(std::string toSave);
     void loadGame();
 };
 #endif

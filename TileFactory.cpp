@@ -56,8 +56,32 @@ LinkedList* TileFactory::createTileBag(std::string loadedTileBag) {
     return tileBag;
 }
 
-LinkedList* TileFactory::createHand(std::string hand) {
-    return nullptr;
+
+LinkedList* TileFactory::createHand(std::string hand, Player* player) {
+    std::string delimiter = ",";
+
+    size_t pos = 0;
+    std::string token;
+    std::cout<<player->getPlayerHand();
+    while ((pos = hand.find(delimiter)) != std::string::npos)
+    {
+        token = hand.substr(0, pos);
+        std::cout << token << std::endl;
+        
+        std::cout<<player->getPlayerHand();
+        
+        hand.erase(0, pos + delimiter.length());
+        
+    }
+    std::cout << hand << std::endl;
+
+    Tile tile('R', 4);
+    player->addTileToHand(&tile);
+    tile.shape = 2;
+    tile.colour = 'Y';
+   
+
+    
 }
 
 void TileFactory::importTileList(TilesImport tiles) {
@@ -69,6 +93,7 @@ void TileFactory::importTileList(TilesImport tiles) {
         ++numRead;
     }
     file.close();
+    
 }
 
 int TileFactory::readShape(char shape) {
@@ -88,3 +113,21 @@ int TileFactory::readShape(char shape) {
     }
     return shapeRet;
 }
+
+/*int TileFactory::readColor(char color) {
+    int shapeRet = '\0';
+    if (color == '1') {
+        shapeRet = CIRCLE;
+    } else if (color == '2') {
+        shapeRet = STAR_4;
+    } else if (color == '3') {
+        shapeRet = DIAMOND;
+    } else if (color == '4') {
+        shapeRet = SQUARE;
+    } else if (color == '5') {
+        shapeRet = STAR_6;
+    } else if (color == '6') {
+        shapeRet = CLOVER;
+    }
+    return shapeRet;
+}*/

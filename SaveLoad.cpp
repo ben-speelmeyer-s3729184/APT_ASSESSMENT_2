@@ -11,12 +11,12 @@ SaveLoad::SaveLoad() {
 
 SaveLoad::~SaveLoad(){};
 
-void SaveLoad::saveGame() {
+void SaveLoad::saveGame(std::string toSave) {
     // Create and open a text file
-    std::ofstream saveFile("save1.txt");
+    std::ofstream saveFile("saveGames/save1.txt");
 
     // Write to the file
-    saveFile << this->nameP1 + "\n" + std::to_string(this->scoreP1) + "\n" + this->nameP2 + "\n" + std::to_string(this->scoreP2) + "\n";
+    saveFile << toSave;
 
     //Close File
     saveFile.close();

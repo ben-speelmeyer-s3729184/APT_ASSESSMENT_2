@@ -1,9 +1,9 @@
 #include <iostream>
-
 #include "Cli.h"
 #include "GameEngine.h"
 #include "LinkedList.h"
 #include "Tile.h"
+#include "SaveLoad.h"
 #define EXIT_SUCCESS 0
 
 void testGameEngine();
@@ -33,9 +33,13 @@ int main(void) {
 }
 
 void testGameEngine() {
+
+    
     GameEngine* gameEngine = new GameEngine(false);
-    gameEngine->addPlayer("RANDOM1");
-    gameEngine->addPlayer("RANDOM2");
+    gameEngine->loadGame();
+    /*
+    gameEngine->addPlayer("RANDOM1", false);
+    gameEngine->addPlayer("RANDOM2", false);
     Tile tile(RED, CIRCLE);
     Tile tile2(BLUE, CIRCLE);
     Tile tile4(BLUE, CLOVER);
@@ -47,8 +51,13 @@ void testGameEngine() {
     gameEngine->playTile(1, 2, 3, &tile3);
     gameEngine->playTile(2, 2, 4, &tile4);
     gameEngine->playTile(1, 2, 5, &tile5);
-    gameEngine->playTile(2, 4, 4, &tile6);
+    gameEngine->playTile(2, 4, 4, &tile6);*/
     gameEngine->printBoard();
-    std::cout << gameEngine->toString();
+
+    gameEngine->saveGame();
+
+    
+    
+
     delete gameEngine;
 }

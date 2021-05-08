@@ -27,12 +27,15 @@ class GameEngine {
     bool playTile(int currentPlayer, int row, int col, Tile* tile);
     bool replaceTile(int currentPlayer, Tile* tile);
 
-    bool addPlayer(std::string name);
+    bool addPlayer(std::string name, bool loading);
 
         GameState* getGameState();
     void loadGameState(GameState* loadedState);
 
     std::string toString();
+    void saveGame();
+    void loadGame();
+    Tile tileGenerator(std::string data);
     void printBoard();
 
    private:
