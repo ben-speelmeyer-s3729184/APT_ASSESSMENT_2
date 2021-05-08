@@ -25,12 +25,6 @@ class GameState {
   Player* getPlayer2();
   Board* getBoard();
   LinkedList* getTileBag();
-
-  void initiatePlayer1(LinkedList* hand, std::string name, int score);
-  void initiatePlayer2(LinkedList* hand, std::string name, int score);
-  void initiateBoard(std::string boardInfo);
-  void initiateTileBag(std::string tileBagInfo);
-  void load(std::string fileName);
 };
 
 #endif
