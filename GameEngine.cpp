@@ -32,7 +32,11 @@ bool GameEngine::checkTilePlacement(Player* player, int row, int col,
   bool playedTile = false;
   if (player != nullptr) {
     if (player->hasTile(tile)) {
-      playedTile = board->checkTilePlacement(tile, row, col, initialTilePlaced);
+      if (col >= 0 && row >= 0 && col < board->getCols() &&
+          row < board->getRows()) {
+        playedTile =
+            board->checkTilePlacement(tile, row, col, initialTilePlaced);
+      }
     }
   }
   return playedTile;
