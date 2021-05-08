@@ -9,6 +9,7 @@
 #define EXIT_SUCCESS 0
 
 void testGameEngine();
+int readShape(char shape);
 
 int main(void) {
   // create CLI object
@@ -38,43 +39,65 @@ void testGameEngine() {
   GameEngine* gameEngine = new GameEngine(false);
   gameEngine->addPlayer("RANDOM1");
   gameEngine->addPlayer("RANDOM2");
-  Tile tile(RED, CIRCLE);
-  Tile tile2(BLUE, CIRCLE);
-  Tile tile4(BLUE, CLOVER);
-  Tile tile3(BLUE, CIRCLE);
-  Tile tile5(YELLOW, 4);
-  Tile tile6(BLUE, 2);
 
-  bool validMove = false;
+  bool gameFinished = false;
+  while (!gameFinished) {
+    for (int i = 0; i < MAX_NUM_OF_PLAYERS && !gameFinished; ++i) {
+      std::cout << gameEngine->printBoard() << std::endl;
+      Player* player = gameEngine->getPlayer(i);
+      std::cout << "currentPlayer: " << player->getPlayerName() << std::endl;
+      std::cout << "Score: " << player->getPlayerScore() << std::endl;
+      std::cout << "Select Tile: " << player->getPlayerHand();
+      std::string tile;
+      std::cin >> tile;
+      Tile tileToPlace(tile[0], readShape(tile[1]));
+      std::cout << "Select Location: ";
+      std::string location;
+      std::cin >> location;
+      int row = 0;
+      int col = 0;
+      if (location.length() < 3) {
+        row = (int)location[0] % 32 - 1;
+        col = location[1] - '0';
+        std::cout << row << std::endl;
+        std::cout << col << std::endl;
+      } else {
+        row = (int)location[0] % 32 - 1;
+        int colTens = (location[1] - '0') * 10;
+        int colOnes = location[2] - '0';
+        col = colTens + colOnes;
+      }
 
-  Player* player = gameEngine->getPlayer(0);
-  gameEngine->checkTilePlacement(player, 1, 0, &tile);
-  gameEngine->endOfRoundCalculations(player, 1, 0, &tile);
+      bool validMove =
+          gameEngine->checkTilePlacement(player, row, col, &tileToPlace);
+      if (validMove) {
+        gameFinished =
+            gameEngine->endOfRoundCalculations(player, row, col, &tileToPlace);
+      } else {
+        gameEngine->replaceTile(player, &tileToPlace);
+      }
+      validMove = false;
+    }
+  }
 
-  player = gameEngine->getPlayer(1);
-  validMove = gameEngine->checkTilePlacement(player, 0, 0, &tile2);
-  if (validMove) gameEngine->endOfRoundCalculations(player, 0, 0, &tile2);
-
-  player = gameEngine->getPlayer(0);
-  validMove = gameEngine->checkTilePlacement(player, 1, 1, &tile3);
-  if (validMove) gameEngine->endOfRoundCalculations(player, 1, 1, &tile3);
-
-  player = gameEngine->getPlayer(1);
-  validMove = gameEngine->checkTilePlacement(player, 0, 1, &tile4);
-  if (validMove) gameEngine->endOfRoundCalculations(player, 0, 1, &tile4);
-
-  player = gameEngine->getPlayer(0);
-  validMove = gameEngine->checkTilePlacement(player, 0, 2, &tile5);
-  if (validMove) gameEngine->endOfRoundCalculations(player, 0, 2, &tile5);
-
-  player = gameEngine->getPlayer(1);
-  validMove = gameEngine->checkTilePlacement(player, 2, 1, &tile6);
-  if (validMove) gameEngine->endOfRoundCalculations(player, 2, 1, &tile6);
-
-  std::cout << gameEngine->printBoard();
-  GameState* gameState = gameEngine->getGameState();
-  DataManager::saveGame(gameState, "saveFiles/save3.txt");
-  std::cout << gameState->toString();
-
+  DataManager::saveGame(gameEngine->getGameState(), "saveFiles/save4.txt");
   delete gameEngine;
+}
+
+int readShape(char shape) {
+  int shapeRet = '\0';
+  if (shape == '1') {
+    shapeRet = CIRCLE;
+  } else if (shape == '2') {
+    shapeRet = STAR_4;
+  } else if (shape == '3') {
+    shapeRet = DIAMOND;
+  } else if (shape == '4') {
+    shapeRet = SQUARE;
+  } else if (shape == '5') {
+    shapeRet = STAR_6;
+  } else if (shape == '6') {
+    shapeRet = CLOVER;
+  }
+  return shapeRet;
 }
