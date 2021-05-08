@@ -60,7 +60,16 @@ void testGameEngine() {
   player = gameEngine->getPlayer(1);
   gameEngine->checkTilePlacement(player, 4, 4, &tile6);
   gameEngine->endOfRoundCalculations(player, 4, 4, &tile6);
-  gameEngine->printBoard();
+  std::cout << gameEngine->printBoard();
   std::cout << gameEngine->toString();
+
+  Player* player2 = new Player("BOB");
+  player2->addTileToHand(&tile);
+  player2->addTileToHand(&tile);
+  player2->addTileToHand(&tile);
+  player2->addTileToHand(&tile);
+  player2->addTileToHand(&tile);
+  player2->addTileToHand(&tile);
+  std::cout << player2->getPlayerHand();
   delete gameEngine;
 }

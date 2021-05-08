@@ -28,7 +28,7 @@ Tile* LinkedList::getTile(Tile* tile) {
 }
 
 void LinkedList::addTile(Tile* tile) {
-  Node* newNode = new Node(tile, nullptr);
+  Node* newNode = new Node(new Tile(*tile), nullptr);
   if (head == nullptr) {
     head = newNode;
     tail = newNode;
