@@ -2,6 +2,9 @@
 #include "Tile.h"
 
 #include <string>
+Tile::Tile(){
+
+};
 
 Tile::Tile(Colour colour, Shape shape) {
     this->colour = colour;

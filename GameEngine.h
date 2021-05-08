@@ -35,7 +35,7 @@ class GameEngine {
     std::string toString();
     void saveGame();
     void loadGame();
-    Tile tileGenerator(std::string data);
+    
     void printBoard();
 
    private:

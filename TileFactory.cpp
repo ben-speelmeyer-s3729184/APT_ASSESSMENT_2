@@ -47,7 +47,7 @@ LinkedList* TileFactory::createTileBag(std::string loadedTileBag) {
     std::istringstream iss(loadedTileBag);
 
     while (std::getline(iss, tileData, ',')) {
-        std::cout << tileData << " " << tileData[0] << std::endl;
+        //std::cout << tileData << " " << tileData[0] << std::endl;
         Colour colour = tileData[COLOUR_IND];
         Shape shape = readShape(tileData[SHAPE_IND]);
         Tile* tile = new Tile(colour, shape);
@@ -58,30 +58,13 @@ LinkedList* TileFactory::createTileBag(std::string loadedTileBag) {
 
 
 LinkedList* TileFactory::createHand(std::string hand, Player* player) {
-    std::string delimiter = ",";
+    LinkedList* tbag = createTileBag(hand);
 
-    size_t pos = 0;
-    std::string token;
-    std::cout<<player->getPlayerHand();
-    while ((pos = hand.find(delimiter)) != std::string::npos)
-    {
-        token = hand.substr(0, pos);
-        std::cout << token << std::endl;
-        
-        std::cout<<player->getPlayerHand();
-        
-        hand.erase(0, pos + delimiter.length());
+    int int_pos = 0;
+    while(int_pos < tbag->size()){
+        player->addTileToHand(tbag->takeFront());
         
     }
-    std::cout << hand << std::endl;
-
-    Tile tile('R', 4);
-    player->addTileToHand(&tile);
-    tile.shape = 2;
-    tile.colour = 'Y';
-   
-
-    
 }
 
 void TileFactory::importTileList(TilesImport tiles) {

@@ -128,7 +128,10 @@ bool GameEngine::addPlayer(std::string name, bool loading)
     else if (noOfPlayers == 1)
     {
         player2 = new Player(name);
-        topUpPlayerHand(player2);
+        if (!loading)
+        {
+            topUpPlayerHand(player1);
+        }
         ++noOfPlayers;
         playerAdded = true;
     }
@@ -322,19 +325,22 @@ void GameEngine::loadGame()
     std::getline(loadFile, score_player2);
     std::getline(loadFile, player2Hand);
 
+    TileFactory tileFactory;
+
+
     addPlayer(name_player1, true);
     this->player1->addScore(std::stoi(score_player1));
-
-    TileFactory tileFactory;
     tileFactory.createHand(player1Hand, player1);
     
     //this->player1->addTileToHand()
-
+    
     addPlayer(name_player2, true);
     this->player2->addScore(std::stoi(score_player2));
-}
+    tileFactory.createHand(player2Hand, player2);
 
-Tile GameEngine::tileGenerator(std::string data){
+    std::cout<<"Player 1 hand: " << player1->getPlayerHand()<<std::endl<< "Player 2 hand: " << player2->getPlayerHand();
+
     
+
 }
 

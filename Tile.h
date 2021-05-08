@@ -14,6 +14,7 @@ typedef int Shape;
 
 class Tile {
    public:
+    Tile();
     Tile(Colour colour, Shape shape);
     Tile(Tile& tile);
     std::string toString();
