@@ -4,8 +4,11 @@
 #include "GameState.h"
 
 class DataManager {
+ private:
+  DataManager();
+
  public:
-  static bool saveGame(GameState* saveGame);
+  static void saveGame(GameState* saveGame, std::string fileName);
   static GameState* loadGame(std::string fileName);
 };
 

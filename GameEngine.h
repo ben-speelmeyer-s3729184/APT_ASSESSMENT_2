@@ -31,7 +31,6 @@ class GameEngine {
   int getNoOfPlayers();
 
   // Board Details
-  std::string toString();
   std::string printBoard();
 
  private:

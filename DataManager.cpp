@@ -8,20 +8,13 @@
 #include "Player.h"
 #include "TileFactory.h"
 
-bool DataManager::saveGame(GameState* saveGame) {
+void DataManager::saveGame(GameState* saveGame, std::string fileName) {
   // Create and open a text file
-  std::ofstream saveFile("saveFiles/save2.txt");
-  std::string gameData;
-  for (int i = 0; i < saveGame->getNoOfPlayers(); ++i) {
-    Player* player = saveGame->getPlayers()[i];
-    gameData.append(player->getPlayerName() + "\n");
-    gameData.append(std::to_string(player->getPlayerScore()) + "\n");
-    gameData.append(player->getPlayerHand());
-  }
-  gameData.append(saveGame->getTileBag()->toString());
-  gameData.append(saveGame->getBoard()->boardToString());
+  std::ofstream saveFile;
+  saveFile.open(fileName);
+
   // Write to the file
-  saveFile << gameData;
+  saveFile << saveGame->toString();
   // Close File
   saveFile.close();
 };
@@ -35,7 +28,7 @@ GameState* DataManager::loadGame(std::string fileName) {
   std::string name_player2;
   std::string score_player2;
   std::string player2Hand;
-  std::string tileBag;
+  std::string loadedTileBag;
   std::string boardSize;
   std::string boardDetails;
 
@@ -45,32 +38,34 @@ GameState* DataManager::loadGame(std::string fileName) {
   std::getline(loadFile, name_player2);
   std::getline(loadFile, score_player2);
   std::getline(loadFile, player2Hand);
-  std::getline(loadFile, tileBag);
+  std::getline(loadFile, loadedTileBag);
   std::getline(loadFile, boardSize);
   std::getline(loadFile, boardDetails);
 
   TileFactory tileFactory;
-  LinkedList* tileBag = tileFactory.createTileBag(tileBag);
+  LinkedList* tileBag = tileFactory.createTileBag(loadedTileBag);
   int noOfPlayers = 0;
   Player* players[MAX_NUM_OF_PLAYERS];
   players[noOfPlayers] = new Player(name_player1);
   players[noOfPlayers]->addScore(std::stoi(score_player1));
-  LinkedList* hand = tileFactory.createHand(player1Hand);
-  while (hand->size() > 0) {
-    players[noOfPlayers]->addTileToHand(hand->takeFront());
+  LinkedList* hand1 = tileFactory.createHand(player1Hand);
+  while (hand1->size() > 0) {
+    players[noOfPlayers]->addTileToHand(hand1->takeFront());
   }
   ++noOfPlayers;
 
   players[noOfPlayers] = new Player(name_player2);
   players[noOfPlayers]->addScore(std::stoi(score_player2));
-  LinkedList* hand = tileFactory.createHand(player1Hand);
-  while (hand->size() > 0) {
-    players[noOfPlayers]->addTileToHand(hand->takeFront());
+  LinkedList* hand2 = tileFactory.createHand(player1Hand);
+  while (hand2->size() > 0) {
+    players[noOfPlayers]->addTileToHand(hand2->takeFront());
   }
   ++noOfPlayers;
 
   // Recreate Board
+  Board* board = new Board();
 
-  GameState* loadGame = new GameState();
+  // Put data into GameState
+  GameState* loadGame = new GameState(players, tileBag, board, noOfPlayers);
   return loadGame;
 }

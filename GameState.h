@@ -26,6 +26,7 @@ class GameState {
   Board* getBoard();
   LinkedList* getTileBag();
   int getNoOfPlayers();
+  std::string toString();
 };
 
 #endif

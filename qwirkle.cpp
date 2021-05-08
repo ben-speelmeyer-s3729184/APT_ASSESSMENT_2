@@ -1,9 +1,10 @@
 #include <iostream>
 
 #include "Cli.h"
+#include "DataManager.h"
 #include "GameEngine.h"
+#include "GameState.h"
 #include "LinkedList.h"
-#include "SaveLoad.h"
 #include "Tile.h"
 #define EXIT_SUCCESS 0
 
@@ -65,6 +66,9 @@ void testGameEngine() {
   validMove = gameEngine->checkTilePlacement(player, 2, 1, &tile6);
   if (validMove) gameEngine->endOfRoundCalculations(player, 2, 1, &tile6);
   std::cout << gameEngine->printBoard();
-  std::cout << gameEngine->toString();
+  GameState* gameState = gameEngine->getGameState();
+  DataManager::saveGame(gameState, "saveFiles/save3.txt");
+  std::cout << gameState->toString();
+
   delete gameEngine;
 }

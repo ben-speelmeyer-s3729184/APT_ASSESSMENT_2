@@ -128,5 +128,3 @@ void GameEngine::topUpPlayerHand(Player* player) {
 }
 
 std::string GameEngine::printBoard() { return board->printBoard(); }
-
-std::string GameEngine::toString() {}
