@@ -9,6 +9,7 @@
 typedef char TilesImport[MAX_TILE_BAG_SIZE][TILE_ATTRIBUTES];
 
 #include "LinkedList.h"
+#include "Player.h"
 
 class TileFactory {
  public:

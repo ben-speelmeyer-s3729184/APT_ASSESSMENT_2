@@ -35,7 +35,6 @@ bool GameEngine::checkTilePlacement(Player* player, int row, int col,
       playedTile = board->checkTilePlacement(tile, row, col, initialTilePlaced);
     }
   }
-  topUpPlayerHand(player);
   return playedTile;
 }
 
@@ -85,7 +84,7 @@ Player* GameEngine::getPlayer(int playerNumber) {
 
 // Need to update to return a deep copy.
 GameState* GameEngine::getGameState() {
-  GameState* gameState = new GameState(players, tileBag, board);
+  GameState* gameState = new GameState(players, tileBag, board, noOfPlayers);
   return gameState;
 }
 
@@ -130,14 +129,4 @@ void GameEngine::topUpPlayerHand(Player* player) {
 
 std::string GameEngine::printBoard() { return board->printBoard(); }
 
-std::string GameEngine::toString() {
-  std::string gameData;
-  for (int i = 0; i < noOfPlayers; ++i) {
-    gameData.append(players[i]->getPlayerName() + "\n");
-    gameData.append(std::to_string(players[i]->getPlayerScore()) + "\n");
-    gameData.append(players[i]->getPlayerHand());
-  }
-  gameData.append(tileBag->toString());
-  gameData.append(board->boardToString());
-  return gameData;
-}
+std::string GameEngine::toString() {}

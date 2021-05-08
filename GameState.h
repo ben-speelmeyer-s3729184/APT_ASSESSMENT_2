@@ -14,15 +14,18 @@ class GameState {
   Player** players;
   LinkedList* tileBag;
   Board* board;
+  int noOfPlayers;
 
  public:
   GameState();
-  GameState(Player** players, LinkedList* tileBag, Board* board);
+  GameState(Player** players, LinkedList* tileBag, Board* board,
+            int noOfPlayers);
   ~GameState();
 
   Player** getPlayers();
   Board* getBoard();
   LinkedList* getTileBag();
+  int getNoOfPlayers();
 };
 
 #endif

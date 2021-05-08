@@ -7,7 +7,7 @@
 #include <sstream>
 #include <string>
 
-TileFactory::TileFactory() {}
+TileFactory::TileFactory(){};
 
 LinkedList* TileFactory::createTileBag(bool randomSeed) {
   LinkedList* tileBag = new LinkedList();
@@ -48,7 +48,6 @@ LinkedList* TileFactory::createTileBag(std::string loadedTileBag) {
   std::istringstream iss(loadedTileBag);
 
   while (std::getline(iss, tileData, ',')) {
-    std::cout << tileData << " " << tileData[0] << std::endl;
     Colour colour = tileData[COLOUR_IND];
     Shape shape = readShape(tileData[SHAPE_IND]);
     Tile* tile = new Tile(colour, shape);
@@ -57,7 +56,9 @@ LinkedList* TileFactory::createTileBag(std::string loadedTileBag) {
   return tileBag;
 }
 
-LinkedList* TileFactory::createHand(std::string hand) { return nullptr; }
+LinkedList* TileFactory::createHand(std::string hand) {
+  return createTileBag(hand);
+}
 
 void TileFactory::importTileList(TilesImport tiles) {
   std::ifstream file("tileList.txt");

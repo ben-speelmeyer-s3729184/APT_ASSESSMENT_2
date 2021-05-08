@@ -3,8 +3,12 @@
 #include "TileFactory.h"
 
 GameState::GameState(){};
-GameState::GameState(Player** players, LinkedList* tileBag, Board* board)
-    : players(players), tileBag(tileBag), board(board) {}
+GameState::GameState(Player** players, LinkedList* tileBag, Board* board,
+                     int noOfPlayers)
+    : players(players),
+      tileBag(tileBag),
+      board(board),
+      noOfPlayers(noOfPlayers) {}
 
 GameState::~GameState(){};
 
