@@ -44,27 +44,33 @@ void testGameEngine() {
   Tile tile3(BLUE, CIRCLE);
   Tile tile5(YELLOW, 4);
   Tile tile6(BLUE, 2);
-  Player* player = gameEngine->getPlayer(0);
 
   bool validMove = false;
 
+  Player* player = gameEngine->getPlayer(0);
   gameEngine->checkTilePlacement(player, 1, 0, &tile);
   gameEngine->endOfRoundCalculations(player, 1, 0, &tile);
+
   player = gameEngine->getPlayer(1);
   validMove = gameEngine->checkTilePlacement(player, 0, 0, &tile2);
   if (validMove) gameEngine->endOfRoundCalculations(player, 0, 0, &tile2);
+
   player = gameEngine->getPlayer(0);
   validMove = gameEngine->checkTilePlacement(player, 1, 1, &tile3);
   if (validMove) gameEngine->endOfRoundCalculations(player, 1, 1, &tile3);
+
   player = gameEngine->getPlayer(1);
   validMove = gameEngine->checkTilePlacement(player, 0, 1, &tile4);
   if (validMove) gameEngine->endOfRoundCalculations(player, 0, 1, &tile4);
+
   player = gameEngine->getPlayer(0);
   validMove = gameEngine->checkTilePlacement(player, 0, 2, &tile5);
   if (validMove) gameEngine->endOfRoundCalculations(player, 0, 2, &tile5);
+
   player = gameEngine->getPlayer(1);
   validMove = gameEngine->checkTilePlacement(player, 2, 1, &tile6);
   if (validMove) gameEngine->endOfRoundCalculations(player, 2, 1, &tile6);
+
   std::cout << gameEngine->printBoard();
   GameState* gameState = gameEngine->getGameState();
   DataManager::saveGame(gameState, "saveFiles/save3.txt");

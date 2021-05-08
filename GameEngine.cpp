@@ -108,14 +108,14 @@ bool GameEngine::endOfRoundCalculations(Player* player, int row, int col,
                                         Tile* tile) {
   bool endConditionsMet = false;
   placeTile(player, row, col, tile);
-  if (!initialTilePlaced) {
-    initialTilePlaced = true;
-  }
   updateScore(player, row, col);
   topUpPlayerHand(player);
   if (tileBag->size() == 0 && player->handSize() == 0) {
     player->addScore(6);
     endConditionsMet = true;
+  }
+  if (!initialTilePlaced) {
+    initialTilePlaced = true;
   }
   return endConditionsMet;
 }
