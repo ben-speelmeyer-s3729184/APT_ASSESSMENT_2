@@ -42,7 +42,6 @@ bool GameEngine::checkTilePlacement(Player* player, int row, int col,
 void GameEngine::placeTile(Player* player, int row, int col, Tile* tile) {
   Tile* tileFromHand = player->retrieveTile(tile);
   board->addTile(tileFromHand, row, col);
-  updateScore(player, row, col);
 }
 
 bool GameEngine::replaceTile(Player* player, Tile* tile) {

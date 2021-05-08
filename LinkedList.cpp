@@ -36,6 +36,7 @@ void LinkedList::addTile(Tile* tile) {
     tail->next = newNode;
     tail = tail->next;
   }
+  delete tile;
 }
 
 Tile* LinkedList::takeFront() {
