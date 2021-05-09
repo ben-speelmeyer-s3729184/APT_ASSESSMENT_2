@@ -14,10 +14,13 @@ GameEngine::GameEngine(bool randomSeed) {
 GameEngine::~GameEngine() {
   for (int i = 0; i < noOfPlayers; ++i) {
     delete players[i];
+    players[i] = nullptr;
   }
-  delete[] players;
+  //delete[] players;
   delete tileBag;
+  tileBag = nullptr;
   delete board;
+  board = nullptr;
 }
 
 // Initialise the board, players, tileBags, and fill hands and tileBag with
@@ -132,3 +135,10 @@ void GameEngine::topUpPlayerHand(Player* player) {
 }
 
 std::string GameEngine::printBoard() { return board->printBoard(); }
+
+std::vector<int> GameEngine::getBoardSize() const {
+  int rows = 0, cols = 0;
+  rows = board->getRows();
+  cols = board->getCols();
+  return std::vector<int>({rows, cols});
+}

@@ -5,10 +5,10 @@
 
 class DataManager {
  private:
-  DataManager();
 
  public:
-  static void saveGame(GameState* saveGame, std::string fileName);
+  DataManager();
+  static bool saveGame(GameState* saveGame, std::string fileName);
   static GameState* loadGame(std::string fileName);
 };
 

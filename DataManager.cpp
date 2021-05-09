@@ -8,19 +8,26 @@
 #include "Player.h"
 #include "TileFactory.h"
 
-void DataManager::saveGame(GameState* saveGame, std::string fileName) {
+DataManager::DataManager() {};
+
+bool DataManager::saveGame(GameState* saveGame, std::string fileName) {
+  bool status = false;
   // Create and open a text file
   std::ofstream saveFile;
   saveFile.open(fileName);
-
-  // Write to the file
-  saveFile << saveGame->toString();
-  // Close File
-  saveFile.close();
-};
+  // check status of stream
+  if (saveFile.good()) {
+    // Write to the file
+    saveFile << saveGame->toString();
+    // Close File
+    saveFile.close();
+    status = true;
+  }
+  return status;
+}
 
 GameState* DataManager::loadGame(std::string fileName) {
-  std::ifstream loadFile("saveFiles/load1.txt");
+  std::ifstream loadFile(fileName);
 
   std::string name_player1;
   std::string score_player1;
@@ -66,6 +73,6 @@ GameState* DataManager::loadGame(std::string fileName) {
   Board* board = new Board();
 
   // Put data into GameState
-  GameState* loadGame = new GameState(players, tileBag, board, noOfPlayers);
-  return loadGame;
+  GameState* loadedGame = new GameState(players, tileBag, board, noOfPlayers);
+  return loadedGame;
 }
