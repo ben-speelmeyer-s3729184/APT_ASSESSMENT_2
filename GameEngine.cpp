@@ -1,6 +1,6 @@
 #include "GameEngine.h"
 
-#include "utils.h"
+#include "ScoreManager.h"
 
 GameEngine::GameEngine(bool randomSeed) {
   noOfPlayers = 0;
@@ -72,8 +72,8 @@ bool GameEngine::addPlayer(std::string name) {
 }
 
 void GameEngine::updateScore(Player* player, int row, int col) {
-  utils utils;
-  utils.updateScores(player, board, row, col, initialTilePlaced);
+  ScoreManager scoreManager;
+  scoreManager.updateScores(player, board, row, col, initialTilePlaced);
 }
 
 int GameEngine::getNoOfPlayers() { return noOfPlayers; }

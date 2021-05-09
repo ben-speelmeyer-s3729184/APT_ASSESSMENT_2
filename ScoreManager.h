@@ -7,13 +7,11 @@
 #include "Board.h"
 #include "Player.h"
 
-class utils {
+class ScoreManager {
  public:
-  utils();
+  ScoreManager();
   void updateScores(Player* player, Board* board, int row, int col,
                     bool initialTurn);
-  void adjacentTileChecker(bool& validMove, bool& colourMatch, bool& shapeMatch,
-                           Tile* tile1, Tile* tile2, Tile* toAddTile);
 
  private:
   int calculateLineScore(Board* board, int row, int rowIncrement, int col,
