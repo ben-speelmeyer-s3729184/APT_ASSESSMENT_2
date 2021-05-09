@@ -1,6 +1,6 @@
 #include "GameEngine.h"
 
-#include "utils.h"
+#include "Utils.h"
 
 GameEngine::GameEngine(bool randomSeed) {
   noOfPlayers = 0;
