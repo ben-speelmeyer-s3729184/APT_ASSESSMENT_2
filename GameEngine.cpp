@@ -97,8 +97,6 @@ void GameEngine::loadGameState(GameState* loadedState) {
   for (int i = 0; i < noOfPlayers; ++i) {
     delete players[i];
   }
-  delete[] players;
-
   delete playerToDelete;
   Board* boardToDelete = board;
   board = loadedState->getBoard();
