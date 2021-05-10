@@ -1,10 +1,11 @@
 #include "Cli.h"
-
+#include "Utils.h"
 
 Cli::Cli() {
     gameEngine = new GameEngine(false);
     gameState = gameEngine->getGameState();
     dataManager = new DataManager();
+    currentPlayer = nullptr;
     playerNum = 0;
 }
 
@@ -114,6 +115,7 @@ void Cli::loadGame() {
     std::cout << "Enter the filename from which load a game\n> ";
 
     std::cin >> fileName;
+    std::cout << fileName;
     gameState = dataManager->loadGame(fileName);
     while (gameState==nullptr) {
         std::cout << "Invalid Input.\n> ";
@@ -132,7 +134,7 @@ bool Cli::nextRound() {
   printPlayerInfo();
 
   // parse player input until acceptable value
-  while (!parsePlayerInput()) {
+  while (!parsePlayerInput(*currentPlayer)) {
     std::cout << "Invalid Input\n";
   }
   // if player wants to quit, flag will be set
@@ -153,9 +155,11 @@ void Cli::printPlayerInfo() {
     if (playerNum==0) {
       name = player1->getPlayerName();
       hand = player1->getPlayerHand();
+      currentPlayer = player1;
     } else {
       name = player2->getPlayerName();
       hand = player2->getPlayerHand();
+      currentPlayer = player2;
     }
 
     std::cout << name << ", it's your turn" << std::endl;
@@ -210,13 +214,18 @@ bool Cli::validateTile(std::string tile) {
 bool Cli::validatePosition(std::string position) {
   bool status = false;
   std::vector<int> boardSize;
+  boardSize = gameEngine->getBoardSize();
 
   if (position.length() == 2) {
-    boardSize = gameEngine->getBoardSize();
     // if row letter - 65 (ASCII Capital range) is less than rows,
     // and col number is less than col count, then position is valid
 
     if (position[0] - 65 < boardSize[0] && position[1] - 48 < boardSize[1]) {
+      status = true;
+    }
+  } else if (position.length() == 3) {
+    int col = std::stoi(position.substr(1,2));
+    if (position[0] - 65 < boardSize[0] && col < boardSize[1]) {
       status = true;
     }
   }
@@ -224,7 +233,72 @@ bool Cli::validatePosition(std::string position) {
   return status;
 }
 
-bool Cli::parsePlayerInput() {
+
+Colour getColour(std::string tile) {
+  const char colChar = tile[0];
+  Colour col = '\0';
+
+  if (colChar=='R') {
+    col = RED;
+  } else if (colChar=='O') {
+    col = ORANGE;
+  }
+  else if (colChar=='Y') {
+    col = YELLOW;
+  }
+  else if (colChar=='G') {
+    col = GREEN;
+  }
+  else if (colChar=='B') {
+    col = BLUE;
+  }
+  else if (colChar=='P') {
+    col = PURPLE;
+  }
+  return col;
+}
+
+Shape getShape(std::string tile) {
+  const char shpChar = tile[1];
+  Shape shp = 0;
+  if (shpChar == '1') {
+    shp = CIRCLE;
+  } else if (shpChar == '2') {
+    shp = STAR_4;
+  } else if (shpChar == '3') {
+    shp = DIAMOND;
+  } else if (shpChar == '4') {
+    shp = SQUARE;
+  } else if (shpChar == '5') {
+    shp = STAR_6;
+  } else if (shpChar == '6') {
+    shp = CLOVER;
+  }
+
+  return shp;
+}
+
+
+int parseRow(std::string pos) {
+  char rowVal = pos[0];
+  std::cout << "rowVal: " << rowVal << std::endl;
+  std::cout << "(int)rowVal: " << (int)rowVal << std::endl;
+  std::cout << pos << " row: " << (int)rowVal-65 << std::endl;
+  return (int)rowVal-65;
+}
+
+int parseCol(std::string pos) {
+  int col = -1;
+  if (pos.length() == 2) {
+    col = std::stoi(pos.substr(1,1));
+  } else if (pos.length()==3) {
+    col = std::stoi(pos.substr(1,2));
+  }
+  return col;
+}
+
+
+bool Cli::parsePlayerInput(Player& player) {
 
   std::cout << "> ";
   std::vector<std::string> input;
@@ -240,6 +314,7 @@ bool Cli::parsePlayerInput() {
   bool status = false;
   bool saved = false;
 
+
   // Possible commands in gameplay:
   // place XY at XY
   // replace XY
@@ -247,17 +322,36 @@ bool Cli::parsePlayerInput() {
   if (input.size() == 4) {
     if (input[0] == "place" && input[2] == "at") {
       if (validateTile(input[1]) && validatePosition(input[3])) {
-        // TODO
+        Colour colr = getColour(input[1]);
+        Shape shp = getShape(input[1]);
+        Tile tileToPlace(colr, shp);
+
+        int row = parseRow(input[3]);
+        int col = parseCol(input[3]);
+
+        bool gameFinished;
+
+        bool validMove =
+          gameEngine->checkTilePlacement(&player, row, col, &tileToPlace);
+        if (validMove) {
+          gameFinished =
+              gameEngine->endOfRoundCalculations(&player, row, col, &tileToPlace);
+          std::cout << gameFinished << std::endl;
+        }
         status = true;
       }
     }
   } else if (input.size() == 2) {
     if (input[0] == "replace") {
       if (validateTile(input[1])) {
-        // TODO Replace functionality
+        Colour colr = getColour(input[1]);
+        Shape shp = getShape(input[1]);
+        Tile tileToPlace(colr, shp);
+        gameEngine->replaceTile(&player, &tileToPlace);
         status = true;
       }
     } else if (input[0] == "save") {
+      gameState = gameEngine->getGameState();
       if (dataManager->saveGame(gameState, input[1])) {
         std::cout << "\nGame successfully saved\n" << std::endl;
         status = true;

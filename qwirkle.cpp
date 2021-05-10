@@ -10,7 +10,9 @@
 void testGameEngine();
 int readShape(char shape);
 
+
 int main(void) {
+
   // create CLI object
   Cli console;
 

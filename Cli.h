@@ -21,6 +21,7 @@ class Cli {
   GameState* gameState;
   int playerNum = 0;
   const std::string tileColours = "ROYGBP";
+  Player* currentPlayer;
 
   // enum for main menu options, we start at one and the
   // compiler will increment for us
@@ -64,7 +65,7 @@ class Cli {
   /*
   * Takes user input and parses command
   */
-  bool parsePlayerInput();
+  bool parsePlayerInput(Player& player);
 
 
   /*
