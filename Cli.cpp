@@ -1,9 +1,8 @@
 #include "Cli.h"
-#include "Utils.h"
 
 Cli::Cli() {
     gameEngine = new GameEngine(false);
-    gameState = gameEngine->getGameState();
+    gameState = new GameState();
     dataManager = new DataManager();
     currentPlayer = nullptr;
     playerNum = 0;
@@ -11,7 +10,8 @@ Cli::Cli() {
 
 Cli::Cli(bool randomSeed) {
     gameEngine = new GameEngine(randomSeed);
-    gameState = gameEngine->getGameState();
+    gameState = new GameState();
+//    gameState = gameEngine->getGameState();
     dataManager = new DataManager();
     playerNum = 0;
 }
@@ -116,12 +116,13 @@ void Cli::loadGame() {
 
     std::cin >> fileName;
     std::cout << fileName;
-    gameState = dataManager->loadGame(fileName);
+    gameState = new GameState(*dataManager->loadGame(fileName));
     while (gameState==nullptr) {
         std::cout << "Invalid Input.\n> ";
         std::cin >> fileName;
         gameState = dataManager->loadGame(fileName);
     }
+
     gameEngine->loadGameState(gameState);
     std::cout << "\nQwirkle game successfully loaded" << std::endl;
 

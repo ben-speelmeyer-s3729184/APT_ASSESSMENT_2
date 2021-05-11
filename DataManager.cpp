@@ -49,6 +49,9 @@ GameState* DataManager::loadGame(std::string fileName) {
   std::getline(loadFile, boardSize);
   std::getline(loadFile, boardDetails);
 
+  loadFile.close();
+
+
   TileFactory tileFactory;
   LinkedList* tileBag = tileFactory.createTileBag(loadedTileBag);
   int noOfPlayers = 0;
@@ -70,7 +73,7 @@ GameState* DataManager::loadGame(std::string fileName) {
   ++noOfPlayers;
 
   // Recreate Board
-  Board* board = new Board();
+  Board* board = new Board(boardDetails);
 
   // Put data into GameState
   GameState* loadedGame = new GameState(players, tileBag, board, noOfPlayers);

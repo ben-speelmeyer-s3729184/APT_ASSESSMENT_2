@@ -37,7 +37,7 @@ class GameEngine {
 
  private:
   bool initialTilePlaced;
-  Player** players;
+  Player* players[MAX_NUM_OF_PLAYERS];
   int noOfPlayers;
   LinkedList* tileBag;
   Board* board;

@@ -11,15 +11,16 @@
 class GameState {
  private:
   /* data */
-  Player** players;
+  Player* players[MAX_NUM_OF_PLAYERS];
   LinkedList* tileBag;
   Board* board;
   int noOfPlayers;
 
  public:
   GameState();
-  GameState(Player** players, LinkedList* tileBag, Board* board,
+  GameState(Player* players[], LinkedList* tileBag, Board* board,
             int noOfPlayers);
+  GameState(const GameState& other);
   ~GameState();
 
   Player** getPlayers();

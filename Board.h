@@ -15,6 +15,8 @@ typedef std::vector<std::vector<Tile>> twoDVector;
 class Board {
  public:
   Board();
+  Board(std::string boardDetails);
+  Board(const Board& other);
 
   ~Board();
 
@@ -36,6 +38,8 @@ class Board {
   std::string printBoard();
   int getRows();
   int getCols();
+
+  const std::vector<std::vector<Tile*>>& getBoardVec() const { return boardVecs; }
 
  private:
   std::vector<std::vector<Tile*>> boardVecs;

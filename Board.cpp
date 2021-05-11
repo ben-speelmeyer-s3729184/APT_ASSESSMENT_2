@@ -9,6 +9,28 @@ Board::Board(){
 
 };
 
+Board::Board(std::string boardDetails) {
+  // split string by commmas
+  //    e.g. R1@D5,R5@G7 -> [R1@D5, R5@G7]
+  //
+
+  // std::vector<std::vector<Tile*>> boardVecs;
+  // int rows;
+  // int cols;
+}
+
+Board::Board(const Board& other) {
+
+  // for (auto tilevec : other.boardVecs) {
+  //   boardVecs.push_back()
+  //   for (auto tile : tilevec) {
+  //   }
+  // }
+  boardVecs = other.boardVecs;
+  rows = other.rows;
+  cols = other.cols;
+}
+
 Board::~Board() {
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {

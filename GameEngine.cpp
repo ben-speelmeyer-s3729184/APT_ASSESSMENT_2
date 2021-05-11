@@ -3,9 +3,9 @@
 #include "ScoreManager.h"
 
 GameEngine::GameEngine(bool randomSeed) {
-  noOfPlayers = 0;
+  noOfPlayers = MAX_NUM_OF_PLAYERS;
   board = new Board();
-  players = new Player*[MAX_NUM_OF_PLAYERS];
+  // players = new Player*[MAX_NUM_OF_PLAYERS];
   board->resizeBoard(26, 26);
   fillTileBag(randomSeed);
   initialTilePlaced = false;
@@ -96,17 +96,35 @@ GameState* GameEngine::getGameState() {
 }
 
 void GameEngine::loadGameState(GameState* loadedState) {
-  Player* playerToDelete = nullptr;
-  for (int i = 0; i < noOfPlayers; ++i) {
-    delete players[i];
+
+  players[0] = loadedState->getPlayers()[0];
+  players[1] = loadedState->getPlayers()[1];
+
+  this->tileBag = loadedState->getTileBag();
+  this->board = loadedState->getBoard();
+  this->noOfPlayers = MAX_NUM_OF_PLAYERS;
+  const auto boardVec = board->getBoardVec();
+  this->initialTilePlaced = false;
+  for (auto vec : boardVec) {
+    for (auto tile : vec) {
+      if (tile != nullptr) {
+        this->initialTilePlaced = true;
+      }
+    }
   }
-  delete playerToDelete;
-  Board* boardToDelete = board;
-  board = loadedState->getBoard();
-  delete boardToDelete;
-  LinkedList* tileBagToDelete = tileBag;
-  tileBag = loadedState->getTileBag();
-  delete tileBagToDelete;
+
+
+  // Player* playerToDelete = nullptr;
+  // for (int i = 0; i < noOfPlayers; ++i) {
+  //   delete players[i];
+  // }
+  // delete playerToDelete;
+  // Board* boardToDelete = board;
+  // board = loadedState->getBoard();
+  // delete boardToDelete;
+  // LinkedList* tileBagToDelete = tileBag;
+  // tileBag = loadedState->getTileBag();
+  // delete tileBagToDelete;
 }
 
 bool GameEngine::endOfRoundCalculations(Player* player, int row, int col,
