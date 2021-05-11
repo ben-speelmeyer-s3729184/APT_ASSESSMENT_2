@@ -1,10 +1,7 @@
 #include "Board.h"
 
-#include <iostream>
 #include <string>
 #include <vector>
-
-#include "Utils.h"
 
 using namespace std;
 
@@ -134,7 +131,7 @@ bool Board::checkTilePlacement(Tile* tile, int row, int col,
 
 // Checks tiles adjacent to tile placement location for valid move
 bool Board::checkAdjacentTiles(int row, int rowAdjustment, int col,
-                               int colAdjustment, Tile* tile) {
+                               int colAdjustment, Tile* tileToAdd) {
   bool validMove = false;
   Tile* prevTile = nullptr;
   Tile* postTile = nullptr;
@@ -144,15 +141,40 @@ bool Board::checkAdjacentTiles(int row, int rowAdjustment, int col,
   if (row + rowAdjustment < rows && col + colAdjustment < cols) {
     postTile = boardVecs[row + rowAdjustment][col + colAdjustment];
   }
-  bool colourMatch = false;
-  bool shapeMatch = false;
-
   // check whether tile to be added can be placed between
   // the positions either above and below or left and right
   // of the chosen position.
-  utils utilities;
-  utilities.adjacentTileChecker(validMove, colourMatch, shapeMatch, prevTile,
-                                postTile, tile);
+  bool colourMatch = false;
+  bool shapeMatch = false;
+  if (prevTile == nullptr && postTile == nullptr) {
+    validMove = true;
+  } else if (prevTile == nullptr) {
+    if (tileToAdd->colour == postTile->colour) {
+      validMove = true;
+      colourMatch = true;
+    } else if (tileToAdd->shape == postTile->shape) {
+      validMove = true;
+      shapeMatch = true;
+    }
+  } else if (postTile == nullptr) {
+    if (tileToAdd->colour == prevTile->colour) {
+      validMove = true;
+      colourMatch = true;
+    } else if (tileToAdd->shape == prevTile->shape) {
+      validMove = true;
+      shapeMatch = true;
+    }
+  } else {
+    if ((prevTile->colour == tileToAdd->colour &&
+         postTile->colour == tileToAdd->colour)) {
+      validMove = true;
+      colourMatch = true;
+    } else if (prevTile->shape == tileToAdd->shape &&
+               postTile->shape == tileToAdd->shape) {
+      validMove = true;
+      shapeMatch = true;
+    }
+  }
 
   // Checking if line the tile is to be added to is valid
   // same colour, or same shape, and no identical tile
@@ -160,9 +182,9 @@ bool Board::checkAdjacentTiles(int row, int rowAdjustment, int col,
     // To left or above first, then right or down second.
     int adjacentTiles = 0;
     int adjacentTilesB = lineChecker(row, col, -rowAdjustment, -colAdjustment,
-                                     shapeMatch, colourMatch, tile);
+                                     shapeMatch, colourMatch, tileToAdd);
     int adjacentTilesA = lineChecker(row, col, rowAdjustment, colAdjustment,
-                                     shapeMatch, colourMatch, tile);
+                                     shapeMatch, colourMatch, tileToAdd);
     if (adjacentTilesB == -1 || adjacentTilesA == -1) {
       validMove = false;
     } else {

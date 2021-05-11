@@ -1,6 +1,6 @@
 #include "GameEngine.h"
 
-#include "Utils.h"
+#include "ScoreManager.h"
 
 GameEngine::GameEngine(bool randomSeed) {
   noOfPlayers = 0;
@@ -75,8 +75,8 @@ bool GameEngine::addPlayer(std::string name) {
 }
 
 void GameEngine::updateScore(Player* player, int row, int col) {
-  utils utils;
-  utils.updateScores(player, board, row, col, initialTilePlaced);
+  ScoreManager scoreManager;
+  scoreManager.updateScores(player, board, row, col, initialTilePlaced);
 }
 
 int GameEngine::getNoOfPlayers() { return noOfPlayers; }
@@ -100,8 +100,6 @@ void GameEngine::loadGameState(GameState* loadedState) {
   for (int i = 0; i < noOfPlayers; ++i) {
     delete players[i];
   }
-  delete[] players;
-
   delete playerToDelete;
   Board* boardToDelete = board;
   board = loadedState->getBoard();
