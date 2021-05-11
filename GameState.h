@@ -19,7 +19,7 @@ class GameState {
  public:
   GameState();
   GameState(Player* players[], LinkedList* tileBag, Board* board,
-            int noOfPlayers);
+            int noOfPlayers, int currPlayer);
   GameState(const GameState& other);
   ~GameState();
 
@@ -28,6 +28,7 @@ class GameState {
   LinkedList* getTileBag();
   int getNoOfPlayers();
   std::string toString();
+  int currentPlayer;
 };
 
 #endif

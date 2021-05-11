@@ -39,6 +39,7 @@ class GameEngine {
   bool initialTilePlaced;
   Player* players[MAX_NUM_OF_PLAYERS];
   int noOfPlayers;
+  int currPlayer = 0;
   LinkedList* tileBag;
   Board* board;
 

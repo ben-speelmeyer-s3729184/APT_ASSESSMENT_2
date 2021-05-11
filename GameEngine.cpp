@@ -3,7 +3,7 @@
 #include "ScoreManager.h"
 
 GameEngine::GameEngine(bool randomSeed) {
-  noOfPlayers = MAX_NUM_OF_PLAYERS;
+  noOfPlayers = 0;
   board = new Board();
   // players = new Player*[MAX_NUM_OF_PLAYERS];
   board->resizeBoard(26, 26);
@@ -91,7 +91,7 @@ Player* GameEngine::getPlayer(int playerNumber) {
 
 // Need to update to return a deep copy.
 GameState* GameEngine::getGameState() {
-  GameState* gameState = new GameState(players, tileBag, board, noOfPlayers);
+  GameState* gameState = new GameState(players, tileBag, board, noOfPlayers, 0);
   return gameState;
 }
 

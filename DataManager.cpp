@@ -38,6 +38,7 @@ GameState* DataManager::loadGame(std::string fileName) {
   std::string loadedTileBag;
   std::string boardSize;
   std::string boardDetails;
+  std::string currPlayerName;
 
   std::getline(loadFile, name_player1);
   std::getline(loadFile, score_player1);
@@ -45,9 +46,10 @@ GameState* DataManager::loadGame(std::string fileName) {
   std::getline(loadFile, name_player2);
   std::getline(loadFile, score_player2);
   std::getline(loadFile, player2Hand);
-  std::getline(loadFile, loadedTileBag);
   std::getline(loadFile, boardSize);
   std::getline(loadFile, boardDetails);
+  std::getline(loadFile, loadedTileBag);
+  std::getline(loadFile, currPlayerName);
 
   loadFile.close();
 
@@ -75,7 +77,13 @@ GameState* DataManager::loadGame(std::string fileName) {
   // Recreate Board
   Board* board = new Board(boardDetails);
 
+  int currPlayerNumber = -1;
   // Put data into GameState
-  GameState* loadedGame = new GameState(players, tileBag, board, noOfPlayers);
+  if (players[0]->getPlayerName()==currPlayerName) {
+    currPlayerNumber = 0;
+  } else {
+    currPlayerNumber = 1;
+  }
+  GameState* loadedGame = new GameState(players, tileBag, board, noOfPlayers, currPlayerNumber);
   return loadedGame;
 }
