@@ -91,13 +91,13 @@ GameState* GameEngine::getGameState() {
   GameState* gameState = new GameState(players, tileBag, board, noOfPlayers);
   return gameState;
 }
-
+// Clears current game state and loads a previously saved game.
 void GameEngine::loadGameState(GameState* loadedState) {
-  Player* playerToDelete = nullptr;
   for (int i = 0; i < noOfPlayers; ++i) {
     delete players[i];
   }
-  delete playerToDelete;
+  players = loadedState->getPlayers();
+  noOfPlayers = loadedState->getNoOfPlayers();
   Board* boardToDelete = board;
   board = loadedState->getBoard();
   delete boardToDelete;
@@ -106,6 +106,8 @@ void GameEngine::loadGameState(GameState* loadedState) {
   delete tileBagToDelete;
 }
 
+// Places a tile, updates player score, tops up the players hand then checks
+// whether a player has triggered the end of game conditions.
 bool GameEngine::endOfRoundCalculations(Player* player, int row, int col,
                                         Tile* tile) {
   bool endConditionsMet = false;
