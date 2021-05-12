@@ -18,15 +18,15 @@ class GameState {
 
  public:
   GameState();
-  GameState(Player* players[], LinkedList* tileBag, Board* board,
-            int noOfPlayers, int currPlayer);
+  GameState(Player** players, LinkedList* tileBag, Board* board,
+            int noOfPlayers);
   GameState(const GameState& other);
   ~GameState();
 
   Player** getPlayers();
   Board* getBoard();
   LinkedList* getTileBag();
-  int getNoOfPlayers();
+  int getNoOfPlayers() { return noOfPlayers; }
   std::string toString();
   int currentPlayer;
 };

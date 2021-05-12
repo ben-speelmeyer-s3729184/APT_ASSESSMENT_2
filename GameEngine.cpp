@@ -9,6 +9,7 @@ GameEngine::GameEngine(bool randomSeed) {
   board->resizeBoard(26, 26);
   fillTileBag(randomSeed);
   initialTilePlaced = false;
+  players = new Player*[MAX_NUM_OF_PLAYERS];
 }
 
 GameEngine::~GameEngine() {
@@ -91,42 +92,27 @@ Player* GameEngine::getPlayer(int playerNumber) {
 
 // Need to update to return a deep copy.
 GameState* GameEngine::getGameState() {
-  GameState* gameState = new GameState(players, tileBag, board, noOfPlayers, 0);
+  GameState* gameState = new GameState(players, tileBag, board, noOfPlayers);
   return gameState;
 }
-
+// Clears current game state and loads a previously saved game.
 void GameEngine::loadGameState(GameState* loadedState) {
-
-  players[0] = loadedState->getPlayers()[0];
-  players[1] = loadedState->getPlayers()[1];
-
-  this->tileBag = loadedState->getTileBag();
-  this->board = loadedState->getBoard();
-  this->noOfPlayers = MAX_NUM_OF_PLAYERS;
-  const auto boardVec = board->getBoardVec();
-  this->initialTilePlaced = false;
-  for (auto vec : boardVec) {
-    for (auto tile : vec) {
-      if (tile != nullptr) {
-        this->initialTilePlaced = true;
-      }
-    }
+  for (int i = 0; i < noOfPlayers; ++i) {
+    delete players[i];
   }
+  players = loadedState->getPlayers();
+  noOfPlayers = loadedState->getNoOfPlayers();
+  Board* boardToDelete = board;
+  board = loadedState->getBoard();
+  delete boardToDelete;
+  LinkedList* tileBagToDelete = tileBag;
+  tileBag = loadedState->getTileBag();
+  delete tileBagToDelete;
 
-
-  // Player* playerToDelete = nullptr;
-  // for (int i = 0; i < noOfPlayers; ++i) {
-  //   delete players[i];
-  // }
-  // delete playerToDelete;
-  // Board* boardToDelete = board;
-  // board = loadedState->getBoard();
-  // delete boardToDelete;
-  // LinkedList* tileBagToDelete = tileBag;
-  // tileBag = loadedState->getTileBag();
-  // delete tileBagToDelete;
 }
 
+// Places a tile, updates player score, tops up the players hand then checks
+// whether a player has triggered the end of game conditions.
 bool GameEngine::endOfRoundCalculations(Player* player, int row, int col,
                                         Tile* tile) {
   bool endConditionsMet = false;

@@ -1,22 +1,103 @@
 #include "Board.h"
+#include "Cli.h"
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
-Board::Board(){
-
+Board::Board() {
+  rows = 0;
+  cols = 0;
 };
 
-Board::Board(std::string boardDetails) {
+std::vector<std::string> delimStringToVector(std::string deets, std::string delim) {
+  std::vector<std::string> details;
+  std::string temp = "";
+  std::string indexVal = "";
+  for (size_t i = 0; i < deets.length(); i++) {
+    indexVal = deets[i];
+    // account for whitespace
+    if ((indexVal==" " || indexVal==delim) && temp.length()>0) {
+      details.push_back(temp);
+      temp = "";
+      // if end of string, do final append
+    } else if (i == deets.length()-1) {
+      if (indexVal!=" " && indexVal!=delim) {
+        temp.append(indexVal);
+      }
+      details.push_back(temp);
+    } else if (indexVal!=" " && indexVal!=delim) {
+      temp.append(indexVal);
+    }
+  }
+
+  return details;
+}
+
+std::vector<int> getDimensions(std::string boardDimensions) {
+  std::vector<std::string> strDims = delimStringToVector(boardDimensions, ",");
+  std::vector<int> dims;
+  dims.push_back(std::stoi(strDims[1]));
+  dims.push_back(std::stoi(strDims[0]));
+  return dims;
+}
+
+
+int getTileLocationRow(std::string tileLoc) {
+  // row can't exceed 'Z', so will be first position
+  char val = tileLoc[0];
+  return val-65;
+}
+
+int getTileLocationCol(std::string tileLoc) {
+  int colVal = -1;
+  std::string colString = "";
+  std::string temp = "";
+  if (tileLoc.length() > 1) {
+    for (size_t i = 1; i < tileLoc.length(); i++) {
+      temp = tileLoc[i];
+      colString.append(temp);
+    }
+    colVal = std::stoi(colString);
+  }
+  return colVal;
+}
+
+void Board::loadTilePlacement(std::string info) {
+  // e.g. R1&
+  // get tile
+  std::vector<std::string> posVec = delimStringToVector(info, "@");
+
+  Colour colr = getColour(posVec[0]);
+  Shape shp = getShape(posVec[0]);
+  Tile* tileToPlace = new Tile(colr, shp);
+
+  int row = getTileLocationRow(posVec[1]);
+  int col = getTileLocationCol(posVec[1]);
+  // get position
+
+  this->addTile(tileToPlace, row, col);
+
+}
+
+Board::Board(std::string boardDetails, std::string boardDimensions) {
   // split string by commmas
   //    e.g. R1@D5,R5@G7 -> [R1@D5, R5@G7]
   //
+  std::vector<std::string> boardVec = delimStringToVector(boardDetails, ",");
+  std::vector<int> dims = getDimensions(boardDimensions);
 
-  // std::vector<std::vector<Tile*>> boardVecs;
-  // int rows;
-  // int cols;
+  rows = dims[0];
+  cols = dims[1];
+
+  resizeBoard(rows, cols);
+
+  for (std::string cell : boardVec) {
+    loadTilePlacement(cell);
+  }
+
 }
 
 Board::Board(const Board& other) {
@@ -26,6 +107,7 @@ Board::Board(const Board& other) {
   //   for (auto tile : tilevec) {
   //   }
   // }
+  resizeBoard(other.rows, other.cols);
   boardVecs = other.boardVecs;
   rows = other.rows;
   cols = other.cols;

@@ -15,7 +15,7 @@ typedef std::vector<std::vector<Tile>> twoDVector;
 class Board {
  public:
   Board();
-  Board(std::string boardDetails);
+  Board(std::string boardDetails, std::string boardDimensions);
   Board(const Board& other);
 
   ~Board();
@@ -25,6 +25,11 @@ class Board {
   Tile* getTile(int row, int col);
 
   // void printBoard();
+
+  /*
+  * Utility function for loading tile into board from savefile string
+  */
+  void loadTilePlacement(std::string tileStr);
 
   void resizeBoard(int row, int col);
 

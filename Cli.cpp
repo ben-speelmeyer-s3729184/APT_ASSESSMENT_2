@@ -326,6 +326,7 @@ bool Cli::parsePlayerInput(Player& player) {
         Colour colr = getColour(input[1]);
         Shape shp = getShape(input[1]);
         Tile tileToPlace(colr, shp);
+        //Tile* tileToPlace = new Tile(colr, shp); TODO, test this!
 
         int row = parseRow(input[3]);
         int col = parseCol(input[3]);

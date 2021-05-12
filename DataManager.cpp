@@ -75,15 +75,16 @@ GameState* DataManager::loadGame(std::string fileName) {
   ++noOfPlayers;
 
   // Recreate Board
-  Board* board = new Board(boardDetails);
+  Board* board = new Board(boardDetails, boardSize);
 
-  int currPlayerNumber = -1;
-  // Put data into GameState
-  if (players[0]->getPlayerName()==currPlayerName) {
-    currPlayerNumber = 0;
-  } else {
-    currPlayerNumber = 1;
-  }
-  GameState* loadedGame = new GameState(players, tileBag, board, noOfPlayers, currPlayerNumber);
+  // // TODO: Sort out current player for load
+  // int currPlayerNumber = -1;
+  // // Put data into GameState
+  // if (players[0]->getPlayerName()==currPlayerName) {
+  //   currPlayerNumber = 0;
+  // } else {
+  //   currPlayerNumber = 1;
+  // }
+  GameState* loadedGame = new GameState(players, tileBag, board, noOfPlayers);
   return loadedGame;
 }

@@ -8,6 +8,9 @@
 #include "GameEngine.h"
 #include "DataManager.h"
 
+Colour getColour(std::string tile);
+Shape getShape(std::string tile);
+
 /*
  * Command line input (CLI) class to assist with processing
  * user input and displaying menu.
