@@ -17,7 +17,7 @@ GameEngine::~GameEngine() {
     delete players[i];
     players[i] = nullptr;
   }
-  //delete[] players;
+  delete[] players;
   delete tileBag;
   tileBag = nullptr;
   delete board;

@@ -19,6 +19,13 @@ Cli::Cli(bool randomSeed) {
 Cli::~Cli() {
     delete gameEngine;
     delete dataManager;
+    delete gameState;
+    delete currentPlayer;
+
+    gameEngine = nullptr;
+    dataManager = nullptr;
+    gameState = nullptr;
+    currentPlayer = nullptr;
 }
 
 
