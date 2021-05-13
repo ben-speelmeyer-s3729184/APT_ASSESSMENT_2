@@ -1,19 +1,21 @@
 // Copyright 2021
 #include "Board.h"
-#include "Cli.h"
 
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
-
+#include "Cli.h"
 
 Board::Board() {
   rows = 0;
   cols = 0;
 }
 
-std::vector<std::string> delimStringToVector(std::string deets, std::string delim) {  // Lines should be <= 80 characters long  [whitespace/line_length] [2]
+std::vector<std::string> delimStringToVector(
+    std::string deets,
+    std::string delim) {  // Lines should be <= 80 characters long
+                          // [whitespace/line_length] [2]
   std::vector<std::string> details;
   std::string temp = "";
   std::string indexVal = "";
@@ -24,7 +26,7 @@ std::vector<std::string> delimStringToVector(std::string deets, std::string deli
       details.push_back(temp);
       temp = "";
       // if end of string, do final append
-    } else if (i == deets.length()-1) {
+    } else if (i == deets.length() - 1) {
       if (indexVal != " " && indexVal != delim) {
         temp.append(indexVal);
       }
@@ -45,11 +47,10 @@ std::vector<int> getDimensions(std::string boardDimensions) {
   return dims;
 }
 
-
 int getTileLocationRow(std::string tileLoc) {
   // row can't exceed 'Z', so will be first position
   char val = tileLoc[0];
-  return val-65;
+  return val - 65;
 }
 
 int getTileLocationCol(std::string tileLoc) {
@@ -199,7 +200,9 @@ std::string Board::boardToString() {
   return boardState;
 }
 
-int Board::asciiToInt(char letter) {  // Using deprecated casting style.  Use static_cast<int>(...) instead  [readability/casting] [4]
+int Board::asciiToInt(
+    char letter) {  // Using deprecated casting style.  Use
+                    // static_cast<int>(...) instead  [readability/casting] [4]
   int i = int(letter);
   i = i - 65;
   return i;
@@ -310,7 +313,7 @@ int Board::lineChecker(int row, int col, int rowAdjustment, int colAdjustment,
   bool adjacentTile = true;
   while (adjacentTile && validMove) {
     Tile* tileCheck;
-    if (currentRow > rows || currentCol > cols || currentCol < 0 ||
+    if (currentRow >= rows || currentCol >= cols || currentCol < 0 ||
         currentRow < 0) {
       tileCheck = nullptr;
     } else {
