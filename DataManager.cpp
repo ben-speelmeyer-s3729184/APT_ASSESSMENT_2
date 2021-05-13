@@ -8,7 +8,7 @@
 #include "LinkedList.h"
 #include "Player.h"
 #include "TileFactory.h"
-
+std::string removeCarriageReturn(std::string fix);
 DataManager::DataManager() {}
 
 bool DataManager::saveGame(GameState* saveGame, std::string fileName) {
@@ -51,7 +51,16 @@ GameState* DataManager::loadGame(std::string fileName) {
   std::getline(loadFile, boardDetails);
   std::getline(loadFile, loadedTileBag);
   std::getline(loadFile, currPlayerName);
-
+  name_player1 = removeCarriageReturn(name_player1);
+  player1Hand = removeCarriageReturn(player1Hand);
+  score_player1 = removeCarriageReturn(score_player1);
+  name_player2 = removeCarriageReturn(name_player2);
+  score_player2 = removeCarriageReturn(score_player2);
+  player2Hand = removeCarriageReturn(player2Hand);
+  boardDetails = removeCarriageReturn(boardDetails);
+  boardSize = removeCarriageReturn(boardSize);
+  loadedTileBag = removeCarriageReturn(loadedTileBag);
+  currPlayerName = removeCarriageReturn(currPlayerName);
   loadFile.close();
 
   TileFactory tileFactory;
@@ -89,4 +98,11 @@ GameState* DataManager::loadGame(std::string fileName) {
   GameState* loadedGame =
       new GameState(players, tileBag, board, noOfPlayers, currentPlayerNumber);
   return loadedGame;
+}
+
+std::string removeCarriageReturn(std::string fix) {
+  if (fix[fix.length() - 1] == '\r') {
+    fix.resize(fix.length() - 1);
+  }
+  return fix;
 }
