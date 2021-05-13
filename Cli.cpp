@@ -387,6 +387,11 @@ bool Cli::parsePlayerInput(Player& player) {
         status = true;
       }
     } else if (input[0] == "save") {
+      if (gameState != nullptr) {
+        GameState* toDelete = gameState;
+        gameState = nullptr;
+        delete toDelete;
+      }
       gameState = gameEngine->getGameState(playerNum);
       if (dataManager->saveGame(gameState, input[1])) {
         std::cout << "\nGame successfully saved\n" << std::endl;
