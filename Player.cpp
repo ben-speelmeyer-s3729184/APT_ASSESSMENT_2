@@ -4,23 +4,23 @@
 #include <string>
 
 Player::Player(std::string playerName) {
-    playerHand = new LinkedList();
-    this->playerName = playerName;
-    playerScore = 0;
+  playerHand = new LinkedList();
+  this->playerName = new std::string(playerName);
+  playerScore = 0;
 }
-
+Player::Player(Player& player) {
+  this->playerName = new std::string(*player.playerName);
+  this->playerScore = player.playerScore;
+  this->playerHand = new LinkedList(*player.playerHand);
+}
 Player::~Player() { delete playerHand; }
 
 int Player::handSize() { return playerHand->size(); }
-bool Player::hasTile(Tile* tile) {
-    return playerHand->contains(tile);
-}
+bool Player::hasTile(Tile* tile) { return playerHand->contains(tile); }
 void Player::addTileToHand(Tile* tile) { playerHand->addTile(tile); }
 
-Tile* Player::retrieveTile(Tile* tile) {
-    return playerHand->getTile(tile);
-}
-std::string Player::getPlayerName() { return playerName; }
+Tile* Player::retrieveTile(Tile* tile) { return playerHand->getTile(tile); }
+std::string Player::getPlayerName() { return *playerName; }
 
 std::string Player::getPlayerHand() { return playerHand->toString(); }
 

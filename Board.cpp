@@ -100,7 +100,7 @@ Board::Board(std::string boardDetails, std::string boardDimensions) {
   }
 }
 
-Board::Board(const Board& other) {
+Board::Board(Board& other) {
   // for (auto tilevec : other.boardVecs) {
   //   boardVecs.push_back()
   //   for (auto tile : tilevec) {

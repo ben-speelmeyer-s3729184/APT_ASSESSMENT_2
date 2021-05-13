@@ -8,6 +8,10 @@ LinkedList::LinkedList() {
 }
 
 LinkedList::~LinkedList() { clear(); }
+LinkedList::LinkedList(LinkedList& list) {
+  this->head = new Node(*list.head);
+  this->tail = new Node(*list.tail);
+}
 
 Tile* LinkedList::getTile(Tile* tile) {
   bool tileNotFound = true;
