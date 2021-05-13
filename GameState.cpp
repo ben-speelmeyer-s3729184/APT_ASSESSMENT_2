@@ -1,6 +1,7 @@
+// Copyright 2021
 #include "GameState.h"
-
 #include "TileFactory.h"
+#include <string>
 
 // Takes a player array, the tileBag, board and numberOfPlayers added to the
 // game.
@@ -26,7 +27,7 @@ GameState::GameState(const GameState& other)
   this->noOfPlayers = other.noOfPlayers;
 }
 
-GameState::~GameState(){};
+GameState::~GameState() {}
 
 Player** GameState::getPlayers() { return players; }
 Board* GameState::getBoard() { return board; }
