@@ -2,13 +2,22 @@
 #ifndef DATAMANAGER_H_
 #define DATAMANAGER_H_
 
-#include "GameState.h"
 #include <string>
+
+#include "GameState.h"
 
 class DataManager {
  public:
   DataManager();
-  static bool saveGame(GameState* saveGame, std::string fileName);
+
+  /*
+   * Saves given gamestate into filename
+   */
+  static bool saveGame(GameState& saveGame, std::string fileName);
+
+  /*
+   * Loads given filename into the gameState object
+   */
   static GameState* loadGame(std::string fileName);
 };
 

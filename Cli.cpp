@@ -1,8 +1,6 @@
 // Copyright 2021
 #include "Cli.h"
 
-#include <vector>
-
 Cli::Cli() {
   gameEngine = new GameEngine(false);
   dataManager = new DataManager();
@@ -14,6 +12,8 @@ Cli::Cli() {
 Cli::Cli(bool randomSeed) {
   gameEngine = new GameEngine(randomSeed);
   dataManager = new DataManager();
+  gameState = nullptr;
+  currentPlayer = nullptr;
   playerNum = 0;
 }
 
@@ -147,8 +147,13 @@ bool Cli::loadGame() {
   std::cout << "Enter the filename from which load a game\n> ";
 
   std::cin >> fileName;
-  std::cout << fileName;
+
+  if (std::cin.eof()) {
+    exit = true;
+  }
+
   bool gameLoaded = false;
+
   while (!gameLoaded && !exit) {
     gameState = dataManager->loadGame(fileName);
     if (std::cin.eof()) {
@@ -383,7 +388,7 @@ bool Cli::parsePlayerInput(Player& player) {
         delete toDelete;
       }
       gameState = gameEngine->getGameState(playerNum);
-      if (dataManager->saveGame(gameState, input[1])) {
+      if (dataManager->saveGame(*gameState, input[1])) {
         std::cout << "\nGame successfully saved\n" << std::endl;
         status = true;
         saved = true;
