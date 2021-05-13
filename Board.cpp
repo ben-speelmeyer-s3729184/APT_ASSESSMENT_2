@@ -186,27 +186,24 @@ int Board::getCols() { return cols; }
 
 std::string Board::boardToString() {
   std::string boardState = "";
+  bool initialTileAdded = false;
   boardState.append(std::to_string(rows) + "," + std::to_string(cols));
   boardState.append("\n");
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       if (boardVecs[i][j] != nullptr) {
-        boardState.append(boardVecs[i][j]->toString());
-        boardState.append("@");
+        if (initialTileAdded) {
+          boardState.append(", " + boardVecs[i][j]->toString() + "@");
+        } else {
+          boardState.append(boardVecs[i][j]->toString() + "@");
+          initialTileAdded = true;
+        }
         boardState.push_back(intToAscii(i));
         std::string str = std::to_string(j);
         boardState.append(str);
-        boardState.append(", ");
       }
     }
   }
-  // if board has elements, removes the additional ', ' at the end of the
-  // string.
-  if (boardState[boardState.length() - 1] == ',') {
-    boardState.pop_back();
-    boardState.pop_back();
-  }
-
   boardState.append("\n");
   return boardState;
 }
