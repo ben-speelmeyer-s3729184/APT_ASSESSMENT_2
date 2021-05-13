@@ -1,6 +1,6 @@
-
-#ifndef ASSIGN1_TILECODES_H
-#define ASSIGN1_TILECODES_H
+// Copyright 2021
+#ifndef TILECODES_H_
+#define TILECODES_H_
 
 // Colours
 #define RED    'R'
@@ -18,4 +18,4 @@
 #define STAR_6    5
 #define CLOVER    6
 
-#endif // ASSIGN1_TILECODES_H
+#endif  // TILECODES_H_

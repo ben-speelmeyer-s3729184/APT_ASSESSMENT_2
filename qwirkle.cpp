@@ -1,3 +1,4 @@
+// Copyright 2021
 #include <iostream>
 
 #include "Cli.h"
@@ -54,12 +55,12 @@ void testGameEngine() {
       int row = 0;
       int col = 0;
       if (location.length() < 3) {
-        row = (int)location[0] % 32 - 1;
+        row = (int)location[0] % 32 - 1;  // Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
         col = location[1] - '0';
         std::cout << row << std::endl;
         std::cout << col << std::endl;
       } else {
-        row = (int)location[0] % 32 - 1;
+        row = (int)location[0] % 32 - 1;  // Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
         int colTens = (location[1] - '0') * 10;
         int colOnes = location[2] - '0';
         col = colTens + colOnes;
