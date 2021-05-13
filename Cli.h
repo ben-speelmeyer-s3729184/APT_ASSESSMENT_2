@@ -48,7 +48,7 @@ class Cli {
   /*
    * Loads a game from user specified file
    */
-  void loadGame();
+  bool loadGame();
 
   /*
    * Starts main gameplay loop

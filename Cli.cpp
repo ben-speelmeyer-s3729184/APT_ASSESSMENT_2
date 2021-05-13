@@ -2,7 +2,6 @@
 
 Cli::Cli() {
   gameEngine = new GameEngine(false);
-  gameState = new GameState();
   dataManager = new DataManager();
   currentPlayer = nullptr;
   playerNum = 0;
@@ -10,8 +9,6 @@ Cli::Cli() {
 
 Cli::Cli(bool randomSeed) {
   gameEngine = new GameEngine(randomSeed);
-  gameState = new GameState();
-  //    gameState = gameEngine->getGameState();
   dataManager = new DataManager();
   playerNum = 0;
 }
@@ -19,13 +16,9 @@ Cli::Cli(bool randomSeed) {
 Cli::~Cli() {
   delete gameEngine;
   delete dataManager;
-  delete gameState;
-  delete currentPlayer;
 
   gameEngine = nullptr;
   dataManager = nullptr;
-  gameState = nullptr;
-  currentPlayer = nullptr;
 }
 
 /*
@@ -49,13 +42,16 @@ bool Cli::nextInput() {
       inputCheck = false;
     }
   }
-
   // set exit flag for input 4
   if (input == QUIT || input == EOF) {
     exit = true;
   } else if (input == LOAD_GAME) {
     // get filename
-    loadGame();
+    exit = loadGame();
+    if (!exit) {
+      std::cout << "\nQwirkle game successfully loaded" << std::endl;
+      startGameplay();
+    }
   } else if (input == CREDITS) {
     printCredits();
   } else if (input == NEW_GAME) {
@@ -127,28 +123,37 @@ bool Cli::newGame() {
         nameCheck = checkName(player2Name);
       }
     }
+    if (!exitCheck) {
+      gameEngine->addPlayer(player1Name);
+      gameEngine->addPlayer(player2Name);
+    }
   }
   return exitCheck;
 }
 
-void Cli::loadGame() {
+bool Cli::loadGame() {
   std::string fileName = "";
 
   std::cout << "Enter the filename from which load a game\n> ";
 
   std::cin >> fileName;
   std::cout << fileName;
-  gameState = new GameState(*dataManager->loadGame(fileName));
-  while (gameState == nullptr) {
-    std::cout << "Invalid Input.\n> ";
-    std::cin >> fileName;
+  bool gameLoaded = false;
+  while (!gameLoaded || !exit) {
     gameState = dataManager->loadGame(fileName);
+    if (std::cin.eof()) {
+      exit = true;
+    } else if (gameState == nullptr) {
+      std::cout << "Invalid Input.\n> ";
+      std::cin >> fileName;
+    } else {
+      gameState = dataManager->loadGame(fileName);
+      gameLoaded = true;
+      delete gameState;
+    }
   }
-
   gameEngine->loadGameState(gameState);
-  std::cout << "\nQwirkle game successfully loaded" << std::endl;
-
-  startGameplay();
+  return gameLoaded;
 }
 
 bool Cli::nextRound() {
@@ -362,11 +367,12 @@ bool Cli::parsePlayerInput(Player& player) {
         status = true;
       }
     } else if (input[0] == "save") {
-      gameState = gameEngine->getGameState();
+      gameState = gameEngine->getGameState(playerNum);
       if (dataManager->saveGame(gameState, input[1])) {
         std::cout << "\nGame successfully saved\n" << std::endl;
         status = true;
         saved = true;
+        delete gameState;
       }
     }
   } else if (input.size() == 1) {
