@@ -386,7 +386,6 @@ bool Cli::parsePlayerInput(Player& player) {
         std::cout << "\nGame successfully saved\n" << std::endl;
         status = true;
         saved = true;
-        delete gameState;
       }
     }
   } else if (input.size() == 1) {
