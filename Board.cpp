@@ -107,7 +107,13 @@ Board::Board(Board& other) {
   //   }
   // }
   resizeBoard(other.rows, other.cols);
-  boardVecs = other.boardVecs;
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      if (other.boardVecs[i][j] != nullptr) {
+        boardVecs[i][j] = new Tile(*other.boardVecs[i][j]);
+      }
+    }
+  }
   rows = other.rows;
   cols = other.cols;
 }
