@@ -108,7 +108,6 @@ void GameEngine::loadGameState(GameState* loadedState) {
   LinkedList* tileBagToDelete = tileBag;
   tileBag = loadedState->getTileBag();
   delete tileBagToDelete;
-
 }
 
 // Places a tile, updates player score, tops up the players hand then checks
@@ -138,7 +137,7 @@ void GameEngine::topUpPlayerHand(Player* player) {
 
 std::string GameEngine::printBoard() { return board->printBoard(); }
 
-std::vector<int> GameEngine::getBoardSize() const {
+std::vector<int> GameEngine::getBoardSize() {
   int rows = 0, cols = 0;
   rows = board->getRows();
   cols = board->getCols();

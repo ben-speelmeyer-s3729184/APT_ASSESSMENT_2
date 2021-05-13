@@ -33,7 +33,7 @@ class GameEngine {
   // Board Details
   std::string printBoard();
 
-  std::vector<int> getBoardSize() const;
+  std::vector<int> getBoardSize();
 
  private:
   bool initialTilePlaced;

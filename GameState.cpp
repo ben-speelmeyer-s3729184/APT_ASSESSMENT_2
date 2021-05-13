@@ -8,24 +8,21 @@ GameState::GameState(){};
 // game.
 GameState::GameState(Player** players, LinkedList* tileBag, Board* board,
                      int noOfPlayers)
-    : tileBag(tileBag),
-      board(board),
-      noOfPlayers(noOfPlayers) {
-        // populate players
-      for (int i = 0; i < noOfPlayers; i++) {
-        this->players[i] = players[i];
-      }
+    : tileBag(tileBag), board(board), noOfPlayers(noOfPlayers) {
+  // populate players
+  for (int i = 0; i < noOfPlayers; i++) {
+    this->players[i] = players[i];
   }
+}
 
-GameState::GameState(const GameState& other) :
-  currentPlayer(other.currentPlayer) {
+GameState::GameState(const GameState& other)
+    : currentPlayer(other.currentPlayer) {
   for (int i = 0; i < other.noOfPlayers; i++) {
     this->players[i] = other.players[i];
   }
   this->tileBag = other.tileBag;
   this->board = other.board;
   this->noOfPlayers = other.noOfPlayers;
-
 }
 
 GameState::~GameState(){};

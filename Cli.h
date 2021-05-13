@@ -4,9 +4,9 @@
 #include <iostream>
 #include <string>
 
-#include "GameState.h"
-#include "GameEngine.h"
 #include "DataManager.h"
+#include "GameEngine.h"
+#include "GameState.h"
 
 Colour getColour(std::string tile);
 Shape getShape(std::string tile);
@@ -33,7 +33,7 @@ class Cli {
   /*
    * Initialises new game
    */
-  void newGame();
+  bool newGame();
 
   /*
    * Checks the input player name to make sure it complies with specifications.
@@ -46,58 +46,55 @@ class Cli {
   void printCredits();
 
   /*
-  * Loads a game from user specified file
-  */
+   * Loads a game from user specified file
+   */
   void loadGame();
 
   /*
-  * Starts main gameplay loop
-  */
+   * Starts main gameplay loop
+   */
   void startGameplay();
 
   /*
-  * Base gameplay functionality
-  */
+   * Base gameplay functionality
+   */
   bool nextRound();
 
   /*
-  * Prints required info for given player at start of round
-  */
+   * Prints required info for given player at start of round
+   */
   void printPlayerInfo();
 
   /*
-  * Takes user input and parses command
-  */
+   * Takes user input and parses command
+   */
   bool parsePlayerInput(Player& player);
 
-
   /*
-  * Checks tile given by player
-  */
+   * Checks tile given by player
+   */
   bool validateTile(std::string tile);
 
   /*
-  * Checks position given by player
-  */
+   * Checks position given by player
+   */
   bool validatePosition(std::string position);
 
-
  public:
-
   /*
-  * Default Cli Constructor
-  */
+   * Default Cli Constructor
+   */
   Cli();
 
   /*
-  * Seed Cli Constructor
-  */
+   * Seed Cli Constructor
+   */
   Cli(bool randomSeed);
 
   /*
-  * Destructor
-  */
- ~Cli();
+   * Destructor
+   */
+  ~Cli();
 
   /*
    * takes input from std::cin and processes game state
@@ -108,7 +105,6 @@ class Cli {
    * prints out main menu.
    */
   void printMenu() const;
-
 };
 
 #endif
