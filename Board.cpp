@@ -13,7 +13,7 @@ Board::Board() {
   cols = 0;
 }
 
-std::vector<std::string> delimStringToVector(std::string deets, std::string delim) {
+std::vector<std::string> delimStringToVector(std::string deets, std::string delim) {  // Lines should be <= 80 characters long  [whitespace/line_length] [2]
   std::vector<std::string> details;
   std::string temp = "";
   std::string indexVal = "";
@@ -199,7 +199,7 @@ std::string Board::boardToString() {
   return boardState;
 }
 
-int Board::asciiToInt(char letter) {
+int Board::asciiToInt(char letter) {  // Using deprecated casting style.  Use static_cast<int>(...) instead  [readability/casting] [4]
   int i = int(letter);
   i = i - 65;
   return i;
