@@ -156,6 +156,9 @@ bool Cli::loadGame() {
   }
 
   bool gameLoaded = false;
+
+  gameLoaded = dataManager->loadGame(*gameState, fileName);
+
   while (!gameLoaded && !exit) {
     // Tries to load a game. If file cannot be loaded, input is bad.
     gameState = dataManager->loadGame(fileName);
