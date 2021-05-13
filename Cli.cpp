@@ -156,6 +156,7 @@ bool Cli::loadGame() {
   }
   if (gameLoaded) {
     gameEngine->loadGameState(gameState);
+    playerNum = gameState->getCurrentPlayer();
   }
   return gameLoaded;
 }

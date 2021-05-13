@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+
 #include "Board.h"
 #include "LinkedList.h"
 #include "Player.h"
@@ -28,6 +29,7 @@ class GameState {
   Player** getPlayers();
   Board* getBoard();
   LinkedList* getTileBag();
+  int getCurrentPlayer();
   int getNoOfPlayers() { return noOfPlayers; }
   std::string toString();
 };
