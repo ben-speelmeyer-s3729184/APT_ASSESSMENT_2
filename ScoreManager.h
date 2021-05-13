@@ -1,5 +1,6 @@
-#ifndef ASSIGN2_UTILS_H
-#define ASSIGN2_UTILS_H
+// Copyright 2021
+#ifndef SCOREMANAGER_H_
+#define SCOREMANAGER_H_
 
 #define QWIRKLE 6
 #define MAX_TILES_LINE 6
@@ -18,4 +19,4 @@ class ScoreManager {
                          int colIncrement);
 };
 
-#endif  // ASSIGN2_UTILS_H
+#endif  // SCOREMANAGER_H_

@@ -1,13 +1,14 @@
+// Copyright 2021
 #include "TileFactory.h"
 
-#include <chrono>
+#include <chrono>  // <chrono> is an unapproved C++11 header.  [build/c++11] [5]
 #include <fstream>
 #include <iostream>
 #include <random>
 #include <sstream>
 #include <string>
 
-TileFactory::TileFactory(){};
+TileFactory::TileFactory() {}
 
 LinkedList* TileFactory::createTileBag(bool randomSeed) {
   LinkedList* tileBag = new LinkedList();

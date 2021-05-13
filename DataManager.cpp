@@ -1,3 +1,4 @@
+// Copyright 2021
 #include "DataManager.h"
 
 #include <fstream>
@@ -8,7 +9,7 @@
 #include "Player.h"
 #include "TileFactory.h"
 
-DataManager::DataManager(){};
+DataManager::DataManager() {}
 
 bool DataManager::saveGame(GameState* saveGame, std::string fileName) {
   bool status = false;

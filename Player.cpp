@@ -1,3 +1,4 @@
+// Copyright 2021
 #include "Player.h"
 
 #include <string>

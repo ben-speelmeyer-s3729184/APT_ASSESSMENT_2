@@ -1,5 +1,6 @@
-#ifndef ASSIGN2_GAME_ENGINE_H
-#define ASSIGN2_GAME_ENGINE_H
+// Copyright 2021
+#ifndef GAMEENGINE_H_
+#define GAMEENGINE_H_
 #define MAX_NUM_OF_PLAYERS 2
 
 #include "Board.h"
@@ -7,10 +8,12 @@
 #include "Player.h"
 #include "Tile.h"
 #include "TileFactory.h"
+#include <string>
+#include <vector>
 
 class GameEngine {
  public:
-  GameEngine(bool randomSeed);
+  GameEngine(bool randomSeed);  // Single-parameter constructors should be marked explicit.  [runtime/explicit] [5]
   ~GameEngine();
 
   // Game setup functions
@@ -52,4 +55,4 @@ class GameEngine {
   void fillTileBag(bool randomSeed);
 };
 
-#endif  // ASSIGN2_GAME_ENGINE_H
+#endif  // GAMEENGINE_H_

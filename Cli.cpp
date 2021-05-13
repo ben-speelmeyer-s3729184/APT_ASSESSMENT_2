@@ -1,4 +1,6 @@
+// Copyright 2021
 #include "Cli.h"
+#include <vector>
 
 Cli::Cli() {
   gameEngine = new GameEngine(false);
@@ -200,7 +202,7 @@ void Cli::printPlayerInfo() {
   std::cout << hand << std::endl;
 }
 
-void splitString(std::vector<std::string>& input, std::string words) {
+void splitString(std::vector<std::string>& input, std::string words) {  //  Is this a non-const reference? If so, make const or use a pointer: std::vector<std::string>& input  [runtime/references] [2]
   std::string buffer;
   std::string value;
   for (size_t i = 0; i < words.length(); i++) {
@@ -301,9 +303,9 @@ Shape getShape(std::string tile) {
 int parseRow(std::string pos) {
   char rowVal = pos[0];
   std::cout << "rowVal: " << rowVal << std::endl;
-  std::cout << "(int)rowVal: " << (int)rowVal << std::endl;
-  std::cout << pos << " row: " << (int)rowVal - 65 << std::endl;
-  return (int)rowVal - 65;
+  std::cout << "(int)rowVal: " << (int)rowVal << std::endl;  // Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+  std::cout << pos << " row: " << (int)rowVal - 65 << std::endl;  // Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+  return (int)rowVal - 65;  // Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
 }
 
 int parseCol(std::string pos) {

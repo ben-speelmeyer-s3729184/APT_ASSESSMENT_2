@@ -1,9 +1,10 @@
-#ifndef GAMESTATE_H
-#define GAMESTATE_H
+// Copyright 2021
+#ifndef GAMESTATE_H_
+#define GAMESTATE_H_
 #define MAX_NUM_OF_PLAYERS 2
 
 #include <iostream>
-
+#include <string>
 #include "Board.h"
 #include "LinkedList.h"
 #include "Player.h"
@@ -31,4 +32,4 @@ class GameState {
   std::string toString();
 };
 
-#endif
+#endif  // GAMESTATE_H_

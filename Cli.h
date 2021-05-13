@@ -1,5 +1,6 @@
-#ifndef CLI_H
-#define CLI_H
+// Copyright 2021
+#ifndef CLI_H_
+#define CLI_H_
 
 #include <iostream>
 #include <string>
@@ -68,7 +69,7 @@ class Cli {
   /*
    * Takes user input and parses command
    */
-  bool parsePlayerInput(Player& player);
+  bool parsePlayerInput(Player& player);  //  Is this a non-const reference? If so, make const or use a pointer: Player& player  [runtime/references] [2]
 
   /*
    * Checks tile given by player
@@ -89,7 +90,7 @@ class Cli {
   /*
    * Seed Cli Constructor
    */
-  Cli(bool randomSeed);
+  Cli(bool randomSeed);  // Single-parameter constructors should be marked explicit.  [runtime/explicit] [5]
 
   /*
    * Destructor
@@ -107,4 +108,4 @@ class Cli {
   void printMenu() const;
 };
 
-#endif
+#endif  // CLI_H_

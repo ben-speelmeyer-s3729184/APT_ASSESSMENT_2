@@ -1,5 +1,6 @@
-#ifndef ASSIGN_BOARD_H
-#define ASSIGN_BOARD_H
+// Copyright 2021
+#ifndef BOARD_H_
+#define BOARD_H_
 
 #include <string>
 #include <vector>
@@ -44,7 +45,7 @@ class Board {
   int getRows();
   int getCols();
 
-  const std::vector<std::vector<Tile*>>& getBoardVec() const { return boardVecs; }
+  const std::vector<std::vector<Tile*>>& getBoardVec() const { return boardVecs; }  //  Lines should be <= 80 characters long  [whitespace/line_length] [2]
 
  private:
   std::vector<std::vector<Tile*>> boardVecs;
@@ -61,4 +62,4 @@ class Board {
   int lineChecker(int row, int col, int rowAdjustment, int colAdjustment,
                   bool shapeMatch, bool colourMatch, Tile* tile);
 };
-#endif
+#endif  // BOARD_H_
