@@ -27,7 +27,7 @@ bool DataManager::saveGame(GameState* saveGame, std::string fileName) {
 }
 
 GameState* DataManager::loadGame(std::string fileName) {
-  std::ifstream loadFile(fileName);
+  std::ifstream loadFile("saveFiles/load1.txt");
 
   std::string name_player1;
   std::string score_player1;
@@ -35,9 +35,9 @@ GameState* DataManager::loadGame(std::string fileName) {
   std::string name_player2;
   std::string score_player2;
   std::string player2Hand;
-  std::string loadedTileBag;
   std::string boardSize;
   std::string boardDetails;
+  std::string loadedTileBag;
   std::string currPlayerName;
 
   std::getline(loadFile, name_player1);

@@ -47,8 +47,8 @@ bool Cli::nextInput() {
     exit = true;
   } else if (input == LOAD_GAME) {
     // get filename
-    exit = loadGame();
-    if (!exit) {
+    bool gameLoaded = loadGame();
+    if (gameLoaded) {
       std::cout << "\nQwirkle game successfully loaded" << std::endl;
       startGameplay();
     }
@@ -139,7 +139,7 @@ bool Cli::loadGame() {
   std::cin >> fileName;
   std::cout << fileName;
   bool gameLoaded = false;
-  while (!gameLoaded || !exit) {
+  while (!gameLoaded && !exit) {
     gameState = dataManager->loadGame(fileName);
     if (std::cin.eof()) {
       exit = true;
@@ -149,10 +149,11 @@ bool Cli::loadGame() {
     } else {
       gameState = dataManager->loadGame(fileName);
       gameLoaded = true;
-      delete gameState;
     }
   }
-  gameEngine->loadGameState(gameState);
+  if (gameLoaded) {
+    gameEngine->loadGameState(gameState);
+  }
   return gameLoaded;
 }
 
