@@ -15,11 +15,12 @@ class GameState {
   LinkedList* tileBag;
   Board* board;
   int noOfPlayers;
+  int currentPlayer;
 
  public:
   GameState();
   GameState(Player** players, LinkedList* tileBag, Board* board,
-            int noOfPlayers);
+            int noOfPlayers, int currentPlayer);
   GameState(const GameState& other);
   ~GameState();
 
@@ -28,7 +29,6 @@ class GameState {
   LinkedList* getTileBag();
   int getNoOfPlayers() { return noOfPlayers; }
   std::string toString();
-  int currentPlayer;
 };
 
 #endif

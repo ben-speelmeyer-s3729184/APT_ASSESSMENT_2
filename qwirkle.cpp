@@ -10,9 +10,7 @@
 void testGameEngine();
 int readShape(char shape);
 
-
 int main(void) {
-
   // create CLI object
   Cli console;
 
@@ -29,7 +27,7 @@ int main(void) {
 
   std::cout << "Goodbye" << std::endl;
 
-//  testGameEngine();
+  //  testGameEngine();
 
   return EXIT_SUCCESS;
 }
@@ -79,7 +77,7 @@ void testGameEngine() {
     }
   }
 
-  DataManager::saveGame(gameEngine->getGameState(), "saveFiles/save4.txt");
+  DataManager::saveGame(gameEngine->getGameState(0), "saveFiles/save4.txt");
   delete gameEngine;
 }
 

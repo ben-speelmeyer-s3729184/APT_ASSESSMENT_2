@@ -2,13 +2,14 @@
 
 #include "TileFactory.h"
 
-GameState::GameState(){};
-
 // Takes a player array, the tileBag, board and numberOfPlayers added to the
 // game.
 GameState::GameState(Player** players, LinkedList* tileBag, Board* board,
-                     int noOfPlayers)
-    : tileBag(tileBag), board(board), noOfPlayers(noOfPlayers) {
+                     int noOfPlayers, int currentPlayer)
+    : tileBag(tileBag),
+      board(board),
+      noOfPlayers(noOfPlayers),
+      currentPlayer(currentPlayer) {
   // populate players
   for (int i = 0; i < noOfPlayers; i++) {
     this->players[i] = players[i];

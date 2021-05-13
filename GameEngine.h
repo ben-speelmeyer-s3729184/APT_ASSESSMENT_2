@@ -15,7 +15,7 @@ class GameEngine {
 
   // Game setup functions
   bool addPlayer(std::string name);
-  GameState* getGameState();
+  GameState* getGameState(int currentPlayer);
   void loadGameState(GameState* loadedState);
 
   // Tile placement functions

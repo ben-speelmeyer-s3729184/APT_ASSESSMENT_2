@@ -15,7 +15,6 @@ GameEngine::GameEngine(bool randomSeed) {
 GameEngine::~GameEngine() {
   for (int i = 0; i < noOfPlayers; ++i) {
     delete players[i];
-    players[i] = nullptr;
   }
   delete[] players;
   delete tileBag;
@@ -91,8 +90,9 @@ Player* GameEngine::getPlayer(int playerNumber) {
 }
 
 // Need to update to return a deep copy.
-GameState* GameEngine::getGameState() {
-  GameState* gameState = new GameState(players, tileBag, board, noOfPlayers);
+GameState* GameEngine::getGameState(int currentPlayer) {
+  GameState* gameState =
+      new GameState(players, tileBag, board, noOfPlayers, currentPlayer);
   return gameState;
 }
 // Clears current game state and loads a previously saved game.

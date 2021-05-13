@@ -8,7 +8,7 @@
 #include "Player.h"
 #include "TileFactory.h"
 
-DataManager::DataManager() {};
+DataManager::DataManager(){};
 
 bool DataManager::saveGame(GameState* saveGame, std::string fileName) {
   bool status = false;
@@ -53,7 +53,6 @@ GameState* DataManager::loadGame(std::string fileName) {
 
   loadFile.close();
 
-
   TileFactory tileFactory;
   LinkedList* tileBag = tileFactory.createTileBag(loadedTileBag);
   int noOfPlayers = 0;
@@ -78,13 +77,15 @@ GameState* DataManager::loadGame(std::string fileName) {
   Board* board = new Board(boardDetails, boardSize);
 
   // // TODO: Sort out current player for load
-  // int currPlayerNumber = -1;
-  // // Put data into GameState
-  // if (players[0]->getPlayerName()==currPlayerName) {
-  //   currPlayerNumber = 0;
-  // } else {
-  //   currPlayerNumber = 1;
-  // }
-  GameState* loadedGame = new GameState(players, tileBag, board, noOfPlayers);
+  int currentPlayerNumber = -1;
+  // Put data into GameState
+  if (players[0]->getPlayerName() == currPlayerName) {
+    currentPlayerNumber = 0;
+  } else {
+    currentPlayerNumber = 1;
+  }
+
+  GameState* loadedGame =
+      new GameState(players, tileBag, board, noOfPlayers, currentPlayerNumber);
   return loadedGame;
 }
