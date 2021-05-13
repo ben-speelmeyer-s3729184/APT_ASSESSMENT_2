@@ -16,16 +16,7 @@ GameEngine::GameEngine(bool randomSeed) {
   players = new Player*[MAX_NUM_OF_PLAYERS];
 }
 
-GameEngine::~GameEngine() {
-  for (int i = 0; i < noOfPlayers; ++i) {
-    delete players[i];
-  }
-  delete[] players;
-  delete tileBag;
-  tileBag = nullptr;
-  delete board;
-  board = nullptr;
-}
+GameEngine::~GameEngine() { this->clear(); }
 
 // Initialise the board, players, tileBags, and fill hands and tileBag with
 // tiles.
@@ -148,4 +139,17 @@ std::vector<int> GameEngine::getBoardSize() {
   rows = board->getRows();
   cols = board->getCols();
   return std::vector<int>({rows, cols});
+}
+
+void GameEngine::clear() {
+  for (int i = 0; i < noOfPlayers; ++i) {
+    delete players[i];
+  }
+  delete[] players;
+  delete tileBag;
+  tileBag = nullptr;
+  delete board;
+  board = nullptr;
+  noOfPlayers = 0;
+  currPlayer = 0;
 }

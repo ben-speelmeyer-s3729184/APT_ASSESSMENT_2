@@ -3,17 +3,19 @@
 #define GAMEENGINE_H_
 #define MAX_NUM_OF_PLAYERS 2
 
+#include <string>
+#include <vector>
+
 #include "Board.h"
 #include "GameState.h"
 #include "Player.h"
 #include "Tile.h"
 #include "TileFactory.h"
-#include <string>
-#include <vector>
 
 class GameEngine {
  public:
-  GameEngine(bool randomSeed);  // Single-parameter constructors should be marked explicit.  [runtime/explicit] [5]
+  GameEngine(bool randomSeed);  // Single-parameter constructors should be
+                                // marked explicit.  [runtime/explicit] [5]
   ~GameEngine();
 
   // Game setup functions
@@ -45,7 +47,7 @@ class GameEngine {
   int currPlayer = 0;
   LinkedList* tileBag;
   Board* board;
-
+  void clear();
   void placeTile(Player* player, int row, int col, Tile* tile);
   void topUpPlayerHand(Player* player);
   void updateScore(Player* player, int col, int row);

@@ -13,7 +13,10 @@ Player::Player(Player& player) {
   this->playerScore = player.playerScore;
   this->playerHand = new LinkedList(*player.playerHand);
 }
-Player::~Player() { delete playerHand; }
+Player::~Player() {
+  delete playerHand;
+  delete playerName;
+}
 
 int Player::handSize() { return playerHand->size(); }
 bool Player::hasTile(Tile* tile) { return playerHand->contains(tile); }
