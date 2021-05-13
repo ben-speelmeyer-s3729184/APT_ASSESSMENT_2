@@ -1,5 +1,6 @@
-#ifndef ASSIGN_BOARD_H
-#define ASSIGN_BOARD_H
+// Copyright 2021
+#ifndef BOARD_H_
+#define BOARD_H_
 
 #include <string>
 #include <vector>
@@ -61,4 +62,4 @@ class Board {
   int lineChecker(int row, int col, int rowAdjustment, int colAdjustment,
                   bool shapeMatch, bool colourMatch, Tile* tile);
 };
-#endif
+#endif  // BOARD_H_

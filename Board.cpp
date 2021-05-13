@@ -1,3 +1,4 @@
+// Copyright 2021
 #include "Board.h"
 #include "Cli.h"
 
@@ -5,12 +6,12 @@
 #include <vector>
 #include <iostream>
 
-using namespace std;
+
 
 Board::Board() {
   rows = 0;
   cols = 0;
-};
+}
 
 std::vector<std::string> delimStringToVector(std::string deets, std::string delim) {
   std::vector<std::string> details;
@@ -19,16 +20,16 @@ std::vector<std::string> delimStringToVector(std::string deets, std::string deli
   for (size_t i = 0; i < deets.length(); i++) {
     indexVal = deets[i];
     // account for whitespace
-    if ((indexVal==" " || indexVal==delim) && temp.length()>0) {
+    if ((indexVal == " " || indexVal == delim) && temp.length() > 0) {
       details.push_back(temp);
       temp = "";
       // if end of string, do final append
     } else if (i == deets.length()-1) {
-      if (indexVal!=" " && indexVal!=delim) {
+      if (indexVal != " " && indexVal != delim) {
         temp.append(indexVal);
       }
       details.push_back(temp);
-    } else if (indexVal!=" " && indexVal!=delim) {
+    } else if (indexVal != " " && indexVal != delim) {
       temp.append(indexVal);
     }
   }
@@ -79,7 +80,6 @@ void Board::loadTilePlacement(std::string info) {
   // get position
 
   this->addTile(tileToPlace, row, col);
-
 }
 
 Board::Board(std::string boardDetails, std::string boardDimensions) {
@@ -97,11 +97,9 @@ Board::Board(std::string boardDetails, std::string boardDimensions) {
   for (std::string cell : boardVec) {
     loadTilePlacement(cell);
   }
-
 }
 
 Board::Board(const Board& other) {
-
   // for (auto tilevec : other.boardVecs) {
   //   boardVecs.push_back()
   //   for (auto tile : tilevec) {
@@ -137,7 +135,7 @@ bool Board::addTile(Tile* tile, int row, int col) {
 
 std::string Board::printBoard() {
   std::string boardAppearance;
-  string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  std::string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   int alphaCount = 0;
   boardAppearance.append(EMPTY_SPACE " ");
   boardAppearance.append(
@@ -179,7 +177,7 @@ Tile* Board::getTile(int row, int col) { return boardVecs[row][col]; }
 int Board::getRows() { return rows; }
 int Board::getCols() { return cols; }
 
-string Board::boardToString() {
+std::string Board::boardToString() {
   std::string boardState = "";
   boardState.append(std::to_string(rows) + "," + std::to_string(cols));
   boardState.append("\n");
@@ -189,7 +187,7 @@ string Board::boardToString() {
         boardState.append(boardVecs[i][j]->toString());
         boardState.append("@");
         boardState.push_back(intToAscii(i));
-        string str = to_string(j);
+        std::string str = std::to_string(j);
         boardState.append(str);
         boardState.append(", ");
       }
