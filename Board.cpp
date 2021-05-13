@@ -200,8 +200,13 @@ std::string Board::boardToString() {
       }
     }
   }
-  boardState.pop_back();
-  boardState.pop_back();
+  // if board has elements, removes the additional ', ' at the end of the
+  // string.
+  if (boardState[boardState.length() - 1] == ',') {
+    boardState.pop_back();
+    boardState.pop_back();
+  }
+
   boardState.append("\n");
   return boardState;
 }

@@ -101,6 +101,9 @@ void GameEngine::loadGameState(GameState* loadedState) {
   board = new Board(*loadedState->getBoard());
   tileBag = new LinkedList(*loadedState->getTileBag());
   currPlayer = loadedState->getCurrentPlayer();
+  if (board->boardToString() != "") {
+    initialTilePlaced = true;
+  }
 }
 
 // Places a tile, updates player score, tops up the players hand then checks
