@@ -1,7 +1,9 @@
 // Copyright 2021
 #include "GameEngine.h"
+
 #include <string>
 #include <vector>
+
 #include "ScoreManager.h"
 
 GameEngine::GameEngine(bool randomSeed) {

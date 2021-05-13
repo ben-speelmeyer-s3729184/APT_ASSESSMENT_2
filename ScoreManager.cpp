@@ -35,7 +35,7 @@ int ScoreManager::calculateLineScore(Board* board, int row, int rowIncrement,
   currentCol = col + colIncrement;
   adjacentTile = true;
   while (adjacentTile) {
-    if (currentRow > board->getRows() || currentCol > board->getCols()) {
+    if (currentRow >= board->getRows() || currentCol >= board->getCols()) {
       adjacentTile = false;
     } else if (board->getTile(currentRow, currentCol) != nullptr) {
       currentRow += rowIncrement;
