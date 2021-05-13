@@ -6,6 +6,7 @@
 Cli::Cli() {
   gameEngine = new GameEngine(false);
   dataManager = new DataManager();
+  gameState = nullptr;
   currentPlayer = nullptr;
   playerNum = 0;
 }
@@ -19,7 +20,7 @@ Cli::Cli(bool randomSeed) {
 Cli::~Cli() {
   delete gameEngine;
   delete dataManager;
-
+  delete gameState;
   gameEngine = nullptr;
   dataManager = nullptr;
 }
@@ -133,10 +134,16 @@ bool Cli::newGame() {
   }
   return exitCheck;
 }
-
+/**
+ *loadGame - Loads a game
+ */
 bool Cli::loadGame() {
   std::string fileName = "";
-
+  if (gameState != nullptr) {
+    GameState* toDelete = gameState;
+    gameState = nullptr;
+    delete toDelete;
+  }
   std::cout << "Enter the filename from which load a game\n> ";
 
   std::cin >> fileName;
@@ -150,7 +157,6 @@ bool Cli::loadGame() {
       std::cout << "Invalid Input.\n> ";
       std::cin >> fileName;
     } else {
-      gameState = dataManager->loadGame(fileName);
       gameLoaded = true;
     }
   }

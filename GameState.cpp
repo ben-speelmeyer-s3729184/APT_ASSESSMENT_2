@@ -29,7 +29,14 @@ GameState::GameState(const GameState& other)
   this->noOfPlayers = other.noOfPlayers;
 }
 
-GameState::~GameState() {}
+GameState::~GameState() {
+  for (int i = 0; i < noOfPlayers; ++i) {
+    delete players[i];
+  }
+  delete tileBag;
+  delete board;
+}
+
 int GameState::getCurrentPlayer() { return currentPlayer; }
 Player** GameState::getPlayers() { return players; }
 Board* GameState::getBoard() { return board; }

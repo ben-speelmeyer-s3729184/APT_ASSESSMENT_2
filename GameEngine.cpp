@@ -92,19 +92,15 @@ GameState* GameEngine::getGameState(int currentPlayer) {
 }
 // Clears current game state and loads a previously saved game.
 void GameEngine::loadGameState(GameState* loadedState) {
-  for (int i = 0; i < noOfPlayers; ++i) {
-    delete players[i];
-  }
-  Player** playersToDelete = players;
-  players = loadedState->getPlayers();
-  delete[] playersToDelete;
+  clear();
   noOfPlayers = loadedState->getNoOfPlayers();
-  Board* boardToDelete = board;
-  board = loadedState->getBoard();
-  delete boardToDelete;
-  LinkedList* tileBagToDelete = tileBag;
-  tileBag = loadedState->getTileBag();
-  delete tileBagToDelete;
+  players = new Player*[noOfPlayers];
+  for (int i = 0; i < noOfPlayers; ++i) {
+    players[i] = new Player(*loadedState->getPlayers()[i]);
+  }
+  board = new Board(*loadedState->getBoard());
+  tileBag = new LinkedList(*loadedState->getTileBag());
+  currPlayer = loadedState->getCurrentPlayer();
 }
 
 // Places a tile, updates player score, tops up the players hand then checks

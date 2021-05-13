@@ -83,6 +83,8 @@ GameState* DataManager::loadGame(std::string fileName) {
   }
   ++noOfPlayers;
 
+  delete hand1;
+  delete hand2;
   // Recreate Board
   Board* board = new Board(boardDetails, boardSize);
 

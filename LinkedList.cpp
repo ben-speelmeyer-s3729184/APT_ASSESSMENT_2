@@ -10,7 +10,11 @@ LinkedList::LinkedList() {
 LinkedList::~LinkedList() { clear(); }
 LinkedList::LinkedList(LinkedList& list) {
   this->head = new Node(*list.head);
-  this->tail = new Node(*list.tail);
+  Node* currentNode = head;
+  while (currentNode->next != nullptr) {
+    currentNode = currentNode->next;
+  }
+  this->tail = currentNode;
 }
 
 Tile* LinkedList::getTile(Tile* tile) {
