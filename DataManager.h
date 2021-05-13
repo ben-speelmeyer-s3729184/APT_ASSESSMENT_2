@@ -13,7 +13,7 @@ class DataManager {
   /*
    * Saves given gamestate into filename
    */
-  static bool saveGame(GameState& saveGame, std::string fileName);
+  static bool saveGame(GameState* saveGame, std::string fileName);
 
   /*
    * Loads given filename into the gameState object

@@ -11,7 +11,7 @@
 std::string removeCarriageReturn(std::string fix);
 DataManager::DataManager() {}
 
-bool DataManager::saveGame(GameState& saveGame, std::string fileName) {
+bool DataManager::saveGame(GameState* saveGame, std::string fileName) {
   bool status = false;
   // Create and open a text file
   std::ofstream saveFile(fileName);
@@ -19,7 +19,7 @@ bool DataManager::saveGame(GameState& saveGame, std::string fileName) {
   // check status of stream
   if (saveFile) {
     // Write to the file
-    saveFile << saveGame.toString();
+    saveFile << saveGame->toString();
     // Close File
     saveFile.close();
     status = true;

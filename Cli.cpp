@@ -157,8 +157,6 @@ bool Cli::loadGame() {
 
   bool gameLoaded = false;
 
-  gameLoaded = dataManager->loadGame(*gameState, fileName);
-
   while (!gameLoaded && !exit) {
     // Tries to load a game. If file cannot be loaded, input is bad.
     gameState = dataManager->loadGame(fileName);
@@ -393,7 +391,7 @@ bool Cli::parsePlayerInput(Player& player) {
         delete toDelete;
       }
       gameState = gameEngine->getGameState(playerNum);
-      if (dataManager->saveGame(*gameState, input[1])) {
+      if (dataManager->saveGame(gameState, input[1])) {
         std::cout << "\nGame successfully saved\n" << std::endl;
         status = true;
         saved = true;
