@@ -409,7 +409,7 @@ bool Cli::parsePlayerInput(Player& player) {
     status = true;
   }
 
-  if (!saved) {
+  if (!saved && status) {
     // change current player
     if (playerNum > 0) {
       playerNum = 0;
