@@ -1,4 +1,4 @@
-
+// Copyright 2021
 #include "Tile.h"
 
 #include <string>
@@ -6,7 +6,7 @@
 Tile::Tile(Colour colour, Shape shape) {
   this->colour = colour;
   this->shape = shape;
-};
+}
 
 Tile::Tile(Tile& tile) {
   this->colour = tile.colour;

@@ -1,6 +1,7 @@
+// Copyright 2021
 #include "ScoreManager.h"
 
-ScoreManager::ScoreManager(){};
+ScoreManager::ScoreManager() {}
 
 void ScoreManager::updateScores(Player* player, Board* board, int row, int col,
                                 bool initialTilePlaced) {

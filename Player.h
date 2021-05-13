@@ -1,3 +1,4 @@
+// Copyright 2021
 /**
  * 
  * Player needs to be able to play a tile
@@ -15,15 +16,16 @@
  * PlayerDetails - Returns player details
  */
 
-#ifndef ASSIGN1_PLAYER_H
-#define ASSIGN1_PLAYER_H
+#ifndef PLAYER_H_
+#define PLAYER_H_
 
 #define HANDSIZE 6
 #include "LinkedList.h"
+#include <string>
 
 class Player {
-   public:
-    Player(std::string playerName);
+ public:
+    Player(std::string playerName);  // Single-parameter constructors should be marked explicit.  [runtime/explicit] [5]
     ~Player();
 
     int handSize();
@@ -36,11 +38,11 @@ class Player {
     int getPlayerScore();
     void addScore(int scoreModifier);
 
-   private:
+ private:
     std::string playerName;
     int playerScore;
-    //Hand* playerHand;
+    // Hand* playerHand;
     LinkedList* playerHand;
 };
 
-#endif  // ASSIGN1_PLAYER_H
+#endif  // PLAYER_H_
