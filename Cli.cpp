@@ -1,3 +1,4 @@
+// Copyright 2021
 #include "Cli.h"
 
 
@@ -8,26 +9,25 @@
 * if input is 'quit' (4), then exit is set to true.
 */
 bool Cli::nextInput() {
-
     // initialise input to unaccepted argument
     std::cout << "> ";
     int input = -1;
     std::cin >> input;
-    while(input <= 0 || input > 4) {
+    while ( input <= 0 || input > 4 ) {
         std::cout << "\nInvalid input! \nPlease give an answer in the range 1-4:\n" << std::endl;
         std::cout << "> ";
         std::cin >> input;
     }
 
     // set exit flag for input 4
-    if (input==QUIT) {
+    if (input == QUIT) {
         exit = true;
-    } else if (input==LOAD_GAME) {
+    } else if (input == LOAD_GAME) {
         // get filename
         // game.load()
-    } else if (input==CREDITS) {
+    } else if (input == CREDITS) {
         printCredits();
-    } else if (input==NEW_GAME) {
+    } else if (input == NEW_GAME) {
         newGame();
     }
     return exit;
@@ -35,7 +35,6 @@ bool Cli::nextInput() {
 
 
 void Cli::printMenu() const {
-
     std::cout << "Menu\n";
     std::cout << "----\n";
     std::cout << "1. New Game\n";
@@ -76,7 +75,7 @@ bool Cli::checkName(const std::string& name) const {
     // if stringStatus is true, then name is ok
     bool stringStatus = true;
     // avoid zero-length strings
-    if (name.length()==0) {
+    if (name.length() == 0) {
         stringStatus = false;
     }
     // Make sure all values are upper case (ASCII 65-90)

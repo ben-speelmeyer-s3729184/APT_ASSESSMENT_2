@@ -1,6 +1,6 @@
-
-#ifndef ASSIGN2_LINKEDLIST_H
-#define ASSIGN2_LINKEDLIST_H
+// Copyright 2021
+#ifndef LINKEDLIST_H_
+#define LINKEDLIST_H_
 
 #include <string>
 
@@ -8,7 +8,7 @@
 #include "Tile.h"
 
 class LinkedList {
-   public:
+ public:
     LinkedList();
     ~LinkedList();
 
@@ -33,7 +33,7 @@ class LinkedList {
     // String representation of the linkedList
     std::string toString();
 
-   private:
+ private:
     Node* head;
     Node* tail;
     int count;
@@ -41,4 +41,5 @@ class LinkedList {
     void clear();
 };
 
-#endif  // ASSIGN2_LINKEDLIST_H
+#endif  // LINKEDLIST_H_
+

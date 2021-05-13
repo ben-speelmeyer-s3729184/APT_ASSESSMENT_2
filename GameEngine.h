@@ -1,11 +1,13 @@
-#ifndef ASSIGN2_GAME_ENGINE_H
-#define ASSIGN2_GAME_ENGINE_H
+// Copyright 2021
+#ifndef GAMEENGINE_H_
+#define GAMEENGINE_H_
 
 #include "Board.h"
 #include "GameState.h"
 #include "Player.h"
 #include "Tile.h"
 #include "TileFactory.h"
+#include <string>
 /**
  * Contain players, board and tileBag
  * additional variables: playerTurn?
@@ -16,8 +18,8 @@
  */
 
 class GameEngine {
-   public:
-    GameEngine(bool randomSeed);
+ public:
+    explicit GameEngine(bool randomSeed);
     ~GameEngine();
 
     // Initialise the board, players, tileBags, and fill hands and tileBag with
@@ -33,7 +35,7 @@ class GameEngine {
     GameState* retrieveGameState();
     std::string toString();
 
-   private:
+ private:
     Player* player1;
     Player* player2;
     int noOfPlayers;
@@ -48,4 +50,4 @@ class GameEngine {
     void fillTileBag(bool randomSeed);
 };
 
-#endif  // ASSIGN2_GAME_ENGINE_H
+#endif  // GAMEENGINE_H_

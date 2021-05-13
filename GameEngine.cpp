@@ -1,4 +1,6 @@
+// Copyright 2021
 #include "GameEngine.h"
+#include <string>
 
 GameEngine::GameEngine(bool randomSeed) {
     noOfPlayers = 0;
@@ -104,8 +106,8 @@ bool GameEngine::checkLeftRightTiles(int row, int col, Tile* tile) {
     Tile* leftTile = board->getTile(row, col - 1);
     Tile* rightTile = board->getTile(row, col + 1);
 
-    //check whether tile to be added can be placed between
-    //the positions to the left and right.
+    // check whether tile to be added can be placed between
+    // the positions to the left and right.
     if (leftTile == nullptr && rightTile == nullptr) {
         validMove = true;
     } else if (leftTile == nullptr) {
@@ -122,13 +124,13 @@ bool GameEngine::checkLeftRightTiles(int row, int col, Tile* tile) {
             validMove = true;
         }
     }
-    //If a tile can be placed next to the adjacent left and right tiles, checks if placing this tile will
-    //create a line greater than 6 tiles in this position. If no, then a valid move is confirmed.
+    // If a tile can be placed next to the adjacent left and right tiles, checks if placing this tile will
+    // create a line greater than 6 tiles in this position. If no, then a valid move is confirmed.
     if (validMove) {
         int adjacentTiles = 0;
         bool adjacentTile = true;
         int currentCol = col - 1;
-        //Checks to left of chosen position first.
+        // Checks to left of chosen position first.
         while (adjacentTile) {
             if (board->getTile(row, currentCol) != nullptr) {
                 --currentCol;
@@ -137,7 +139,7 @@ bool GameEngine::checkLeftRightTiles(int row, int col, Tile* tile) {
                 adjacentTile = false;
             }
         }
-        //Checks right of chosen position.
+        // Checks right of chosen position.
         currentCol = col + 1;
         adjacentTile = true;
         while (adjacentTile) {
@@ -148,8 +150,8 @@ bool GameEngine::checkLeftRightTiles(int row, int col, Tile* tile) {
                 adjacentTile = false;
             }
         }
-        //Final check. If number of adjacent tiles in this column is more than 5
-        //then tile cannot be placed.
+        // Final check. If number of adjacent tiles in this column is more than 5
+        // then tile cannot be placed.
         if (adjacentTiles > 5) {
             validMove = false;
         }
@@ -161,8 +163,8 @@ bool GameEngine::checkUpDownTiles(int row, int col, Tile* tile) {
     bool validMove = false;
     Tile* upTile = board->getTile(row - 1, col);
     Tile* downTile = board->getTile(row + 1, col);
-    //check whether tile to be added can be placed between
-    //the positions above and below chosen position.
+    // check whether tile to be added can be placed between
+    // the positions above and below chosen position.
     if (upTile == nullptr && downTile == nullptr) {
         validMove = true;
     } else if (upTile == nullptr) {
@@ -179,13 +181,13 @@ bool GameEngine::checkUpDownTiles(int row, int col, Tile* tile) {
             validMove = true;
         }
     }
-    //If a tile can be placed next to any adjacent tiles, checks if placing this tile will
-    //create a line greater than 6 tiles in this position. If no, then a valid move is confirmed.
+    // If a tile can be placed next to any adjacent tiles, checks if placing this tile will
+    // create a line greater than 6 tiles in this position. If no, then a valid move is confirmed.
     if (validMove) {
         int adjacentTiles = 0;
         bool adjacentTile = true;
 
-        //Checks rows above current position first.
+        // Checks rows above current position first.
         int currentRow = row - 1;
         while (adjacentTile) {
             if (board->getTile(currentRow, col) != nullptr) {
@@ -195,7 +197,7 @@ bool GameEngine::checkUpDownTiles(int row, int col, Tile* tile) {
                 adjacentTile = false;
             }
         }
-        //Checks rows below current position.
+        // Checks rows below current position.
         currentRow = col + 1;
         adjacentTile = true;
         while (adjacentTile) {
@@ -206,8 +208,8 @@ bool GameEngine::checkUpDownTiles(int row, int col, Tile* tile) {
                 adjacentTile = false;
             }
         }
-        //Final check. If number of adjacent tiles in this column is more than 5
-        //then tile cannot be placed.
+        // Final check. If number of adjacent tiles in this column is more than 5
+        // then tile cannot be placed.
         if (adjacentTiles > 5) {
             validMove = false;
         }

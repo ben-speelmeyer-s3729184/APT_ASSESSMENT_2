@@ -1,4 +1,4 @@
-
+// Copyright 2021
 #include "Node.h"
 
 Node::Node(Tile* tile, Node* next) {

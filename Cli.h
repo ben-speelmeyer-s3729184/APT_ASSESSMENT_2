@@ -1,5 +1,6 @@
-#ifndef CLI_H
-#define CLI_H
+//  Copyright 2021
+#ifndef CLI_H_
+#define CLI_H_
 
 #include <string>
 #include <iostream>
@@ -10,14 +11,14 @@
 * user input and displaying menu.
 */
 class Cli {
-private:
+ private:
     // status flag for input
     bool exit = false;
     GameState game;
 
     // enum for main menu options, we start at one and the
     // compiler will increment for us
-    enum { NEW_GAME=1, LOAD_GAME, CREDITS, QUIT };
+    enum { NEW_GAME = 1, LOAD_GAME, CREDITS, QUIT };
 
     /*
     * Initialises new game
@@ -32,10 +33,9 @@ private:
     /*
     * Print credits with all group member information.
     */
-   void printCredits();
+    void printCredits();
 
-public:
-
+ public:
     /*
     * takes input from std::cin and processes game state
     */
@@ -48,4 +48,4 @@ public:
 };
 
 
-#endif
+#endif  // CLI_H_

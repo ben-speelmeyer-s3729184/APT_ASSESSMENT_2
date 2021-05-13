@@ -1,13 +1,13 @@
-
-#ifndef ASSIGN2_NODE_H
-#define ASSIGN2_NODE_H
+// Copyright 2021
+#ifndef NODE_H_
+#define NODE_H_
 
 #include "Tile.h"
 
 class Node {
-   public:
+ public:
     Node(Tile* tile, Node* next);
-    Node(Node& other);
+    Node(Node& other);  //  Is this a non-const reference? If so, make const or use a pointer: Node& other  [runtime/references] [2]
     ~Node();
 
     Tile* tile;
@@ -15,7 +15,7 @@ class Node {
 
     bool containsTile(Tile* tile);
 
-   private:
+ private:
 };
 
-#endif  // ASSIGN2_NODE_H
+#endif  // NODE_H_

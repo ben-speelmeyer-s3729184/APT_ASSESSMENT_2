@@ -1,4 +1,4 @@
-
+// Copyright 2021
 #include "LinkedList.h"
 
 #include <iostream>

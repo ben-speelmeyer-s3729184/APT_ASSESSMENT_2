@@ -1,6 +1,8 @@
+// Copyright 2021
 #include "TileFactory.h"
 
-#include <chrono>
+#include <chrono>  // <chrono> is an unapproved C++11 header.  [build/c++11] [5]
+
 #include <fstream>
 #include <iostream>
 #include <random>
@@ -17,7 +19,7 @@ LinkedList* TileFactory::createTileBag(bool randomSeed) {
     std::uniform_int_distribution<int> uniform_dist(0, MAX_TILE_BAG_SIZE - 1);
     std::default_random_engine randomNum;
 
-    //creates the random number generator with either a set seed or random seed.
+    // creates the random number generator with either a set seed or random seed.
     if (randomSeed) {
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
         std::default_random_engine randomNum(seed);

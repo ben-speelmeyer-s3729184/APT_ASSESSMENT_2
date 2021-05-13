@@ -1,5 +1,6 @@
-#ifndef ASSIGN2_TILE_FACTORY_H
-#define ASSIGN2_TILE_FACTORY_H
+// Copyright 2021
+#ifndef TILEFACTORY_H_
+#define TILEFACTORY_H_
 
 #define MAX_TILE_BAG_SIZE 72
 #define TILE_ATTRIBUTES 2
@@ -9,17 +10,18 @@
 typedef char TilesImport[MAX_TILE_BAG_SIZE][TILE_ATTRIBUTES];
 
 #include "LinkedList.h"
+#include <string>
 
 class TileFactory {
-   public:
+ public:
     TileFactory();
     LinkedList* createTileBag(bool randomSeed);
     LinkedList* createTileBag(std::string loadedTileBag);
     LinkedList* createHand(std::string hand);
 
-   private:
+ private:
     void importTileList(TilesImport tiles);
     int readShape(char shape);
 };
 
-#endif  //ASSIGN2_TILE_FACTORY_H
+#endif  // TILEFACTORY_H_

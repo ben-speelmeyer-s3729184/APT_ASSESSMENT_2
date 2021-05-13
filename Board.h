@@ -1,5 +1,7 @@
-#ifndef ASSIGN_BOARD_H
-#define ASSIGN_BOARD_H
+// Copyright 2021
+
+#ifndef BOARD_H_
+#define BOARD_H_
 
 #include <vector>
 
@@ -11,7 +13,7 @@
 typedef std::vector<std::vector<Tile>> twoDVector;
 
 class Board {
-   public:
+ public:
     Board();
 
     ~Board();
@@ -24,8 +26,8 @@ class Board {
 
     Tile* getTile(int row, int col);
 
-   private:
+ private:
     std::vector<std::vector<Tile*>> vecOfTiles;
 };
 
-#endif
+#endif  // BOARD_H_
