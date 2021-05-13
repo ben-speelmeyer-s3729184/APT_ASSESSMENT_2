@@ -314,13 +314,6 @@ Shape getShape(std::string tile) {
 
 int parseRow(std::string pos) {
   char rowVal = pos[0];
-  std::cout << "rowVal: " << rowVal << std::endl;
-  std::cout << "(int)rowVal: " << (int)rowVal
-            << std::endl;  // Using C-style cast.  Use static_cast<int>(...)
-                           // instead  [readability/casting] [4]
-  std::cout << pos << " row: " << (int)rowVal - 65
-            << std::endl;   // Using C-style cast.  Use static_cast<int>(...)
-                            // instead  [readability/casting] [4]
   return (int)rowVal - 65;  // Using C-style cast.  Use static_cast<int>(...)
                             // instead  [readability/casting] [4]
 }
@@ -349,7 +342,7 @@ bool Cli::parsePlayerInput(Player& player) {
   // acceptable command is given
   bool status = false;
   bool saved = false;
-
+  bool gameFinished = false;
   // Possible commands in gameplay:
   // place XY at XY
   // replace XY
@@ -365,16 +358,13 @@ bool Cli::parsePlayerInput(Player& player) {
         int row = parseRow(input[3]);
         int col = parseCol(input[3]);
 
-        bool gameFinished;
-
         bool validMove =
             gameEngine->checkTilePlacement(&player, row, col, &tileToPlace);
         if (validMove) {
           gameFinished = gameEngine->endOfRoundCalculations(&player, row, col,
                                                             &tileToPlace);
-          std::cout << gameFinished << std::endl;
+          status = true;
         }
-        status = true;
       }
     }
   } else if (input.size() == 2) {
@@ -408,7 +398,29 @@ bool Cli::parsePlayerInput(Player& player) {
     exit = true;
     status = true;
   }
-
+  if (gameFinished) {
+    std::cout << "Game over" << std::endl;
+    int scores[gameEngine->getNoOfPlayers()];
+    for (int i = 0; i < gameEngine->getNoOfPlayers(); i++) {
+      Player player = *gameEngine->getPlayer(i);
+      scores[i] = gameEngine->getPlayer(i)->getPlayerScore();
+      std::cout << "Score for " << player.getPlayerName() << ": "
+                << player.getPlayerScore() << std::endl;
+    }
+    int highestScore = 0;
+    int playerNumber = 0;
+    for (int i = 0; i < gameEngine->getNoOfPlayers(); ++i) {
+      if (scores[i] > highestScore) {
+        highestScore = scores[i];
+        playerNumber = i;
+      }
+    }
+    std::cout << "Player "
+              << gameEngine->getPlayer(playerNumber)->getPlayerName() << " won!"
+              << std::endl;
+    std::cout << std::endl;
+    exit = true;
+  }
   if (!saved && status) {
     // change current player
     if (playerNum > 0) {

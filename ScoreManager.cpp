@@ -1,6 +1,7 @@
 // Copyright 2021
 #include "ScoreManager.h"
 
+#include <iostream>
 ScoreManager::ScoreManager() {}
 
 void ScoreManager::updateScores(Player* player, Board* board, int row, int col,
@@ -49,6 +50,9 @@ int ScoreManager::calculateLineScore(Board* board, int row, int rowIncrement,
     score += otherTilesInLine + 1;
   }
   if (otherTilesInLine + 1 == MAX_TILES_LINE) {
+    std::cout << std::endl;
+    std::cout << "QWIRKLE!!!" << std::endl;
+    std::cout << std::endl;
     score += QWIRKLE;
   }
   return score;
