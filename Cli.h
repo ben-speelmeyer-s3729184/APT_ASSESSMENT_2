@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "DataManager.h"
 #include "GameEngine.h"

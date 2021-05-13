@@ -1,11 +1,10 @@
 // Copyright 2021
 #include "Cli.h"
 
-#include <vector>
-
 Cli::Cli() {
   gameEngine = new GameEngine(false);
   dataManager = new DataManager();
+  gameState = static_cast<GameState*>(::operator new(sizeof(GameState)));
   currentPlayer = nullptr;
   playerNum = 0;
 }
@@ -13,6 +12,8 @@ Cli::Cli() {
 Cli::Cli(bool randomSeed) {
   gameEngine = new GameEngine(randomSeed);
   dataManager = new DataManager();
+  gameState = nullptr;
+  currentPlayer = nullptr;
   playerNum = 0;
 }
 
@@ -140,19 +141,19 @@ bool Cli::loadGame() {
   std::cout << "Enter the filename from which load a game\n> ";
 
   std::cin >> fileName;
-  std::cout << fileName;
-  bool gameLoaded = false;
-  while (!gameLoaded && !exit) {
-    gameState = dataManager->loadGame(fileName);
-    if (std::cin.eof()) {
+
+  if (std::cin.eof()) {
       exit = true;
-    } else if (gameState == nullptr) {
-      std::cout << "Invalid Input.\n> ";
-      std::cin >> fileName;
-    } else {
-      gameState = dataManager->loadGame(fileName);
-      gameLoaded = true;
-    }
+  }
+
+  bool gameLoaded = false;
+
+  gameLoaded = dataManager->loadGame(*gameState, fileName);
+
+  while (!gameLoaded && !exit) {
+    std::cout << "Invalid Input.\n> ";
+    std::cin >> fileName;
+    gameLoaded = dataManager->loadGame(*gameState, fileName);
   }
   if (gameLoaded) {
     gameEngine->loadGameState(gameState);
@@ -382,7 +383,7 @@ bool Cli::parsePlayerInput(Player& player) {
       }
     } else if (input[0] == "save") {
       gameState = gameEngine->getGameState(playerNum);
-      if (dataManager->saveGame(gameState, input[1])) {
+      if (dataManager->saveGame(*gameState, input[1])) {
         std::cout << "\nGame successfully saved\n" << std::endl;
         status = true;
         saved = true;

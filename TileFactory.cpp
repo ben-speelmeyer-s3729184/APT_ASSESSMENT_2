@@ -10,6 +10,10 @@
 
 TileFactory::TileFactory() {}
 
+TileFactory::~TileFactory() {
+  
+}
+
 LinkedList* TileFactory::createTileBag(bool randomSeed) {
   LinkedList* tileBag = new LinkedList();
   int tileCount = 0;
