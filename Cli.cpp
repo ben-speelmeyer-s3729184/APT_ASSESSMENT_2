@@ -87,7 +87,6 @@ void Cli::startGameplay() {
   std::cin.ignore(1000, '\n');
 
   while (nextRound()) {
-    std::cout << "> ";
   }
 }
 
