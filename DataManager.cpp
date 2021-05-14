@@ -122,6 +122,11 @@ GameState* DataManager::loadGame(std::string fileName) {
 
     gameState = new GameState(players, tileBag, board, noOfPlayers,
                               currentPlayerNumber);
+    delete tileBag;
+    for (int i = 0; i < noOfPlayers; ++i) {
+      delete players[i];
+    }
+    delete board;
   }
 
   return gameState;
