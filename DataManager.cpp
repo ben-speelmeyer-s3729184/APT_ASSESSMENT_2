@@ -96,7 +96,7 @@ GameState* DataManager::loadGame(std::string fileName) {
     players[noOfPlayers] = new Player(name_player2);
     players[noOfPlayers]->addScore(std::stoi(score_player2));
 
-    LinkedList* hand2 = tileFactory.createHand(player1Hand);
+    LinkedList* hand2 = tileFactory.createHand(player2Hand);
 
     while (hand2->size() > 0) {
       players[noOfPlayers]->addTileToHand(hand2->takeFront());

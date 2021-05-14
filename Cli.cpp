@@ -157,11 +157,13 @@ bool Cli::loadGame() {
 
   bool gameLoaded = false;
   while (!gameLoaded && !exit) {
+    // Tries to load a game. If file cannot be loaded, input is bad.
     gameState = dataManager->loadGame(fileName);
+    // Exits on EOF or quit, else checks loadGame, if state exists, loads game.
     if (std::cin.eof() || fileName == "quit") {
       exit = true;
     } else if (gameState == nullptr) {
-      std::cout << "Invalid Input.\n> ";
+      std::cout << "Invalid file name.\n> ";
       std::cin >> fileName;
     } else {
       gameEngine->loadGameState(gameState);
@@ -420,10 +422,9 @@ bool Cli::parsePlayerInput(Player& player) {
         playerNumber = i;
       }
     }
-    std::cout << "Player "
-              << gameEngine->getPlayer(playerNumber)->getPlayerName() << " won!"
-              << std::endl;
-    std::cout << std::endl;
+    Player* winningPlayer = gameEngine->getPlayer(playerNumber);
+    std::cout << "Player " << winningPlayer->getPlayerName() << " won!";
+    std::cout << std::endl << std::endl;
     exit = true;
   }
   if (!saved && status) {
