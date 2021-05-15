@@ -38,7 +38,6 @@ class Board {
 
   std::string boardToString();
 
-  // Matt's additions:
   bool checkTilePlacement(Tile* tile, int row, int col, bool initialTilePlaced);
   std::string boardDetails();
   std::string printBoard();

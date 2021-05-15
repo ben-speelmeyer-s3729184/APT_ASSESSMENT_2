@@ -10,12 +10,10 @@
 
 TileFactory::TileFactory() {}
 
-TileFactory::~TileFactory() {
-  
-}
+TileFactory::~TileFactory() {}
 
-LinkedList* TileFactory::createTileBag(bool randomSeed) {
-  LinkedList* tileBag = new LinkedList();
+TileBag* TileFactory::createTileBag(bool randomSeed) {
+  TileBag* tileBag = new TileBag();
   int tileCount = 0;
   TilesImport tiles;
   importTileList(tiles);
@@ -47,8 +45,8 @@ LinkedList* TileFactory::createTileBag(bool randomSeed) {
   return tileBag;
 }
 
-LinkedList* TileFactory::createTileBag(std::string loadedTileBag) {
-  LinkedList* tileBag = new LinkedList();
+TileBag* TileFactory::createTileBag(std::string loadedTileBag) {
+  TileBag* tileBag = new TileBag();
   std::string tileData;
   std::istringstream iss(loadedTileBag);
 
@@ -61,8 +59,15 @@ LinkedList* TileFactory::createTileBag(std::string loadedTileBag) {
   return tileBag;
 }
 
-LinkedList* TileFactory::createHand(std::string hand) {
-  return createTileBag(hand);
+Hand* TileFactory::createHand(std::string hand) {
+  Hand* playerHand = new Hand();
+  TileBag* tileBag = createTileBag(hand);
+  while (tileBag->size() > 0) {
+    Tile* tile = tileBag->takeFront();
+    playerHand->addTile(tile);
+  }
+  delete tileBag;
+  return playerHand;
 }
 
 void TileFactory::importTileList(TilesImport tiles) {

@@ -4,14 +4,14 @@
 #include <string>
 
 Player::Player(std::string playerName) {
-  playerHand = new LinkedList();
+  playerHand = new Hand();
   this->playerName = new std::string(playerName);
   playerScore = 0;
 }
 Player::Player(Player& player) {
   this->playerName = new std::string(*player.playerName);
   this->playerScore = player.playerScore;
-  this->playerHand = new LinkedList(*player.playerHand);
+  this->playerHand = new Hand(*player.playerHand);
 }
 Player::~Player() {
   delete playerHand;

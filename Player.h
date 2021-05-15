@@ -19,10 +19,9 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#define HANDSIZE 6
 #include <string>
 
-#include "LinkedList.h"
+#include "Hand.h"
 
 class Player {
  public:
@@ -45,7 +44,7 @@ class Player {
   std::string* playerName;
   int playerScore;
   // Hand* playerHand;
-  LinkedList* playerHand;
+  Hand* playerHand;
 };
 
 #endif  // PLAYER_H_
