@@ -16,7 +16,6 @@ typedef std::vector<std::vector<Tile>> twoDVector;
 class Board {
  public:
   Board();
-  Board(std::string boardDetails, std::string boardDimensions);
   Board(Board& other);
 
   ~Board();
@@ -24,13 +23,6 @@ class Board {
   bool addTile(Tile* tile, int row, int col);
 
   Tile* getTile(int row, int col);
-
-  // void printBoard();
-
-  /*
-   * Utility function for loading tile into board from savefile string
-   */
-  void loadTilePlacement(std::string tileStr);
 
   void resizeBoard(int row, int col);
 
@@ -46,7 +38,7 @@ class Board {
 
   const std::vector<std::vector<Tile*>>& getBoardVec() const {
     return boardVecs;
-  }  //  Lines should be <= 80 characters long  [whitespace/line_length] [2]
+  }
 
  private:
   std::vector<std::vector<Tile*>> boardVecs;

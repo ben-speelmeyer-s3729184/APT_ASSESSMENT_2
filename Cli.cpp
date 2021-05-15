@@ -4,6 +4,8 @@
 #include <ios>
 #include <limits>
 
+#include "utils.h"
+
 Cli::Cli(bool randomSeed) {
   gameEngine = new GameEngine(randomSeed);
   dataManager = new DataManager();
@@ -67,6 +69,7 @@ bool Cli::runGame() {
     }
   } else if (menuValue == CREDITS) {
     printCredits();
+    printMenu();
   } else if (menuValue == NEW_GAME) {
     exit = newGame();
     if (!exit) {
@@ -254,46 +257,6 @@ bool Cli::validatePosition(std::string position) {
   return status;
 }
 
-Colour getColour(std::string tile) {
-  const char colChar = tile[0];
-  Colour col = '\0';
-
-  if (colChar == 'R') {
-    col = RED;
-  } else if (colChar == 'O') {
-    col = ORANGE;
-  } else if (colChar == 'Y') {
-    col = YELLOW;
-  } else if (colChar == 'G') {
-    col = GREEN;
-  } else if (colChar == 'B') {
-    col = BLUE;
-  } else if (colChar == 'P') {
-    col = PURPLE;
-  }
-  return col;
-}
-
-Shape getShape(std::string tile) {
-  const char shpChar = tile[1];
-  Shape shp = 0;
-  if (shpChar == '1') {
-    shp = CIRCLE;
-  } else if (shpChar == '2') {
-    shp = STAR_4;
-  } else if (shpChar == '3') {
-    shp = DIAMOND;
-  } else if (shpChar == '4') {
-    shp = SQUARE;
-  } else if (shpChar == '5') {
-    shp = STAR_6;
-  } else if (shpChar == '6') {
-    shp = CLOVER;
-  }
-
-  return shp;
-}
-
 int parseRow(std::string pos) {
   char rowVal = pos[0];
   return static_cast<int>(
@@ -330,11 +293,12 @@ bool Cli::parsePlayerInput(Player* player) {
   // place XY at XY
   // replace XY
   // save savedGame
+  utils utils;
   if (input.size() == 4) {
     if (input[0] == "place" && input[2] == "at") {
       if (validateTile(input[1]) && validatePosition(input[3])) {
-        Colour colr = getColour(input[1]);
-        Shape shp = getShape(input[1]);
+        Colour colr = utils.getColour(input[1]);
+        Shape shp = utils.getShape(input[1]);
         Tile tileToPlace(colr, shp);
         // Tile* tileToPlace = new Tile(colr, shp); TODO, test this!
 
@@ -353,8 +317,8 @@ bool Cli::parsePlayerInput(Player* player) {
   } else if (input.size() == 2) {
     if (input[0] == "replace") {
       if (validateTile(input[1])) {
-        Colour colr = getColour(input[1]);
-        Shape shp = getShape(input[1]);
+        Colour colr = utils.getColour(input[1]);
+        Shape shp = utils.getShape(input[1]);
         Tile tileToPlace(colr, shp);
         gameEngine->replaceTile(player, &tileToPlace);
         status = true;
@@ -441,7 +405,6 @@ void Cli::printCredits() {
     std::cout << "Student ID: " << sNums[i] << "\n";
     std::cout << "Email: " << sNums[i] << "@student.rmit.edu.au\n" << std::endl;
   }
-  printMenu();
 }
 
 std::string Cli::getInput() {

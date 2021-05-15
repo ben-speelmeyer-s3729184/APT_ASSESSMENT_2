@@ -25,14 +25,21 @@ class DataManager {
   /*
    * Saves given gamestate into filename
    */
-  static bool saveGame(GameState* saveGame, std::string fileName);
+  bool saveGame(GameState* saveGame, std::string fileName);
 
   /*
    * Loads given filename into the gameState object
    */
-  static GameState* loadGame(std::string fileName);
+  GameState* loadGame(std::string fileName);
 
  private:
+  std::string removeCarriageReturn(std::string fix);
+  Board* recreateBoard(std::string boardDetails, std::string boardDimensions);
+  void loadTilePlacement(Board* board, std::string info);
+  int getTileLocationRow(std::string tileLoc);
+  int getTileLocationCol(std::string tileLoc);
+  std::vector<int> getDimensions(std::string boardDimensions);
+  std::vector<std::string> delimStringToVector(std::string deets,
+                                               std::string delim);
 };
-
 #endif  // DATAMANAGER_H_
