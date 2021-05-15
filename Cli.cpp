@@ -1,6 +1,8 @@
 // Copyright 2021
 #include "Cli.h"
 
+#include <ios>
+#include <limits>
 Cli::Cli() {
   gameEngine = new GameEngine(false);
   dataManager = new DataManager();
@@ -29,7 +31,7 @@ Cli::~Cli() {
  * Takes the user's input and stores it in buffer.
  * if input is 'quit' (4), then exit is set to true.
  */
-bool Cli::nextInput() {
+bool Cli::runGame() {
   // initialise input to unaccepted argument
   std::cout << "> ";
   int input = -1;
@@ -84,41 +86,28 @@ void Cli::startGameplay() {
   // need to clear the cin buffer before
   // starting the gameplay, due to use of
   // getline
-  std::cin.ignore(1000, '\n');
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
   while (nextRound()) {
-    std::cout << "> ";
   }
 }
 
 bool Cli::newGame() {
   // initialise player names
-  std::string player1Name = "";
-  std::string player2Name = "";
-
+  std::string playerName[MAX_NUM_OF_PLAYERS];
+  for (int i = 0; i < MAX_NUM_OF_PLAYERS; ++i) {
+    playerName[i] = "";
+  }
   // get player info
   std::cout << "Starting a New Game\n" << std::endl;
-  std::cout << "Enter a name for player 1 (uppercase characters only)\n> ";
 
-  std::cin >> player1Name;
+  int playerCount = 0;
   bool exitCheck = false;
-  bool nameCheck = checkName(player1Name);
-  // check name format
-  while (!nameCheck) {
-    if (std::cin.eof()) {
-      nameCheck = true;
-      exitCheck = true;
-    } else {
-      std::cout << "Invalid Input.\n> ";
-      std::cin >> player1Name;
-      nameCheck = checkName(player1Name);
-    }
-  }
-  if (!exitCheck) {
-    std::cout << "Enter a name for player 2 (uppercase characters only)\n> ";
-
-    std::cin >> player2Name;
-    nameCheck = checkName(player2Name);
+  while (playerCount < MAX_NUM_OF_PLAYERS && !exitCheck) {
+    std::cout << "Enter a name for player " << playerCount + 1
+              << " (uppercase characters only)\n> ";
+    std::cin >> playerName[playerCount];
+    bool nameCheck = checkName(playerName[playerCount]);
     // check name format
     while (!nameCheck) {
       if (std::cin.eof()) {
@@ -126,13 +115,15 @@ bool Cli::newGame() {
         exitCheck = true;
       } else {
         std::cout << "Invalid Input.\n> ";
-        std::cin >> player2Name;
-        nameCheck = checkName(player2Name);
+        std::cin >> playerName[playerCount];
+        nameCheck = checkName(playerName[playerCount]);
       }
     }
-    if (!exitCheck) {
-      gameEngine->addPlayer(player1Name);
-      gameEngine->addPlayer(player2Name);
+    playerCount++;
+  }
+  if (!exitCheck) {
+    for (int i = 0; i < MAX_NUM_OF_PLAYERS; ++i) {
+      gameEngine->addPlayer(playerName[i]);
     }
   }
   return exitCheck;
@@ -148,23 +139,19 @@ bool Cli::loadGame() {
     delete toDelete;
   }
   std::cout << "Enter the filename from which load a game\n> ";
-
-  std::cin >> fileName;
-
-  if (std::cin.eof()) {
-    exit = true;
-  }
-
   bool gameLoaded = false;
+
   while (!gameLoaded && !exit) {
     // Tries to load a game. If file cannot be loaded, input is bad.
+    std::cin >> fileName;
     gameState = dataManager->loadGame(fileName);
-    // Exits on EOF or quit, else checks loadGame, if state exists, loads game.
+    // Exits on EOF or quit, else checks loadGame, if state exists, loads
+    // game.
     if (std::cin.eof() || fileName == "quit") {
       exit = true;
     } else if (gameState == nullptr) {
       std::cout << "Invalid file name.\n> ";
-      std::cin >> fileName;
+
     } else {
       gameEngine->loadGameState(gameState);
       playerNum = gameState->getCurrentPlayer();
@@ -220,8 +207,8 @@ void Cli::printPlayerInfo() {
 void splitString(
     std::vector<std::string>& input,
     std::string words) {  //  Is this a non-const reference? If so, make const
-                          //  or use a pointer: std::vector<std::string>& input
-                          //  [runtime/references] [2]
+                          //  or use a pointer: std::vector<std::string>&
+                          //  input [runtime/references] [2]
   std::string buffer;
   std::string value;
   for (size_t i = 0; i < words.length(); i++) {
@@ -321,8 +308,9 @@ Shape getShape(std::string tile) {
 
 int parseRow(std::string pos) {
   char rowVal = pos[0];
-  return (int)rowVal - 65;  // Using C-style cast.  Use static_cast<int>(...)
-                            // instead  [readability/casting] [4]
+  return static_cast<int>(
+      rowVal - 65);  // Using C-style cast.  Use static_cast<int>(...)
+                     // instead  [readability/casting] [4]
 }
 
 int parseCol(std::string pos) {
@@ -390,7 +378,7 @@ bool Cli::parsePlayerInput(Player& player) {
         delete toDelete;
       }
       gameState = gameEngine->getGameState(playerNum);
-      if (dataManager->saveGame(*gameState, input[1])) {
+      if (dataManager->saveGame(gameState, input[1])) {
         std::cout << "\nGame successfully saved\n" << std::endl;
         status = true;
         saved = true;
