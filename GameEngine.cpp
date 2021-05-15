@@ -9,7 +9,6 @@
 GameEngine::GameEngine(bool randomSeed) {
   noOfPlayers = 0;
   board = new Board();
-  // players = new Player*[MAX_NUM_OF_PLAYERS];
   board->resizeBoard(26, 26);
   fillTileBag(randomSeed);
   initialTilePlaced = false;

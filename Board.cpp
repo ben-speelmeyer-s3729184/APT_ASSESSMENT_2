@@ -40,12 +40,12 @@ Board::~Board() {
 }
 
 bool Board::addTile(Tile* tile, int row, int col) {
-  boardVecs[row][col] = tile;
-  if (boardVecs[row][col] == tile) {
-    return true;
-  } else {
-    return false;
+  bool tileAdded = false;
+  if (boardVecs[row][col] != nullptr) {
+    boardVecs[row][col] = tile;
+    tileAdded = true;
   }
+  return tileAdded;
 }
 
 std::string Board::printBoard() {
@@ -53,13 +53,17 @@ std::string Board::printBoard() {
   std::string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   int alphaCount = 0;
   boardAppearance.append(EMPTY_SPACE " ");
-  boardAppearance.append(
-      "0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 "
-      "23 24 25\n");
-  boardAppearance.append(EMPTY_SPACE " ");
-  boardAppearance.append(
-      "------------------------------------------------------------------------"
-      "-----\n");
+  for (int i = 0; i < cols; ++i) {
+    std::string toAppend =
+        i < 10 ? std::to_string(i) + EMPTY_SPACE : std::to_string(i) + " ";
+    boardAppearance.append(toAppend);
+  }
+  boardAppearance.append("\n");
+  boardAppearance.append(EMPTY_SPACE);
+  for (int i = 0; i < cols * 3; ++i) {
+    boardAppearance.append("-");
+  }
+  boardAppearance.append("-\n");
 
   for (int i = 0; i < rows; i++) {
     if (alphaCount < 26) {
@@ -116,9 +120,7 @@ std::string Board::boardToString() {
   return boardState;
 }
 
-int Board::asciiToInt(
-    char letter) {  // Using deprecated casting style.  Use
-                    // static_cast<int>(...) instead  [readability/casting] [4]
+int Board::asciiToInt(char letter) {
   int i = int(letter);
   i = i - 65;
   return i;
