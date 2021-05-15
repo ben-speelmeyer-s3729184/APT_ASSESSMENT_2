@@ -1,6 +1,6 @@
-
-#ifndef ASSIGN2_LINKEDLIST_H
-#define ASSIGN2_LINKEDLIST_H
+// Copyright 2021
+#ifndef LINKEDLIST_H_
+#define LINKEDLIST_H_
 
 #include <string>
 
@@ -8,37 +8,38 @@
 #include "Tile.h"
 
 class LinkedList {
-   public:
-    LinkedList();
-    ~LinkedList();
+ public:
+  LinkedList();
+  LinkedList(LinkedList& list);
+  ~LinkedList();
 
-    Tile* getTile(Tile* tile);
+  Tile* getTile(Tile* tile);
 
-    Tile* takeFront();
+  Tile* takeFront();
 
-    void addTile(Tile* tile);
+  void addTile(Tile* tile);
 
-    // Remove Tile From the tail
-    void removeFront();
+  // Remove Tile From the tail
+  void removeFront();
 
-    // Remove First instance of tile
-    void removeTile(Tile* tile);
+  // Remove First instance of tile
+  void removeTile(Tile* tile);
 
-    // Return size of linked List
-    int size();
+  // Return size of linked List
+  int size();
 
-    // Check for a tile
-    bool contains(Tile* tile);
+  // Check for a tile
+  bool contains(Tile* tile);
 
-    // String representation of the linkedList
-    std::string toString();
+  // String representation of the linkedList
+  std::string toString();
 
-   private:
-    Node* head;
-    Node* tail;
-    int count;
+ private:
+  Node* head;
+  Node* tail;
+  int count;
 
-    void clear();
+  void clear();
 };
 
-#endif  // ASSIGN2_LINKEDLIST_H
+#endif  // LINKEDLIST_H_

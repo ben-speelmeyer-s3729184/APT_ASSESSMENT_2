@@ -1,228 +1,153 @@
+// Copyright 2021
 #include "GameEngine.h"
 
+#include <string>
+#include <vector>
+
+#include "ScoreManager.h"
+
 GameEngine::GameEngine(bool randomSeed) {
-    noOfPlayers = 0;
-    gameState = new GameState();
-    board = new Board();
-    board->resizeBoard(25, 25);
-    fillTileBag(randomSeed);
+  noOfPlayers = 0;
+  board = new Board();
+  board->resizeBoard(26, 26);
+  fillTileBag(randomSeed);
+  initialTilePlaced = false;
+  players = new Player*[MAX_NUM_OF_PLAYERS];
 }
-GameEngine::~GameEngine() {
-    delete player1;
-    delete player2;
-    delete tileBag;
-    delete gameState;
-    delete board;
-}
+
+GameEngine::~GameEngine() { this->clear(); }
 
 // Initialise the board, players, tileBags, and fill hands and tileBag with
 // tiles.
 void GameEngine::fillTileBag(bool randomSeed) {
-    TileFactory tileFactory;
-    tileBag = tileFactory.createTileBag(randomSeed);
+  TileFactory tileFactory;
+  tileBag = tileFactory.createTileBag(randomSeed);
 }
 
-bool GameEngine::playTile(int currentPlayer, int row, int col, Tile* tile) {
-    bool playedTile = false;
-    Player* player = nullptr;
-    if (currentPlayer == 1) {
-        player = player1;
-    } else if (currentPlayer == 2) {
-        player = player2;
+bool GameEngine::checkTilePlacement(Player* player, int row, int col,
+                                    Tile* tile) {
+  bool playedTile = false;
+  if (player != nullptr) {
+    if (player->hasTile(tile)) {
+      if (col >= 0 && row >= 0 && col < board->getCols() &&
+          row < board->getRows()) {
+        playedTile =
+            board->checkTilePlacement(tile, row, col, initialTilePlaced);
+      }
     }
-    if (player != nullptr) {
-        if (player->hasTile(tile)) {
-            if (board->getTile(row, col) != nullptr) {
-                bool leftRightCheck = checkLeftRightTiles(row, col, tile);
-                bool upDownCheck = checkUpDownTiles(row, col, tile);
-                if (leftRightCheck && upDownCheck) {
-                    board->addTile(tile, row, col);
-                }
-            }
-            {
-                updateScore(player, col, row);
-            }
-        }
-    }
-    board->printBoard();
-    return playedTile;
+  }
+  return playedTile;
 }
 
-bool GameEngine::replaceTile(int currentPlayer, Tile* tile) {
-    Player* player = nullptr;
-    bool tileExists = false;
-    if (currentPlayer == 1) {
-        player = player1;
-    } else if (currentPlayer == 2) {
-        player = player2;
+void GameEngine::placeTile(Player* player, int row, int col, Tile* tile) {
+  Tile* tileFromHand = player->retrieveTile(tile);
+  board->addTile(tileFromHand, row, col);
+}
+
+bool GameEngine::replaceTile(Player* player, Tile* tile) {
+  bool tileExists = false;
+  if (player != nullptr) {
+    tileExists = player->hasTile(tile);
+    if (tileExists) {
+      Tile* tileToReplace = player->retrieveTile(tile);
+      tileBag->addTile(tileToReplace);
+      player->addTileToHand(tileBag->takeFront());
     }
-    if (player != nullptr) {
-        tileExists = player->hasTile(tile);
-        if (tileExists) {
-            Tile* tileToReplace = player->retrieveTile(tile);
-            tileBag->addTile(tileToReplace);
-            player->addTileToHand(tileBag->takeFront());
-        }
-    }
-    return tileExists;
+  }
+  return tileExists;
 }
 
 bool GameEngine::addPlayer(std::string name) {
-    bool playerAdded = false;
-    if (noOfPlayers == 0) {
-        player1 = new Player(name);
-        topUpPlayerHand(player1);
-        ++noOfPlayers;
-        playerAdded = true;
-    } else if (noOfPlayers == 1) {
-        player2 = new Player(name);
-        topUpPlayerHand(player2);
-        playerAdded = true;
-    }
-    return playerAdded;
+  bool playerAdded = false;
+  if (true) {
+    players[noOfPlayers] = new Player(name);
+    topUpPlayerHand(players[noOfPlayers]);
+    playerAdded = true;
+    ++noOfPlayers;
+  }
+  return playerAdded;
 }
 
-void GameEngine::updateScore(Player* player, int col, int row) {
+void GameEngine::updateScore(Player* player, int row, int col) {
+  ScoreManager scoreManager;
+  scoreManager.updateScores(player, board, row, col, initialTilePlaced);
 }
 
-void GameEngine::updateGameState() {
+int GameEngine::getNoOfPlayers() { return noOfPlayers; }
+
+Player* GameEngine::getPlayer(int playerNumber) {
+  Player* playerToReturn = nullptr;
+  if (playerNumber < MAX_NUM_OF_PLAYERS) {
+    playerToReturn = players[playerNumber];
+  }
+  return playerToReturn;
 }
 
-GameState* GameEngine::retrieveGameState() {
-    return gameState;
+// Need to update to return a deep copy.
+GameState* GameEngine::getGameState(int currentPlayer) {
+  GameState* gameState =
+      new GameState(players, tileBag, board, noOfPlayers, currentPlayer);
+  return gameState;
+}
+// Clears current game state and loads a previously saved game.
+void GameEngine::loadGameState(GameState* loadedState) {
+  clear();
+  noOfPlayers = loadedState->getNoOfPlayers();
+  players = new Player*[noOfPlayers];
+  for (int i = 0; i < noOfPlayers; ++i) {
+    players[i] = new Player(*loadedState->getPlayers()[i]);
+  }
+  board = new Board(*loadedState->getBoard());
+  tileBag = new TileBag(*loadedState->getTileBag());
+  currPlayer = loadedState->getCurrentPlayer();
+  if (board->boardToString() == "\n") {
+    initialTilePlaced = true;
+  }
+}
+
+// Places a tile, updates player score, tops up the players hand then checks
+// whether a player has triggered the end of game conditions.
+bool GameEngine::endOfRoundCalculations(Player* player, int row, int col,
+                                        Tile* tile) {
+  bool endConditionsMet = false;
+  placeTile(player, row, col, tile);
+  updateScore(player, row, col);
+  topUpPlayerHand(player);
+  if (tileBag->size() == 0 && player->handSize() == 0) {
+    player->addScore(6);
+    endConditionsMet = true;
+  }
+  if (!initialTilePlaced) {
+    initialTilePlaced = true;
+  }
+  return endConditionsMet;
 }
 
 void GameEngine::topUpPlayerHand(Player* player) {
-    while (player->handSize() < HANDSIZE) {
-        Tile* tile = tileBag->takeFront();
-        player->addTileToHand(tile);
-    }
+  while (player->handSize() < HANDSIZE && tileBag->size() > 0) {
+    Tile* tile = tileBag->takeFront();
+    player->addTileToHand(tile);
+  }
 }
 
-bool GameEngine::checkLeftRightTiles(int row, int col, Tile* tile) {
-    bool validMove = false;
-    Tile* leftTile = board->getTile(row, col - 1);
-    Tile* rightTile = board->getTile(row, col + 1);
+std::string GameEngine::printBoard() { return board->printBoard(); }
 
-    //check whether tile to be added can be placed between
-    //the positions to the left and right.
-    if (leftTile == nullptr && rightTile == nullptr) {
-        validMove = true;
-    } else if (leftTile == nullptr) {
-        if (tile->colour == rightTile->colour || tile->shape == rightTile->shape) {
-            validMove = true;
-        }
-    } else if (rightTile == nullptr) {
-        if (tile->colour == leftTile->colour || tile->shape == leftTile->shape) {
-            validMove = true;
-        }
-    } else {
-        if ((leftTile->colour == tile->colour && rightTile->colour == tile->colour) ||
-            (leftTile->shape == tile->shape && rightTile->shape == tile->shape)) {
-            validMove = true;
-        }
-    }
-    //If a tile can be placed next to the adjacent left and right tiles, checks if placing this tile will
-    //create a line greater than 6 tiles in this position. If no, then a valid move is confirmed.
-    if (validMove) {
-        int adjacentTiles = 0;
-        bool adjacentTile = true;
-        int currentCol = col - 1;
-        //Checks to left of chosen position first.
-        while (adjacentTile) {
-            if (board->getTile(row, currentCol) != nullptr) {
-                --currentCol;
-                ++adjacentTiles;
-            } else {
-                adjacentTile = false;
-            }
-        }
-        //Checks right of chosen position.
-        currentCol = col + 1;
-        adjacentTile = true;
-        while (adjacentTile) {
-            if (board->getTile(row, currentCol) != nullptr) {
-                ++currentCol;
-                ++adjacentTiles;
-            } else {
-                adjacentTile = false;
-            }
-        }
-        //Final check. If number of adjacent tiles in this column is more than 5
-        //then tile cannot be placed.
-        if (adjacentTiles > 5) {
-            validMove = false;
-        }
-    }
-    return validMove;
+std::vector<int> GameEngine::getBoardSize() {
+  int rows = 0, cols = 0;
+  rows = board->getRows();
+  cols = board->getCols();
+  return std::vector<int>({rows, cols});
 }
 
-bool GameEngine::checkUpDownTiles(int row, int col, Tile* tile) {
-    bool validMove = false;
-    Tile* upTile = board->getTile(row - 1, col);
-    Tile* downTile = board->getTile(row + 1, col);
-    //check whether tile to be added can be placed between
-    //the positions above and below chosen position.
-    if (upTile == nullptr && downTile == nullptr) {
-        validMove = true;
-    } else if (upTile == nullptr) {
-        if (tile->colour == downTile->colour || tile->shape == downTile->shape) {
-            validMove = true;
-        }
-    } else if (downTile == nullptr) {
-        if (tile->colour == upTile->colour || tile->shape == upTile->shape) {
-            validMove = true;
-        }
-    } else {
-        if ((upTile->colour == tile->colour && downTile->colour == tile->colour) ||
-            (upTile->shape == tile->shape && downTile->shape == tile->shape)) {
-            validMove = true;
-        }
-    }
-    //If a tile can be placed next to any adjacent tiles, checks if placing this tile will
-    //create a line greater than 6 tiles in this position. If no, then a valid move is confirmed.
-    if (validMove) {
-        int adjacentTiles = 0;
-        bool adjacentTile = true;
-
-        //Checks rows above current position first.
-        int currentRow = row - 1;
-        while (adjacentTile) {
-            if (board->getTile(currentRow, col) != nullptr) {
-                --currentRow;
-                ++adjacentTiles;
-            } else {
-                adjacentTile = false;
-            }
-        }
-        //Checks rows below current position.
-        currentRow = col + 1;
-        adjacentTile = true;
-        while (adjacentTile) {
-            if (board->getTile(currentRow, col) != nullptr) {
-                ++currentRow;
-                ++adjacentTiles;
-            } else {
-                adjacentTile = false;
-            }
-        }
-        //Final check. If number of adjacent tiles in this column is more than 5
-        //then tile cannot be placed.
-        if (adjacentTiles > 5) {
-            validMove = false;
-        }
-    }
-    return validMove;
-}
-
-std::string GameEngine::toString() {
-    std::string gameData;
-    gameData.append(player1->getPlayerName() + "\n");
-    gameData.append(std::to_string(player1->getPlayerScore()) + "\n");
-    gameData.append(player1->getPlayerHand());
-    gameData.append(player2->getPlayerName() + "\n");
-    gameData.append(std::to_string(player1->getPlayerScore()) + "\n");
-    gameData.append(player2->getPlayerHand());
-    gameData.append(tileBag->toString());
-    return gameData;
+void GameEngine::clear() {
+  for (int i = 0; i < noOfPlayers; ++i) {
+    delete players[i];
+  }
+  delete[] players;
+  delete tileBag;
+  tileBag = nullptr;
+  delete board;
+  board = nullptr;
+  noOfPlayers = 0;
+  currPlayer = 0;
 }

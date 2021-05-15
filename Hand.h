@@ -1,20 +1,25 @@
-#ifndef ASSIGN2_HAND_H
-#define ASSIGN2_HAND_H
+#ifndef HAND_H
+#define HAND_H
 
+#include "Definitions.h"
 #include "LinkedList.h"
-#include "Tile.h"
 
 class Hand {
  public:
   Hand();
+  Hand(Hand& hand);
   ~Hand();
 
-  Tile* retrieveTile(Tile* tile);
+  int size();
+  bool contains(Tile* tile);
   void addTile(Tile* tile);
-  std::string handDetails();
+  Tile* getTile(Tile* tile);
+  std::string toString();
+  Tile* takeFront();
 
  private:
   LinkedList* hand;
 };
 
-#endif  // ASSIGN2_HAND_H
+#endif  // HAND_H
+

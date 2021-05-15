@@ -11,6 +11,14 @@
          "program": "qwirkle",
          "args": [],
          "cwd": "${workspaceFolder}"
+      },
+      {
+         "type": "lldb",
+         "request": "launch",
+         "name": "Debug with Static",
+         "program": "qwirkle",
+         "args": ["static"],
+         "cwd": "${workspaceFolder}"
       }
    ]
 }

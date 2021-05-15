@@ -1,37 +1,37 @@
-
+// Copyright 2021
 #include <iostream>
+#include <string>
 
 #include "Cli.h"
-#include "GameEngine.h"
-#include "LinkedList.h"
-#include "Tile.h"
-#define EXIT_SUCCESS 0
 
-int main(void) {
-    // create CLI object
-    // Cli console;
+void testGameEngine();
+int readShape(char shape);
 
-    // // print greating
-    // std::cout << "Welcome to Qwirkle!\n"
-    //           << "-------------------\n"
-    //           << std::endl;
+int main(int argc, char* argv[]) {
+  // create CLI object
+  bool check = true;
+  if (argc >= 2) {
+    std::string arg = argv[1];
+    if (arg == "static") {
+      check = false;
+    }
+  }
+  Cli console(check);
 
-    // console.printMenu();
+  // print greating
+  std::cout << "Welcome to Qwirkle!\n"
+            << "-------------------\n"
+            << std::endl;
 
-    // // main loop
-    // while (!console.nextInput()) {
-    // }
+  console.printMenu();
 
-    // std::cout << "Goodbye" << std::endl;
+  // main loop
+  while (!console.runGame()) {
+  }
 
-    // // delete hand;
-    // // delete tileBag;
-    GameEngine* gameEngine = new GameEngine(true);
-    gameEngine->addPlayer("RANDOM2");
-    gameEngine->addPlayer("RANDOM1");
-    Tile tile(RED, CIRCLE);
-    gameEngine->playTile(1, 3, 3, &tile);
-    std::cout << gameEngine->toString();
-    delete gameEngine;
-    return EXIT_SUCCESS;
+  std::cout << "Goodbye" << std::endl;
+
+  //  testGameEngine();
+
+  return EXIT_SUCCESS;
 }

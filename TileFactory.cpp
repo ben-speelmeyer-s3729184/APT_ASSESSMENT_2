@@ -1,80 +1,91 @@
+// Copyright 2021
 #include "TileFactory.h"
 
-#include <chrono>
+#include <chrono>  // <chrono> is an unapproved C++11 header.  [build/c++11] [5]
 #include <fstream>
 #include <iostream>
 #include <random>
+#include <sstream>
 #include <string>
 
+#include "utils.h"
 TileFactory::TileFactory() {}
 
-LinkedList* TileFactory::createTileBag(bool randomSeed) {
-    LinkedList* tileBag = new LinkedList();
-    int tileCount = 0;
-    TilesImport tiles;
-    importTileList(tiles);
+TileFactory::~TileFactory() {}
 
-    std::uniform_int_distribution<int> uniform_dist(0, MAX_TILE_BAG_SIZE - 1);
-    std::default_random_engine randomNum;
+TileBag* TileFactory::createTileBag(bool randomSeed) {
+  TileBag* tileBag = new TileBag();
+  int tileCount = 0;
+  TilesImport tiles;
+  importTileList(tiles);
+  std::uniform_int_distribution<int> uniform_dist(0, MAX_TILE_BAG_SIZE - 1);
+  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::default_random_engine randomNum(seed);
+  std::default_random_engine randomNumStatic(0);
 
-    //creates the random number generator with either a set seed or random seed.
+  // creates the random number generator with either a set seed or random seed.
+  while (tileCount < MAX_TILE_BAG_SIZE) {
+    int randIndex = 0;
     if (randomSeed) {
-        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-        std::default_random_engine randomNum(seed);
+      randIndex = uniform_dist(randomNum);
     } else {
-        std::default_random_engine randomNum(0);
+      randIndex = uniform_dist(randomNumStatic);
     }
 
-    while (tileCount < MAX_TILE_BAG_SIZE) {
-        int randIndex = 0;
-        randIndex = uniform_dist(randomNum);
-
-        if (tiles[randIndex][COLOUR_IND] != '\0' && tiles[randIndex][SHAPE_IND] != '\0') {
-            Colour colour = tiles[randIndex][COLOUR_IND];
-            Shape shape = readShape(tiles[randIndex][SHAPE_IND]);
-            Tile* tile = new Tile(colour, shape);
-            tileBag->addTile(tile);
-            ++tileCount;
-            tiles[randIndex][COLOUR_IND] = '\0';
-            tiles[randIndex][SHAPE_IND] = '\0';
-        }
+    if (tiles[randIndex][COLOUR_IND] != '\0' &&
+        tiles[randIndex][SHAPE_IND] != '\0') {
+      char tileInfo[TILE_ATTRIBUTES] = {tiles[randIndex][COLOUR_IND],
+                                        tiles[randIndex][SHAPE_IND]};
+      Tile* tile = createTile(tileInfo);
+      tileBag->addTile(tile);
+      ++tileCount;
+      tiles[randIndex][COLOUR_IND] = '\0';
+      tiles[randIndex][SHAPE_IND] = '\0';
     }
-    return tileBag;
+  }
+  return tileBag;
 }
 
-LinkedList* TileFactory::createTileBag(std::string loadedTileBag) {
-    return nullptr;
+TileBag* TileFactory::createTileBag(std::string loadedTileBag) {
+  TileBag* tileBag = new TileBag();
+  std::string tileData;
+  std::istringstream iss(loadedTileBag);
+
+  while (std::getline(iss, tileData, ',')) {
+    char tileInfo[TILE_ATTRIBUTES] = {tileData[COLOUR_IND],
+                                      tileData[SHAPE_IND]};
+    Tile* tile = createTile(tileInfo);
+    tileBag->addTile(tile);
+  }
+  return tileBag;
 }
 
-LinkedList* TileFactory::createHand(std::string hand) {
-    return nullptr;
+Hand* TileFactory::createHand(std::string hand) {
+  Hand* playerHand = new Hand();
+  TileBag* tileBag = createTileBag(hand);
+  while (tileBag->size() > 0) {
+    Tile* tile = tileBag->takeFront();
+    playerHand->addTile(tile);
+  }
+  delete tileBag;
+  return playerHand;
 }
 
 void TileFactory::importTileList(TilesImport tiles) {
-    std::ifstream file("tileList.txt");
-    int numRead = 0;
-    while (!file.eof() && numRead < MAX_TILE_BAG_SIZE) {
-        file >> tiles[numRead][COLOUR_IND];
-        file >> tiles[numRead][SHAPE_IND];
-        ++numRead;
-    }
-    file.close();
+  std::ifstream file("tileList.txt");
+  int numRead = 0;
+  while (!file.eof() && numRead < MAX_TILE_BAG_SIZE) {
+    file >> tiles[numRead][COLOUR_IND];
+    file >> tiles[numRead][SHAPE_IND];
+    ++numRead;
+  }
+  file.close();
 }
 
-int TileFactory::readShape(char shape) {
-    int shapeRet = '\0';
-    if (shape == '1') {
-        shapeRet = CIRCLE;
-    } else if (shape == '2') {
-        shapeRet = STAR_4;
-    } else if (shape == '3') {
-        shapeRet = DIAMOND;
-    } else if (shape == '4') {
-        shapeRet = SQUARE;
-    } else if (shape == '5') {
-        shapeRet = STAR_6;
-    } else if (shape == '6') {
-        shapeRet = CLOVER;
-    }
-    return shapeRet;
+Tile* TileFactory::createTile(char input[TILE_ATTRIBUTES]) {
+  utils utils;
+  Colour colour = utils.getColour(input);
+  Shape shape = utils.getShape(input);
+  Tile* tileToPlace = new Tile(colour, shape);
+  return tileToPlace;
 }
