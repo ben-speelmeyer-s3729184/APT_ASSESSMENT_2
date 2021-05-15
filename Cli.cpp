@@ -119,7 +119,7 @@ bool Cli::newGame() {
       } else {
         std::cout << "Invalid Input.\n> ";
         playerName[playerCount] = getInput();
-        utils.checkName(playerName[playerCount]);
+        nameCheck = utils.checkName(playerName[playerCount]);
       }
     }
     playerCount++;
