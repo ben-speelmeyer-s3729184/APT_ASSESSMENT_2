@@ -20,6 +20,8 @@ Cli::~Cli() {
   dataManager = nullptr;
 }
 
+std::string getInput();
+
 /*
  * Takes the user's input and stores it in buffer.
  * if input is 'quit' (4), then exit is set to true.
@@ -27,24 +29,33 @@ Cli::~Cli() {
 bool Cli::runGame() {
   // initialise input to unaccepted argument
   std::cout << "> ";
-  int input = -1;
-  std::cin >> input;
-  bool inputCheck = input <= 0 || input > 4;
-  while (inputCheck) {
-    if (input == EOF) {
-      inputCheck = false;
-    } else if (input <= 0 || input > 4) {
+  std::string input = "";
+  std::string validInputs = "1234";
+  bool inputCheck = true;
+  int menuValue = 0;
+  input = getInput();
+  while (inputCheck && !exit) {
+    if ((input.length() != 1 || validInputs.find(input) == std::string::npos) &&
+        !exit) {
       std::cout << "\nInvalid Input\n" << std::endl;
       std::cout << "> ";
-      std::cin >> input;
-    } else {
+      input = getInput();
+    } else if (input.length() == 1 &&
+               validInputs.find(input) != std::string::npos) {
+      menuValue = validInputs.find(input);
       inputCheck = false;
     }
   }
+  if (!exit) {
+    menuValue = std::stoi(input);
+  } else {
+    menuValue = EOF;
+  }
+
   // set exit flag for input 4
-  if (input == QUIT || input == EOF) {
+  if (menuValue == QUIT || menuValue == EOF) {
     exit = true;
-  } else if (input == LOAD_GAME) {
+  } else if (menuValue == LOAD_GAME) {
     // get filename
     bool gameLoaded = loadGame();
     if (gameLoaded) {
@@ -54,9 +65,9 @@ bool Cli::runGame() {
       std::cout << std::endl;
       printMenu();
     }
-  } else if (input == CREDITS) {
+  } else if (menuValue == CREDITS) {
     printCredits();
-  } else if (input == NEW_GAME) {
+  } else if (menuValue == NEW_GAME) {
     exit = newGame();
     if (!exit) {
       std::cout << "\nLet's Play!\n" << std::endl;
@@ -99,7 +110,7 @@ bool Cli::newGame() {
   while (playerCount < MAX_NUM_OF_PLAYERS && !exitCheck) {
     std::cout << "Enter a name for player " << playerCount + 1
               << " (uppercase characters only)\n> ";
-    std::cin >> playerName[playerCount];
+    playerName[playerCount] = getInput();
     bool nameCheck = checkName(playerName[playerCount]);
     // check name format
     while (!nameCheck) {
@@ -108,7 +119,7 @@ bool Cli::newGame() {
         exitCheck = true;
       } else {
         std::cout << "Invalid Input.\n> ";
-        std::cin >> playerName[playerCount];
+        playerName[playerCount] = getInput();
         nameCheck = checkName(playerName[playerCount]);
       }
     }
@@ -136,11 +147,11 @@ bool Cli::loadGame() {
 
   while (!gameLoaded && !exit) {
     // Tries to load a game. If file cannot be loaded, input is bad.
-    std::cin >> fileName;
+    fileName = getInput();
     gameState = dataManager->loadGame(fileName);
     // Exits on EOF or quit, else checks loadGame, if state exists, loads
     // game.
-    if (std::cin.eof() || fileName == "quit") {
+    if (exit || fileName == "quit") {
       exit = true;
     } else if (gameState == nullptr) {
       std::cout << "Invalid file name.\n> ";
@@ -315,7 +326,7 @@ bool Cli::parsePlayerInput(Player* player) {
   std::string words;
 
   // get full command
-  std::getline(std::cin, words);
+  words = getInput();
   // convert to vector of strings
   splitString(input, words);
 
@@ -440,4 +451,15 @@ void Cli::printCredits() {
     std::cout << "Email: " << sNums[i] << "@student.rmit.edu.au\n" << std::endl;
   }
   printMenu();
+}
+
+std::string Cli::getInput() {
+  std::string input = "";
+  // std::cin.clear();
+  // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::getline(std::cin, input);
+  if (std::cin.eof()) {
+    exit = true;
+  }
+  return input;
 }

@@ -9,14 +9,14 @@ int readShape(char shape);
 
 int main(int argc, char* argv[]) {
   // create CLI object
-  Cli console(false);
-
+  bool check = false;
   if (argc >= 2) {
     std::string arg = argv[1];
     if (arg == "static") {
-      Cli console(true);
+      check = true;
     }
   }
+  Cli console(check);
 
   // print greating
   std::cout << "Welcome to Qwirkle!\n"

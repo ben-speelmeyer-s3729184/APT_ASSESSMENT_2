@@ -105,6 +105,8 @@ class Cli {
    * prints out main menu.
    */
   void printMenu() const;
+
+  std::string getInput();
 };
 
 #endif  // CLI_H_
