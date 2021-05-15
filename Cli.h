@@ -7,12 +7,9 @@
 #include <vector>
 
 #include "DataManager.h"
+#include "Definitions.h"
 #include "GameEngine.h"
 #include "GameState.h"
-
-Colour getColour(std::string tile);
-Shape getShape(std::string tile);
-
 /*
  * Command line input (CLI) class to assist with processing
  * user input and displaying menu.
@@ -70,10 +67,7 @@ class Cli {
   /*
    * Takes user input and parses command
    */
-  bool parsePlayerInput(
-      Player&
-          player);  //  Is this a non-const reference? If so, make const or use
-                    //  a pointer: Player& player  [runtime/references] [2]
+  bool parsePlayerInput(Player* player);
 
   /*
    * Checks tile given by player
@@ -85,17 +79,16 @@ class Cli {
    */
   bool validatePosition(std::string position);
 
- public:
   /*
-   * Default Cli Constructor
+   * Cleans the Game state
    */
-  Cli();
+  void cleanGameState();
 
+ public:
   /*
    * Seed Cli Constructor
    */
-  Cli(bool randomSeed);  // Single-parameter constructors should be marked
-                         // explicit.  [runtime/explicit] [5]
+  Cli(bool randomSeed);
 
   /*
    * Destructor
@@ -111,6 +104,8 @@ class Cli {
    * prints out main menu.
    */
   void printMenu() const;
+
+  std::string getInput();
 };
 
 #endif  // CLI_H_

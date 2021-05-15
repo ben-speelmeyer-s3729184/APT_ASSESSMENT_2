@@ -1,18 +1,17 @@
 // Copyright 2021
 #ifndef GAMEENGINE_H_
 #define GAMEENGINE_H_
-#define MAX_NUM_OF_PLAYERS 2
 
 #include <string>
 #include <vector>
 
 #include "Board.h"
+#include "Definitions.h"
 #include "GameState.h"
 #include "Player.h"
 #include "Tile.h"
 #include "TileBag.h"
 #include "TileFactory.h"
-
 class GameEngine {
  public:
   GameEngine(bool randomSeed);  // Single-parameter constructors should be

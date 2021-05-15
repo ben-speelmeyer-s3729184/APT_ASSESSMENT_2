@@ -1,15 +1,14 @@
 // Copyright 2021
 #ifndef GAMESTATE_H_
 #define GAMESTATE_H_
-#define MAX_NUM_OF_PLAYERS 2
 
 #include <iostream>
 #include <string>
 
 #include "Board.h"
+#include "Definitions.h"
 #include "Player.h"
 #include "TileBag.h"
-
 class GameState {
  private:
   /* data */

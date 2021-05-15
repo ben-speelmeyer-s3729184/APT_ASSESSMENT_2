@@ -2,102 +2,10 @@
 #include "Board.h"
 
 #include <iostream>
-#include <string>
-#include <vector>
-
-#include "Cli.h"
 
 Board::Board() {
   rows = 0;
   cols = 0;
-}
-
-std::vector<std::string> delimStringToVector(
-    std::string deets,
-    std::string delim) {  // Lines should be <= 80 characters long
-                          // [whitespace/line_length] [2]
-  std::vector<std::string> details;
-  std::string temp = "";
-  std::string indexVal = "";
-  for (size_t i = 0; i < deets.length(); i++) {
-    indexVal = deets[i];
-    // account for whitespace
-    if ((indexVal == " " || indexVal == delim) && temp.length() > 0) {
-      details.push_back(temp);
-      temp = "";
-      // if end of string, do final append
-    } else if (i == deets.length() - 1) {
-      if (indexVal != " " && indexVal != delim) {
-        temp.append(indexVal);
-      }
-      details.push_back(temp);
-    } else if (indexVal != " " && indexVal != delim) {
-      temp.append(indexVal);
-    }
-  }
-
-  return details;
-}
-
-std::vector<int> getDimensions(std::string boardDimensions) {
-  std::vector<std::string> strDims = delimStringToVector(boardDimensions, ",");
-  std::vector<int> dims;
-  dims.push_back(std::stoi(strDims[1]));
-  dims.push_back(std::stoi(strDims[0]));
-  return dims;
-}
-
-int getTileLocationRow(std::string tileLoc) {
-  // row can't exceed 'Z', so will be first position
-  char val = tileLoc[0];
-  return val - 65;
-}
-
-int getTileLocationCol(std::string tileLoc) {
-  int colVal = -1;
-  std::string colString = "";
-  std::string temp = "";
-  if (tileLoc.length() > 1) {
-    for (size_t i = 1; i < tileLoc.length(); i++) {
-      temp = tileLoc[i];
-      colString.append(temp);
-    }
-    colVal = std::stoi(colString);
-  }
-  return colVal;
-}
-
-void Board::loadTilePlacement(std::string info) {
-  // e.g. R1&
-  // get tile
-  std::vector<std::string> posVec = delimStringToVector(info, "@");
-
-  Colour colr = getColour(posVec[0]);
-  Shape shp = getShape(posVec[0]);
-  Tile* tileToPlace = new Tile(colr, shp);
-
-  int row = getTileLocationRow(posVec[1]);
-  int col = getTileLocationCol(posVec[1]);
-  // get position
-
-  this->addTile(tileToPlace, row, col);
-}
-
-Board::Board(std::string boardDetails, std::string boardDimensions) {
-  // split string by commmas
-  //    e.g. R1@D5,R5@G7 -> [R1@D5, R5@G7]
-  //
-  std::vector<std::string> boardVec = delimStringToVector(boardDetails, ",");
-  std::vector<int> dims = getDimensions(boardDimensions);
-
-  rows = dims[0];
-  cols = dims[1];
-
-  resizeBoard(rows, cols);
-
-  for (std::string cell : boardVec) {
-    loadTilePlacement(cell);
-  }
 }
 
 Board::Board(Board& other) {
@@ -132,12 +40,12 @@ Board::~Board() {
 }
 
 bool Board::addTile(Tile* tile, int row, int col) {
-  boardVecs[row][col] = tile;
-  if (boardVecs[row][col] == tile) {
-    return true;
-  } else {
-    return false;
+  bool tileAdded = false;
+  if (boardVecs[row][col] == nullptr) {
+    boardVecs[row][col] = tile;
+    tileAdded = true;
   }
+  return tileAdded;
 }
 
 std::string Board::printBoard() {
@@ -145,13 +53,17 @@ std::string Board::printBoard() {
   std::string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   int alphaCount = 0;
   boardAppearance.append(EMPTY_SPACE " ");
-  boardAppearance.append(
-      "0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 "
-      "23 24 25\n");
-  boardAppearance.append(EMPTY_SPACE " ");
-  boardAppearance.append(
-      "------------------------------------------------------------------------"
-      "-----\n");
+  for (int i = 0; i < cols; ++i) {
+    std::string toAppend =
+        i < 10 ? std::to_string(i) + EMPTY_SPACE : std::to_string(i) + " ";
+    boardAppearance.append(toAppend);
+  }
+  boardAppearance.append("\n");
+  boardAppearance.append(EMPTY_SPACE);
+  for (int i = 0; i < cols * 3; ++i) {
+    boardAppearance.append("-");
+  }
+  boardAppearance.append("-\n");
 
   for (int i = 0; i < rows; i++) {
     if (alphaCount < 26) {
@@ -208,9 +120,7 @@ std::string Board::boardToString() {
   return boardState;
 }
 
-int Board::asciiToInt(
-    char letter) {  // Using deprecated casting style.  Use
-                    // static_cast<int>(...) instead  [readability/casting] [4]
+int Board::asciiToInt(char letter) {
   int i = int(letter);
   i = i - 65;
   return i;
@@ -319,6 +229,7 @@ int Board::lineChecker(int row, int col, int rowAdjustment, int colAdjustment,
   int currentRow = row + rowAdjustment;
   int currentCol = col + colAdjustment;
   bool adjacentTile = true;
+  // Check how many tiles there are in a row.
   while (adjacentTile && validMove) {
     Tile* tileCheck;
     if (currentRow >= rows || currentCol >= cols || currentCol < 0 ||
@@ -353,7 +264,6 @@ int Board::lineChecker(int row, int col, int rowAdjustment, int colAdjustment,
 // Checked whether a tile is being placed next to another tile.
 bool Board::checkForAdjacency(int row, int col) {
   bool tileAdjacent = false;
-  // Add bounds checking.
   if (row - 1 >= 0) {
     if (boardVecs[row - 1][col] != nullptr) {
       tileAdjacent = true;

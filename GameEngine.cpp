@@ -9,7 +9,6 @@
 GameEngine::GameEngine(bool randomSeed) {
   noOfPlayers = 0;
   board = new Board();
-  // players = new Player*[MAX_NUM_OF_PLAYERS];
   board->resizeBoard(26, 26);
   fillTileBag(randomSeed);
   initialTilePlaced = false;
@@ -101,7 +100,7 @@ void GameEngine::loadGameState(GameState* loadedState) {
   board = new Board(*loadedState->getBoard());
   tileBag = new TileBag(*loadedState->getTileBag());
   currPlayer = loadedState->getCurrentPlayer();
-  if (board->boardToString() != "") {
+  if (board->boardToString() == "\n") {
     initialTilePlaced = true;
   }
 }

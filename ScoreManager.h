@@ -2,12 +2,9 @@
 #ifndef SCOREMANAGER_H_
 #define SCOREMANAGER_H_
 
-#define QWIRKLE 6
-#define MAX_TILES_LINE 6
-
 #include "Board.h"
 #include "Player.h"
-
+#include "definitions.h"
 class ScoreManager {
  public:
   ScoreManager();
