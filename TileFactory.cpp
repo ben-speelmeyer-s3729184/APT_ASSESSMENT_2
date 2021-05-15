@@ -34,7 +34,9 @@ TileBag* TileFactory::createTileBag(bool randomSeed) {
 
     if (tiles[randIndex][COLOUR_IND] != '\0' &&
         tiles[randIndex][SHAPE_IND] != '\0') {
-      Tile* tile = createTile(tiles[randIndex]);
+      char tileInfo[TILE_ATTRIBUTES] = {tiles[randIndex][COLOUR_IND],
+                                        tiles[randIndex][SHAPE_IND]};
+      Tile* tile = createTile(tileInfo);
       tileBag->addTile(tile);
       ++tileCount;
       tiles[randIndex][COLOUR_IND] = '\0';
@@ -50,7 +52,9 @@ TileBag* TileFactory::createTileBag(std::string loadedTileBag) {
   std::istringstream iss(loadedTileBag);
 
   while (std::getline(iss, tileData, ',')) {
-    Tile* tile = createTile(tileData);
+    char tileInfo[TILE_ATTRIBUTES] = {tileData[COLOUR_IND],
+                                      tileData[SHAPE_IND]};
+    Tile* tile = createTile(tileInfo);
     tileBag->addTile(tile);
   }
   return tileBag;
@@ -78,7 +82,7 @@ void TileFactory::importTileList(TilesImport tiles) {
   file.close();
 }
 
-Tile* TileFactory::createTile(std::string input) {
+Tile* TileFactory::createTile(char input[TILE_ATTRIBUTES]) {
   utils utils;
   Colour colour = utils.getColour(input);
   Shape shape = utils.getShape(input);

@@ -41,7 +41,7 @@ Board::~Board() {
 
 bool Board::addTile(Tile* tile, int row, int col) {
   bool tileAdded = false;
-  if (boardVecs[row][col] != nullptr) {
+  if (boardVecs[row][col] == nullptr) {
     boardVecs[row][col] = tile;
     tileAdded = true;
   }

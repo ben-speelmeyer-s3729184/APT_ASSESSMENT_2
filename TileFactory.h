@@ -22,7 +22,7 @@ class TileFactory {
   TileBag* createTileBag(bool randomSeed);
   TileBag* createTileBag(std::string loadedTileBag);
   Hand* createHand(std::string hand);
-  Tile* createTile(std::string input);
+  Tile* createTile(char input[TILE_ATTRIBUTES]);
 
  private:
   void importTileList(TilesImport tiles);
