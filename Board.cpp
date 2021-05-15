@@ -317,6 +317,7 @@ int Board::lineChecker(int row, int col, int rowAdjustment, int colAdjustment,
   int currentRow = row + rowAdjustment;
   int currentCol = col + colAdjustment;
   bool adjacentTile = true;
+  // Check how many tiles there are in a row.
   while (adjacentTile && validMove) {
     Tile* tileCheck;
     if (currentRow >= rows || currentCol >= cols || currentCol < 0 ||

@@ -8,8 +8,9 @@
 #include "LinkedList.h"
 #include "Player.h"
 #include "TileFactory.h"
-std::string removeCarriageReturn(std::string fix);
+
 DataManager::DataManager() {}
+std::string removeCarriageReturn(std::string fix);
 
 bool DataManager::saveGame(GameState* saveGame, std::string fileName) {
   bool status = false;
@@ -31,60 +32,27 @@ GameState* DataManager::loadGame(std::string fileName) {
   GameState* gameState = nullptr;
 
   std::ifstream loadFile(fileName);
-
   // check file was opened correctly
   if (loadFile) {
     // initialise temp variables
-    std::string name_player1 = "";
-    std::string score_player1 = "";
-    std::string player1Hand = "";
-    std::string name_player2 = "";
-    std::string score_player2 = "";
-    std::string player2Hand = "";
-    std::string boardSize = "";
-    std::string boardDetails = "";
-    std::string loadedTileBag = "";
-    std::string currPlayerName = "";
-
-    // read variables from file
-    std::getline(loadFile, name_player1);
-    std::getline(loadFile, score_player1);
-    std::getline(loadFile, player1Hand);
-    std::getline(loadFile, name_player2);
-    std::getline(loadFile, score_player2);
-    std::getline(loadFile, player2Hand);
-    std::getline(loadFile, boardSize);
-    std::getline(loadFile, boardDetails);
-    std::getline(loadFile, loadedTileBag);
-    std::getline(loadFile, currPlayerName);
-
-    // If \r exists due to windows os, remove it.
-    name_player1 = removeCarriageReturn(name_player1);
-    player1Hand = removeCarriageReturn(player1Hand);
-    score_player1 = removeCarriageReturn(score_player1);
-    name_player2 = removeCarriageReturn(name_player2);
-    score_player2 = removeCarriageReturn(score_player2);
-    player2Hand = removeCarriageReturn(player2Hand);
-    boardDetails = removeCarriageReturn(boardDetails);
-    boardSize = removeCarriageReturn(boardSize);
-    loadedTileBag = removeCarriageReturn(loadedTileBag);
-    currPlayerName = removeCarriageReturn(currPlayerName);
+    std::string loadedData[NUMBER_OF_DATA_ENTRIES];
+    for (int i = 0; i < NUMBER_OF_DATA_ENTRIES; ++i) {
+      std::getline(loadFile, loadedData[i]);
+      removeCarriageReturn(loadedData[i]);
+    }
 
     // close file
     loadFile.close();
 
     // create tilebag
-    TileFactory tileFactory;
-    TileBag* tileBag = tileFactory.createTileBag(loadedTileBag);
-
     int noOfPlayers = 0;
     Player* players[MAX_NUM_OF_PLAYERS];
 
     // player 1 details
-    players[noOfPlayers] = new Player(name_player1);
-    players[noOfPlayers]->addScore(std::stoi(score_player1));
-
-    Hand* hand1 = tileFactory.createHand(player1Hand);
+    players[noOfPlayers] = new Player(PLAYER_1_NAME);
+    players[noOfPlayers]->addScore(std::stoi(PLAYER_1_SCORE));
+    TileFactory tileFactory;
+    Hand* hand1 = tileFactory.createHand(PLAYER_1_HAND);
 
     while (hand1->size() > 0) {
       players[noOfPlayers]->addTileToHand(hand1->takeFront());
@@ -93,10 +61,10 @@ GameState* DataManager::loadGame(std::string fileName) {
     ++noOfPlayers;
 
     // player 2 details
-    players[noOfPlayers] = new Player(name_player2);
-    players[noOfPlayers]->addScore(std::stoi(score_player2));
+    players[noOfPlayers] = new Player(PLAYER_2_HAND);
+    players[noOfPlayers]->addScore(std::stoi(PLAYER_2_SCORE));
 
-    Hand* hand2 = tileFactory.createHand(player2Hand);
+    Hand* hand2 = tileFactory.createHand(PLAYER_2_HAND);
 
     while (hand2->size() > 0) {
       players[noOfPlayers]->addTileToHand(hand2->takeFront());
@@ -105,14 +73,16 @@ GameState* DataManager::loadGame(std::string fileName) {
     ++noOfPlayers;
     delete hand2;
     // Recreate Board
-    Board* board = new Board(boardDetails, boardSize);
+    Board* board = new Board(BOARD_DETAILS, BOARD_SIZE);
 
     // initialise currentPlayerNumber to -1
     // to force an error if issue resuming players
     int currentPlayerNumber = -1;
 
+    TileBag* tileBag = tileFactory.createTileBag(BOARD_SIZE);
+
     // Put data into GameState
-    if (players[0]->getPlayerName() == currPlayerName) {
+    if (players[0]->getPlayerName() == CURRENT_PLAYER_NAME) {
       currentPlayerNumber = 0;
     } else {
       currentPlayerNumber = 1;
