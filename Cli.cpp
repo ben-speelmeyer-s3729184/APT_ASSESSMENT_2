@@ -315,6 +315,10 @@ bool Cli::parsePlayerInput(Player* player) {
   } else if (input.size() == 2) {
     if (input[0] == "replace") {
       if (validateTile(input[1])) {
+        Colour colr = utils.getColour(input[1]);
+        Shape shp = utils.getShape(input[1]);
+        Tile tileToPlace(colr, shp);
+        gameEngine->replaceTile(player, &tileToPlace);
         status = true;
       }
     } else if (input[0] == "save") {
