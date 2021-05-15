@@ -9,11 +9,11 @@ int readShape(char shape);
 
 int main(int argc, char* argv[]) {
   // create CLI object
-  bool check = false;
+  bool check = true;
   if (argc >= 2) {
     std::string arg = argv[1];
     if (arg == "static") {
-      check = true;
+      check = false;
     }
   }
   Cli console(check);
