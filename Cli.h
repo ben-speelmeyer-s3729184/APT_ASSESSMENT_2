@@ -2,6 +2,9 @@
 #ifndef CLI_H_
 #define CLI_H_
 
+#define PLAYER_1 0
+#define PLAYER_2 1
+
 #include <iostream>
 #include <string>
 #include <vector>

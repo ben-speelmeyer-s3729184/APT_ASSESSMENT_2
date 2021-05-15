@@ -57,7 +57,7 @@ bool Cli::runGame() {
     if (gameLoaded) {
       std::cout << "\nQwirkle game successfully loaded" << std::endl;
       startGameplay();
-    } else {
+    } else if (!exit) {
       std::cout << std::endl;
       printMenu();
     }
@@ -178,26 +178,18 @@ bool Cli::nextRound() {
 void Cli::printPlayerInfo() {
   std::string name = "";
   std::string hand = "";
-
-  Player* player1 = gameEngine->getPlayer(0);
-  Player* player2 = gameEngine->getPlayer(1);
-
-  if (playerNum == 0) {
-    name = player1->getPlayerName();
-    hand = player1->getPlayerHand();
-    currentPlayer = player1;
-  } else {
-    name = player2->getPlayerName();
-    hand = player2->getPlayerHand();
-    currentPlayer = player2;
+  Player* players[MAX_NUM_OF_PLAYERS];
+  for (int i = 0; i < MAX_NUM_OF_PLAYERS; ++i) {
+    players[i] = gameEngine->getPlayer(i);
   }
+  name = players[playerNum]->getPlayerName();
+  hand = players[playerNum]->getPlayerHand();
 
   std::cout << name << ", it's your turn" << std::endl;
-  std::cout << "Score for " << player1->getPlayerName() << ": "
-            << player1->getPlayerScore() << std::endl;
-  std::cout << "Score for " << player2->getPlayerName() << ": "
-            << player2->getPlayerScore() << std::endl;
-
+  for (int i = 0; i < MAX_NUM_OF_PLAYERS; ++i) {
+    std::cout << "Score for " << players[i]->getPlayerName() << ": "
+              << players[i]->getPlayerScore() << std::endl;
+  }
   std::cout << gameEngine->printBoard() << std::endl;
 
   std::cout << "Your hand is" << std::endl;
@@ -397,10 +389,10 @@ bool Cli::parsePlayerInput(Player& player) {
     std::cout << "Game over" << std::endl;
     int scores[gameEngine->getNoOfPlayers()];
     for (int i = 0; i < gameEngine->getNoOfPlayers(); i++) {
-      Player player = *gameEngine->getPlayer(i);
-      scores[i] = gameEngine->getPlayer(i)->getPlayerScore();
-      std::cout << "Score for " << player.getPlayerName() << ": "
-                << player.getPlayerScore() << std::endl;
+      Player* player = gameEngine->getPlayer(i);
+      scores[i] = player->getPlayerScore();
+      std::cout << "Score for " << player->getPlayerName() << ": "
+                << player->getPlayerScore() << std::endl;
     }
     int highestScore = 0;
     int playerNumber = 0;
