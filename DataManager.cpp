@@ -61,7 +61,7 @@ GameState* DataManager::loadGame(std::string fileName) {
     ++noOfPlayers;
 
     // player 2 details
-    players[noOfPlayers] = new Player(PLAYER_2_HAND);
+    players[noOfPlayers] = new Player(PLAYER_2_NAME);
     players[noOfPlayers]->addScore(std::stoi(PLAYER_2_SCORE));
 
     Hand* hand2 = tileFactory.createHand(PLAYER_2_HAND);
@@ -79,7 +79,7 @@ GameState* DataManager::loadGame(std::string fileName) {
     // to force an error if issue resuming players
     int currentPlayerNumber = -1;
 
-    TileBag* tileBag = tileFactory.createTileBag(BOARD_SIZE);
+    TileBag* tileBag = tileFactory.createTileBag(TILE_BAG_DETAILS);
 
     // Put data into GameState
     if (players[0]->getPlayerName() == CURRENT_PLAYER_NAME) {
