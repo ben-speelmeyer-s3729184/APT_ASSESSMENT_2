@@ -16,7 +16,7 @@ bool DataManager::saveGame(GameState* saveGame, std::string fileName) {
   bool status = false;
   // Create and open a text file
 
-  bool validFile = false;
+  bool validFile = true;
   std::ifstream loadFile(fileName);
   if (loadFile.is_open()) {
     // initialise temp variables
@@ -27,10 +27,8 @@ bool DataManager::saveGame(GameState* saveGame, std::string fileName) {
       utils utils;
       validFile = utils.checkData(i, loadedData[i]);
     }
-    loadFile.close();
-  } else {
-    validFile = true;
   }
+  loadFile.close();
   if (validFile) {
     std::ofstream saveFile(fileName);
 
