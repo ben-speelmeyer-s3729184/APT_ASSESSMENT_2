@@ -182,6 +182,7 @@ void Cli::printPlayerInfo() {
   for (int i = 0; i < MAX_NUM_OF_PLAYERS; ++i) {
     players[i] = gameEngine->getPlayer(i);
   }
+  currentPlayer = gameEngine->getPlayer(playerNum);
   name = players[playerNum]->getPlayerName();
   hand = players[playerNum]->getPlayerHand();
 
@@ -409,10 +410,9 @@ bool Cli::parsePlayerInput(Player& player) {
   }
   if (!saved && status) {
     // change current player
-    if (playerNum > 0) {
+    ++playerNum;
+    if (playerNum >= MAX_NUM_OF_PLAYERS) {
       playerNum = 0;
-    } else {
-      playerNum = 1;
     }
   }
 
