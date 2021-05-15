@@ -23,7 +23,7 @@ int main(void) {
   console.printMenu();
 
   // main loop
-  while (!console.nextInput()) {
+  while (!console.runGame()) {
   }
 
   std::cout << "Goodbye" << std::endl;
@@ -55,22 +55,23 @@ int main(void) {
 //       int row = 0;
 //       int col = 0;
 //       if (location.length() < 3) {
-//         row = (int)location[0] % 32 - 1;  // Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
-//         col = location[1] - '0';
-//         std::cout << row << std::endl;
-//         std::cout << col << std::endl;
+//         row = (int)location[0] % 32 - 1;  // Using C-style cast.  Use
+//         static_cast<int>(...) instead  [readability/casting] [4] col =
+//         location[1] - '0'; std::cout << row << std::endl; std::cout << col <<
+//         std::endl;
 //       } else {
-//         row = (int)location[0] % 32 - 1;  // Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
-//         int colTens = (location[1] - '0') * 10;
-//         int colOnes = location[2] - '0';
-//         col = colTens + colOnes;
+//         row = (int)location[0] % 32 - 1;  // Using C-style cast.  Use
+//         static_cast<int>(...) instead  [readability/casting] [4] int colTens
+//         = (location[1] - '0') * 10; int colOnes = location[2] - '0'; col =
+//         colTens + colOnes;
 //       }
 
 //       bool validMove =
 //           gameEngine->checkTilePlacement(player, row, col, &tileToPlace);
 //       if (validMove) {
 //         gameFinished =
-//             gameEngine->endOfRoundCalculations(player, row, col, &tileToPlace);
+//             gameEngine->endOfRoundCalculations(player, row, col,
+//             &tileToPlace);
 //       } else {
 //         gameEngine->replaceTile(player, &tileToPlace);
 //       }

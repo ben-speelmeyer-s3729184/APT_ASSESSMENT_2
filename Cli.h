@@ -70,7 +70,10 @@ class Cli {
   /*
    * Takes user input and parses command
    */
-  bool parsePlayerInput(Player& player);  //  Is this a non-const reference? If so, make const or use a pointer: Player& player  [runtime/references] [2]
+  bool parsePlayerInput(
+      Player&
+          player);  //  Is this a non-const reference? If so, make const or use
+                    //  a pointer: Player& player  [runtime/references] [2]
 
   /*
    * Checks tile given by player
@@ -91,7 +94,8 @@ class Cli {
   /*
    * Seed Cli Constructor
    */
-  Cli(bool randomSeed);  // Single-parameter constructors should be marked explicit.  [runtime/explicit] [5]
+  Cli(bool randomSeed);  // Single-parameter constructors should be marked
+                         // explicit.  [runtime/explicit] [5]
 
   /*
    * Destructor
@@ -101,7 +105,7 @@ class Cli {
   /*
    * takes input from std::cin and processes game state
    */
-  bool nextInput();
+  bool runGame();
 
   /*
    * prints out main menu.
