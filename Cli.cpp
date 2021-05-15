@@ -103,14 +103,14 @@ bool Cli::newGame() {
   }
   // get player info
   std::cout << "Starting a New Game\n" << std::endl;
-
+  utils utils;
   int playerCount = 0;
   bool exitCheck = false;
   while (playerCount < MAX_NUM_OF_PLAYERS && !exitCheck) {
     std::cout << "Enter a name for player " << playerCount + 1
               << " (uppercase characters only)\n> ";
     playerName[playerCount] = getInput();
-    bool nameCheck = checkName(playerName[playerCount]);
+    bool nameCheck = utils.checkName(playerName[playerCount]);
     // check name format
     while (!nameCheck) {
       if (std::cin.eof()) {
@@ -119,7 +119,7 @@ bool Cli::newGame() {
       } else {
         std::cout << "Invalid Input.\n> ";
         playerName[playerCount] = getInput();
-        nameCheck = checkName(playerName[playerCount]);
+        utils.checkName(playerName[playerCount]);
       }
     }
     playerCount++;
@@ -152,7 +152,7 @@ bool Cli::loadGame() {
     if (exit || fileName == "quit") {
       exit = true;
     } else if (gameState == nullptr) {
-      std::cout << "Invalid file name.\n> ";
+      std::cout << "File unavailable or invalid file name.\n> ";
 
     } else {
       gameEngine->loadGameState(gameState);
@@ -239,37 +239,21 @@ bool Cli::validatePosition(std::string position) {
   bool status = false;
   std::vector<int> boardSize;
   boardSize = gameEngine->getBoardSize();
-
+  utils utils;
+  status = utils.checkCoordinate(position);
+  if (status) {
+  }
   if (position.length() == 2) {
     // if row letter - 65 (ASCII Capital range) is less than rows,
     // and col number is less than col count, then position is valid
-
-    if (position[0] - 65 < boardSize[0] && position[1] - 48 < boardSize[1]) {
-      status = true;
-    }
-  } else if (position.length() == 3) {
-    int col = std::stoi(position.substr(1, 2));
-    if (position[0] - 65 < boardSize[0] && col < boardSize[1]) {
+    int row = utils.parseRow(position);
+    int col = utils.parseCol(position);
+    if (row < boardSize[0] && col < boardSize[1]) {
       status = true;
     }
   }
 
   return status;
-}
-
-int parseRow(std::string pos) {
-  char rowVal = pos[0];
-  return static_cast<int>(rowVal - 65);
-}
-
-int parseCol(std::string pos) {
-  int col = -1;
-  if (pos.length() == 2) {
-    col = std::stoi(pos.substr(1, 1));
-  } else if (pos.length() == 3) {
-    col = std::stoi(pos.substr(1, 2));
-  }
-  return col;
 }
 
 bool Cli::parsePlayerInput(Player* player) {
@@ -299,10 +283,8 @@ bool Cli::parsePlayerInput(Player* player) {
         Shape shp = utils.getShape(input[1]);
         Tile tileToPlace(colr, shp);
         // Tile* tileToPlace = new Tile(colr, shp); TODO, test this!
-
-        int row = parseRow(input[3]);
-        int col = parseCol(input[3]);
-
+        int row = utils.parseRow(input[3]);
+        int col = utils.parseCol(input[3]);
         bool validMove =
             gameEngine->checkTilePlacement(player, row, col, &tileToPlace);
         if (validMove) {
@@ -374,23 +356,6 @@ bool Cli::parsePlayerInput(Player* player) {
   }
 
   return status;
-}
-
-bool Cli::checkName(const std::string& name) const {
-  // if stringStatus is true, then name is ok
-  bool stringStatus = true;
-  // avoid zero-length strings
-  if (name.length() == 0) {
-    stringStatus = false;
-  }
-  // Make sure all values are upper case (ASCII 65-90)
-  for (size_t i = 0; i < name.length(); i++) {
-    if (name[i] < 65 || name[i] > 90) {
-      stringStatus = false;
-    }
-  }
-
-  return stringStatus;
 }
 
 void Cli::printCredits() {
