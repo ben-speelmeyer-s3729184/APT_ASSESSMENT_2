@@ -3,13 +3,6 @@
 
 #include <ios>
 #include <limits>
-Cli::Cli() {
-  gameEngine = new GameEngine(false);
-  dataManager = new DataManager();
-  gameState = nullptr;
-  currentPlayer = nullptr;
-  playerNum = 0;
-}
 
 Cli::Cli(bool randomSeed) {
   gameEngine = new GameEngine(randomSeed);
@@ -166,7 +159,7 @@ bool Cli::nextRound() {
   printPlayerInfo();
 
   // parse player input until acceptable value
-  while (!parsePlayerInput(*currentPlayer)) {
+  while (!parsePlayerInput(currentPlayer)) {
     std::cout << "Invalid Input\n";
   }
   // if player wants to quit, flag will be set
@@ -316,7 +309,7 @@ int parseCol(std::string pos) {
   return col;
 }
 
-bool Cli::parsePlayerInput(Player& player) {
+bool Cli::parsePlayerInput(Player* player) {
   std::cout << "> ";
   std::vector<std::string> input;
   std::string words;
@@ -347,9 +340,9 @@ bool Cli::parsePlayerInput(Player& player) {
         int col = parseCol(input[3]);
 
         bool validMove =
-            gameEngine->checkTilePlacement(&player, row, col, &tileToPlace);
+            gameEngine->checkTilePlacement(player, row, col, &tileToPlace);
         if (validMove) {
-          gameFinished = gameEngine->endOfRoundCalculations(&player, row, col,
+          gameFinished = gameEngine->endOfRoundCalculations(player, row, col,
                                                             &tileToPlace);
           status = true;
         }
@@ -361,7 +354,7 @@ bool Cli::parsePlayerInput(Player& player) {
         Colour colr = getColour(input[1]);
         Shape shp = getShape(input[1]);
         Tile tileToPlace(colr, shp);
-        gameEngine->replaceTile(&player, &tileToPlace);
+        gameEngine->replaceTile(player, &tileToPlace);
         status = true;
       }
     } else if (input[0] == "save") {
