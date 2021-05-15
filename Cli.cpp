@@ -330,6 +330,8 @@ bool Cli::parsePlayerInput(Player* player) {
         std::cout << "\nGame successfully saved\n" << std::endl;
         status = true;
         saved = true;
+      } else {
+        std::cout << "\n Save game filed." << std::endl;
       }
     }
   } else if (input.size() == 1) {
