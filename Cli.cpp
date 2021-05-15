@@ -87,11 +87,6 @@ void Cli::printMenu() const {
 }
 
 void Cli::startGameplay() {
-  // need to clear the cin buffer before
-  // starting the gameplay, due to use of
-  // getline
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
   while (nextRound()) {
   }
 }
@@ -201,11 +196,7 @@ void Cli::printPlayerInfo() {
   std::cout << hand << std::endl;
 }
 
-void splitString(
-    std::vector<std::string>& input,
-    std::string words) {  //  Is this a non-const reference? If so, make const
-                          //  or use a pointer: std::vector<std::string>&
-                          //  input [runtime/references] [2]
+void splitString(std::vector<std::string>& input, std::string words) {
   std::string buffer;
   std::string value;
   for (size_t i = 0; i < words.length(); i++) {
@@ -455,8 +446,6 @@ void Cli::printCredits() {
 
 std::string Cli::getInput() {
   std::string input = "";
-  // std::cin.clear();
-  // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   std::getline(std::cin, input);
   if (std::cin.eof()) {
     exit = true;
