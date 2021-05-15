@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 
+#include "utils.h"
 TileFactory::TileFactory() {}
 
 TileFactory::~TileFactory() {}
@@ -33,9 +34,7 @@ TileBag* TileFactory::createTileBag(bool randomSeed) {
 
     if (tiles[randIndex][COLOUR_IND] != '\0' &&
         tiles[randIndex][SHAPE_IND] != '\0') {
-      Colour colour = tiles[randIndex][COLOUR_IND];
-      Shape shape = readShape(tiles[randIndex][SHAPE_IND]);
-      Tile* tile = new Tile(colour, shape);
+      Tile* tile = createTile(tiles[randIndex]);
       tileBag->addTile(tile);
       ++tileCount;
       tiles[randIndex][COLOUR_IND] = '\0';
@@ -51,9 +50,7 @@ TileBag* TileFactory::createTileBag(std::string loadedTileBag) {
   std::istringstream iss(loadedTileBag);
 
   while (std::getline(iss, tileData, ',')) {
-    Colour colour = tileData[COLOUR_IND];
-    Shape shape = readShape(tileData[SHAPE_IND]);
-    Tile* tile = new Tile(colour, shape);
+    Tile* tile = createTile(tileData);
     tileBag->addTile(tile);
   }
   return tileBag;
@@ -81,20 +78,10 @@ void TileFactory::importTileList(TilesImport tiles) {
   file.close();
 }
 
-int TileFactory::readShape(char shape) {
-  int shapeRet = '\0';
-  if (shape == '1') {
-    shapeRet = CIRCLE;
-  } else if (shape == '2') {
-    shapeRet = STAR_4;
-  } else if (shape == '3') {
-    shapeRet = DIAMOND;
-  } else if (shape == '4') {
-    shapeRet = SQUARE;
-  } else if (shape == '5') {
-    shapeRet = STAR_6;
-  } else if (shape == '6') {
-    shapeRet = CLOVER;
-  }
-  return shapeRet;
+Tile* TileFactory::createTile(std::string input) {
+  utils utils;
+  Colour colour = utils.getColour(input);
+  Shape shape = utils.getShape(input);
+  Tile* tileToPlace = new Tile(colour, shape);
+  return tileToPlace;
 }

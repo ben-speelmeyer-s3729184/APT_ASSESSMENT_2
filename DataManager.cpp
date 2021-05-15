@@ -165,10 +165,8 @@ void DataManager::loadTilePlacement(Board* board, std::string info) {
   // e.g. R1&
   // get tile
   std::vector<std::string> posVec = delimStringToVector(info, "@");
-  utils util;
-  Colour colr = util.getColour(posVec[0]);
-  Shape shp = util.getShape(posVec[0]);
-  Tile* tileToPlace = new Tile(colr, shp);
+  TileFactory tileFactory;
+  Tile* tileToPlace = tileFactory.createTile(posVec[0]);
 
   int row = getTileLocationRow(posVec[1]);
   int col = getTileLocationCol(posVec[1]);

@@ -13,9 +13,6 @@
 #include "GameEngine.h"
 #include "GameState.h"
 
-Colour getColour(std::string tile);
-Shape getShape(std::string tile);
-
 /*
  * Command line input (CLI) class to assist with processing
  * user input and displaying menu.
@@ -84,6 +81,11 @@ class Cli {
    * Checks position given by player
    */
   bool validatePosition(std::string position);
+
+  /*
+   * Cleans the Game state
+   */
+  void cleanGameState();
 
  public:
   /*

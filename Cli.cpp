@@ -4,6 +4,7 @@
 #include <ios>
 #include <limits>
 
+#include "TileFactory.h"
 #include "utils.h"
 
 Cli::Cli(bool randomSeed) {
@@ -130,15 +131,14 @@ bool Cli::newGame() {
   }
   return exitCheck;
 }
+
 /**
  *loadGame - Loads a game
  */
 bool Cli::loadGame() {
   std::string fileName = "";
   if (gameState != nullptr) {
-    GameState* toDelete = gameState;
-    gameState = nullptr;
-    delete toDelete;
+    cleanGameState();
   }
   std::cout << "Enter the filename from which load a game\n> ";
   bool gameLoaded = false;
@@ -225,13 +225,13 @@ void splitString(std::vector<std::string>& input, std::string words) {
 }
 
 bool Cli::validateTile(std::string tile) {
+  utils utils;
+  Colour colour = utils.getColour(tile);
+  Shape shape = utils.getShape(tile);
   bool status = false;
-  size_t colourCheck = tileColours.find(tile[0]);
-  // current shape codes are 1-6 (ASCII = 49-54)
-  if (colourCheck != std::string::npos && tile[1] >= 49 && tile[1] <= 54) {
+  if (colour != '\0' && shape != 0) {
     status = true;
   }
-
   return status;
 }
 
@@ -259,9 +259,7 @@ bool Cli::validatePosition(std::string position) {
 
 int parseRow(std::string pos) {
   char rowVal = pos[0];
-  return static_cast<int>(
-      rowVal - 65);  // Using C-style cast.  Use static_cast<int>(...)
-                     // instead  [readability/casting] [4]
+  return static_cast<int>(rowVal - 65);
 }
 
 int parseCol(std::string pos) {
@@ -317,17 +315,11 @@ bool Cli::parsePlayerInput(Player* player) {
   } else if (input.size() == 2) {
     if (input[0] == "replace") {
       if (validateTile(input[1])) {
-        Colour colr = utils.getColour(input[1]);
-        Shape shp = utils.getShape(input[1]);
-        Tile tileToPlace(colr, shp);
-        gameEngine->replaceTile(player, &tileToPlace);
         status = true;
       }
     } else if (input[0] == "save") {
       if (gameState != nullptr) {
-        GameState* toDelete = gameState;
-        gameState = nullptr;
-        delete toDelete;
+        cleanGameState();
       }
       gameState = gameEngine->getGameState(playerNum);
       if (dataManager->saveGame(gameState, input[1])) {
@@ -414,4 +406,10 @@ std::string Cli::getInput() {
     exit = true;
   }
   return input;
+}
+
+void Cli::cleanGameState() {
+  GameState* toDelete = gameState;
+  gameState = nullptr;
+  delete toDelete;
 }

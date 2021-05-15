@@ -262,7 +262,6 @@ int Board::lineChecker(int row, int col, int rowAdjustment, int colAdjustment,
 // Checked whether a tile is being placed next to another tile.
 bool Board::checkForAdjacency(int row, int col) {
   bool tileAdjacent = false;
-  // Add bounds checking.
   if (row - 1 >= 0) {
     if (boardVecs[row - 1][col] != nullptr) {
       tileAdjacent = true;
