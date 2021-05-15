@@ -1,8 +1,8 @@
 #ifndef HAND_H
 #define HAND_H
 
+#include "Definitions.h"
 #include "LinkedList.h"
-#define HANDSIZE 6
 
 class Hand {
  public:

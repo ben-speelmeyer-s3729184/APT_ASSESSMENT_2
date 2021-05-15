@@ -5,11 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "Definitions.h"
 #include "Tile.h"
-
-#define EMPTY_SPACE "  "
-#define WALL "|"
-#define HEADER "__"
 
 typedef std::vector<std::vector<Tile>> twoDVector;
 

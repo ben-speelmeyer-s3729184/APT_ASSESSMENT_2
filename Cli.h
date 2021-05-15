@@ -2,17 +2,14 @@
 #ifndef CLI_H_
 #define CLI_H_
 
-#define PLAYER_1 0
-#define PLAYER_2 1
-
 #include <iostream>
 #include <string>
 #include <vector>
 
 #include "DataManager.h"
+#include "Definitions.h"
 #include "GameEngine.h"
 #include "GameState.h"
-
 /*
  * Command line input (CLI) class to assist with processing
  * user input and displaying menu.

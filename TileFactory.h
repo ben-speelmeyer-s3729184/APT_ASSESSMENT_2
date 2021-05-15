@@ -2,11 +2,6 @@
 #ifndef TILEFACTORY_H_
 #define TILEFACTORY_H_
 
-#define MAX_TILE_BAG_SIZE 72
-#define TILE_ATTRIBUTES 2
-#define COLOUR_IND 0
-#define SHAPE_IND 1
-
 typedef char TilesImport[MAX_TILE_BAG_SIZE][TILE_ATTRIBUTES];
 
 #include <string>
@@ -14,7 +9,7 @@ typedef char TilesImport[MAX_TILE_BAG_SIZE][TILE_ATTRIBUTES];
 #include "Hand.h"
 #include "Player.h"
 #include "TileBag.h"
-
+#include "definitions.h"
 class TileFactory {
  public:
   TileFactory();
