@@ -99,7 +99,7 @@ void GameEngine::loadGameState(GameState* loadedState) {
     players[i] = new Player(*loadedState->getPlayers()[i]);
   }
   board = new Board(*loadedState->getBoard());
-  tileBag = new LinkedList(*loadedState->getTileBag());
+  tileBag = new TileBag(*loadedState->getTileBag());
   currPlayer = loadedState->getCurrentPlayer();
   if (board->boardToString() != "") {
     initialTilePlaced = true;

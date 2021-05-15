@@ -9,17 +9,19 @@
 
 typedef char TilesImport[MAX_TILE_BAG_SIZE][TILE_ATTRIBUTES];
 
-#include "LinkedList.h"
-#include "Player.h"
 #include <string>
+
+#include "Hand.h"
+#include "Player.h"
+#include "TileBag.h"
 
 class TileFactory {
  public:
   TileFactory();
   ~TileFactory();
-  LinkedList* createTileBag(bool randomSeed);
-  LinkedList* createTileBag(std::string loadedTileBag);
-  LinkedList* createHand(std::string hand);
+  TileBag* createTileBag(bool randomSeed);
+  TileBag* createTileBag(std::string loadedTileBag);
+  Hand* createHand(std::string hand);
 
  private:
   void importTileList(TilesImport tiles);

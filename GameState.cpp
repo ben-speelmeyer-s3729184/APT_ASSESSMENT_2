@@ -7,7 +7,7 @@
 
 // Takes a player array, the tileBag, board and numberOfPlayers added to the
 // game.
-GameState::GameState(Player** players, LinkedList* tileBag, Board* board,
+GameState::GameState(Player** players, TileBag* tileBag, Board* board,
                      int noOfPlayers, int currentPlayer)
     : noOfPlayers(noOfPlayers), currentPlayer(currentPlayer) {
   // populate players
@@ -15,7 +15,7 @@ GameState::GameState(Player** players, LinkedList* tileBag, Board* board,
     this->players[i] = new Player(*players[i]);
   }
   this->board = new Board(*board);
-  this->tileBag = new LinkedList(*tileBag);
+  this->tileBag = new TileBag(*tileBag);
 }
 
 GameState::GameState(const GameState& other)
@@ -39,7 +39,7 @@ GameState::~GameState() {
 int GameState::getCurrentPlayer() { return currentPlayer; }
 Player** GameState::getPlayers() { return players; }
 Board* GameState::getBoard() { return board; }
-LinkedList* GameState::getTileBag() { return tileBag; }
+TileBag* GameState::getTileBag() { return tileBag; }
 
 // Returns a complete string representation of the gamestate of saving purposes.
 std::string GameState::toString() {

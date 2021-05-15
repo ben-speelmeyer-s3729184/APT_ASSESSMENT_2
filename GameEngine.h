@@ -10,6 +10,7 @@
 #include "GameState.h"
 #include "Player.h"
 #include "Tile.h"
+#include "TileBag.h"
 #include "TileFactory.h"
 
 class GameEngine {
@@ -45,7 +46,7 @@ class GameEngine {
   Player** players;
   int noOfPlayers;
   int currPlayer = 0;
-  LinkedList* tileBag;
+  TileBag* tileBag;
   Board* board;
   void clear();
   void placeTile(Player* player, int row, int col, Tile* tile);
