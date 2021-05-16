@@ -22,9 +22,10 @@ bin/
 *.o
 
 # Test files
-.input
-.expsave
-.gameout
-.output
+*.input
+*.expsave
+*.gameout
+*.output
+*.save
 fullGame/
 testFiles/
