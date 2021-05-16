@@ -20,3 +20,11 @@ bin/
 
 # cpp object files
 *.o
+
+# Test files
+.input
+.expsave
+.gameout
+.output
+fullGame/
+testFiles/

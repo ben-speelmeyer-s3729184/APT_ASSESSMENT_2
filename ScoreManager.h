@@ -4,7 +4,8 @@
 
 #include "Board.h"
 #include "Player.h"
-#include "definitions.h"
+#include "Definitions.h"
+
 class ScoreManager {
  public:
   ScoreManager();
