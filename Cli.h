@@ -105,6 +105,9 @@ class Cli {
    */
   void printMenu() const;
 
+  /*
+  * Gets user input while checking for EOF
+  */
   std::string getInput();
 };
 
