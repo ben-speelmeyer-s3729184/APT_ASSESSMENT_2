@@ -13,12 +13,25 @@ typedef char Colour;
 typedef int Shape;
 
 class Tile {
- public:
-  Tile(Colour colour, Shape shape);
-  Tile(Tile& tile);  // Is this a non-const reference? If so, make const or use a pointer: Tile& tile  [runtime/references] [2]
-  std::string toString();
-  Colour colour;
-  Shape shape;
+public:
+    /*
+    * Constructor
+    */
+    Tile(Colour colour, Shape shape);
+
+    /*
+    * Copy constructor
+    */
+    Tile(Tile& tile);
+
+    /*
+    * Returns a string representation of Tile
+    */
+    std::string toString();
+
+
+    Colour colour;
+    Shape shape;
 };
 
 #endif  // TILE_H_

@@ -2,7 +2,7 @@
 
 TileBag::TileBag() { tileBag = new LinkedList(); }
 TileBag::TileBag(TileBag& tileBag) {
-  this->tileBag = new LinkedList(*tileBag.tileBag);
+    this->tileBag = new LinkedList(*tileBag.tileBag);
 }
 TileBag::~TileBag() { delete tileBag; }
 

@@ -4,18 +4,18 @@
 #include <string>
 
 Player::Player(std::string playerName) {
-  playerHand = new Hand();
-  this->playerName = new std::string(playerName);
-  playerScore = 0;
+    playerHand = new Hand();
+    this->playerName = new std::string(playerName);
+    playerScore = 0;
 }
 Player::Player(Player& player) {
-  this->playerName = new std::string(*player.playerName);
-  this->playerScore = player.playerScore;
-  this->playerHand = new Hand(*player.playerHand);
+    this->playerName = new std::string(*player.playerName);
+    this->playerScore = player.playerScore;
+    this->playerHand = new Hand(*player.playerHand);
 }
 Player::~Player() {
-  delete playerHand;
-  delete playerName;
+    delete playerHand;
+    delete playerName;
 }
 
 int Player::handSize() { return playerHand->size(); }

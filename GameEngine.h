@@ -13,48 +13,119 @@
 #include "TileBag.h"
 #include "TileFactory.h"
 class GameEngine {
- public:
-  GameEngine(bool randomSeed);  // Single-parameter constructors should be
-                                // marked explicit.  [runtime/explicit] [5]
-  ~GameEngine();
+public:
+    /*
+    * Constructor, will randomly fill tilebag if
+    * randomSeed is true.
+    */
+    GameEngine(bool randomSeed);
 
-  // Game setup functions
-  bool addPlayer(std::string name);
-  GameState* getGameState(int currentPlayer);
-  void loadGameState(GameState* loadedState);
+    /*
+    * Destructor
+    */
+    ~GameEngine();
 
-  // Tile placement functions
-  bool checkTilePlacement(Player* player, int row, int col, Tile* tile);
-  bool replaceTile(Player* player, Tile* tile);
-  bool checkTilePlaceability(int row, int col, Tile* tile);
+    // ============= Game setup functions =============
 
-  // Perform end of round routines, place tile, calculate score, top up hand and
-  // check win conditions.
-  bool endOfRoundCalculations(Player* player, int row, int col, Tile* tile);
+    /*
+    * Adds a player to engine. No error checking
+    * is performed, this is responsibility of caller.
+    */
+    bool addPlayer(std::string name);
 
-  Player* getPlayer(int playerNumber);
-  int getNoOfPlayers();
+    /*
+    * Generates a gamestate based on the state
+    * of GameEngine instance.
+    */
+    GameState* getGameState(int currentPlayer);
 
-  // Board Details
-  std::string printBoard();
+    /*
+    * Clears current game state and loads a previously saved game.
+    */
+    void loadGameState(GameState* loadedState);
 
-  std::vector<int> getBoardSize();
+    // ============= Tile placement functions =============
 
- private:
-  bool initialTilePlaced;
-  Player** players;
-  int noOfPlayers;
-  int currPlayer = 0;
-  TileBag* tileBag;
-  Board* board;
-  void clear();
-  void placeTile(Player* player, int row, int col, Tile* tile);
-  void topUpPlayerHand(Player* player);
-  void updateScore(Player* player, int col, int row);
-  bool checkForAdjacency(int row, int col);
-  bool checkAdjacentTiles(int row, int rowAdjustment, int col,
+    /*
+    * Checks that a tile played by a given player can legally be played
+    */
+    bool checkTilePlacement(Player* player, int row, int col, Tile* tile);
+
+    /*
+    * Replaces given tile in player hand
+    */
+    bool replaceTile(Player* player, Tile* tile);
+
+    /*
+    * TODO: implement or delete!
+    */
+    bool checkTilePlaceability(int row, int col, Tile* tile);
+
+    /*
+    * Perform end of round routines, place tile, calculate score,
+    * top up hand and check win conditions.
+    */
+    bool endOfRoundCalculations(Player* player, int row, int col, Tile* tile);
+
+    Player* getPlayer(int playerNumber);
+    int getNoOfPlayers();
+
+    /*
+    * Returns the board details via Board's printBoard() method
+    */
+    std::string printBoard();
+
+    /*
+    * Returns an ordered vector with board dimensions (row, col)
+    */
+    std::vector<int> getBoardSize();
+
+private:
+    bool initialTilePlaced;
+    Player** players;
+    int noOfPlayers;
+    int currPlayer = 0;
+    TileBag* tileBag;
+    Board* board;
+
+    /*
+    * Utility function called by destructor
+    */
+    void clear();
+
+    /*
+    * Places tile on board and removes from player hand
+    */
+    void placeTile(Player* player, int row, int col, Tile* tile);
+
+    /*
+    * Adds tile from tilebag to player's hand
+    */
+    void topUpPlayerHand(Player* player);
+
+    /*
+    * Increases player's score using ScoreManager
+    */
+    void updateScore(Player* player, int col, int row);
+
+    /*
+    * Checks board if any tiles are adjacent to row, col position
+    * Returns true if adjacent tile exists.
+    */
+    bool checkForAdjacency(int row, int col);
+
+    /*
+    * Checks if given tile can legally be placed in proposed
+    * position. Returns true if tile can be placed.
+    */
+    bool checkAdjacentTiles(int row, int rowAdjustment, int col,
                           int colAdjustment, Tile* tile);
-  void fillTileBag(bool randomSeed);
+
+    /*
+    * Fills tilebag with tiles, will do so randomly if
+    * randomSeed is set to true
+    */
+    void fillTileBag(bool randomSeed);
 };
 
 #endif  // GAMEENGINE_H_

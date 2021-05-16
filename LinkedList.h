@@ -8,38 +8,61 @@
 #include "Tile.h"
 
 class LinkedList {
- public:
-  LinkedList();
-  LinkedList(LinkedList& list);
-  ~LinkedList();
+public:
+    LinkedList();
+    LinkedList(LinkedList& list);
+    ~LinkedList();
 
-  Tile* getTile(Tile* tile);
+    /*
+    * Gets a pointer to specific tile
+    */
+    Tile* getTile(Tile* tile);
 
-  Tile* takeFront();
+    /*
+    * Takes a tile from front of list and returns a pointer to it
+    */
+    Tile* takeFront();
 
-  void addTile(Tile* tile);
+    /*
+    * Add a tile to LinkedList
+    */
+    void addTile(Tile* tile);
 
-  // Remove Tile From the tail
-  void removeFront();
 
-  // Remove First instance of tile
-  void removeTile(Tile* tile);
+    /*
+    * Remove Tile From the tail
+    */
+    void removeFront();
 
-  // Return size of linked List
-  int size();
+    /*
+    * Remove First instance of tile
+    */
+    void removeTile(Tile* tile);
 
-  // Check for a tile
-  bool contains(Tile* tile);
+    /*
+    * Return size of linked List
+    */
+    int size();
 
-  // String representation of the linkedList
-  std::string toString();
+    /*
+    * Check for a tile
+    */
+    bool contains(Tile* tile);
 
- private:
-  Node* head;
-  Node* tail;
-  int count;
+    /*
+    * String representation of the linkedList
+    */
+    std::string toString();
 
-  void clear();
+private:
+    Node* head;
+    Node* tail;
+    int count;
+
+    /*
+    * Utility function called by destructor
+    */
+    void clear();
 };
 
 #endif  // LINKEDLIST_H_

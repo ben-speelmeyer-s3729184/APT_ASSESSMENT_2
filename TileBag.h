@@ -4,18 +4,44 @@
 #include "LinkedList.h"
 
 class TileBag {
- public:
-  TileBag();
-  TileBag(TileBag& tileBag);
-  ~TileBag();
+public:
+    /*
+    * Default constructor
+    */
+    TileBag();
 
-  void addTile(Tile* tile);
-  Tile* takeFront();
-  int size();
-  std::string toString();
+    /*
+    * Copy constructor
+    */
+    TileBag(TileBag& tileBag);
 
- private:
-  LinkedList* tileBag;
+    /*
+    * Destructor
+    */
+    ~TileBag();
+
+    /*
+    * Adds given tile to Tilebag
+    */
+    void addTile(Tile* tile);
+
+    /*
+    * Removes tile from front of bag and returns a pointer to it
+    */
+    Tile* takeFront();
+
+    /*
+    * Returns Tilebag size
+    */
+    int size();
+
+    /*
+    * Returns a string representation of Tilebag
+    */
+    std::string toString();
+
+private:
+    LinkedList* tileBag;
 };
 
 #endif  // TILEBAG_H

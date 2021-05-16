@@ -5,14 +5,28 @@
 #include "Tile.h"
 
 class Node {
- public:
+public:
+    /*
+    * Constructor
+    */
     Node(Tile* tile, Node* next);
-    Node(Node& other);  // Is this a non-const reference? If so, make const or use a pointer: Node& other  [runtime/references] [2]
+
+    /*
+    * Copy constructor
+    */
+    Node(Node& other);
+
+    /*
+    * Destructor
+    */
     ~Node();
 
     Tile* tile;
     Node* next;
 
+    /*
+    * Check if node contains tile
+    */
     bool containsTile(Tile* tile);
 };
 

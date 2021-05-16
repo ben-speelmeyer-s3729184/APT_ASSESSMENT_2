@@ -7,14 +7,27 @@
 #include "Definitions.h"
 
 class ScoreManager {
- public:
-  ScoreManager();
-  void updateScores(Player* player, Board* board, int row, int col,
-                    bool initialTurn);
+public:
 
- private:
-  int calculateLineScore(Board* board, int row, int rowIncrement, int col,
-                         int colIncrement);
+    /*
+    * Constructor
+    */
+    ScoreManager();
+
+    /*
+    * Calculates the score to add to a player
+    */
+    void updateScores(Player* player, Board* board, int row, int col,
+                                    bool initialTurn);
+
+private:
+
+    /*
+    * Calculates the score of a line
+    */
+    int calculateLineScore(Board* board, int row, int rowIncrement, int col,
+                                                int colIncrement);
+
 };
 
-#endif  // SCOREMANAGER_H_
+#endif    // SCOREMANAGER_H_

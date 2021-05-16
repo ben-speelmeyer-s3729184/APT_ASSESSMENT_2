@@ -24,27 +24,68 @@
 #include "Hand.h"
 
 class Player {
- public:
-  Player(std::string playerName);  // Single-parameter constructors should be
-                                   // marked explicit.  [runtime/explicit] [5]
-  Player(Player& player);
-  ~Player();
+public:
+    /*
+    * Constructor
+    */
+    Player(std::string playerName);
 
-  int handSize();
-  bool hasTile(Tile* tile);
-  void addTileToHand(Tile* tile);
-  Tile* retrieveTile(Tile* tile);
 
-  std::string getPlayerName();
-  std::string getPlayerHand();
-  int getPlayerScore();
-  void addScore(int scoreModifier);
+    /*
+    * Copy constructor
+    */
+    Player(Player& player);
 
- private:
-  std::string* playerName;
-  int playerScore;
-  // Hand* playerHand;
-  Hand* playerHand;
+    /*
+    * Destructor
+    */
+    ~Player();
+
+    /*
+    * Returns hand size
+    */
+    int handSize();
+
+    /*
+    * Checks if Player has a given tile
+    */
+    bool hasTile(Tile* tile);
+
+    /*
+    * Adds a tile to player hand
+    */
+    void addTileToHand(Tile* tile);
+
+    /*
+    * Pulls a tile from player hand
+    */
+    Tile* retrieveTile(Tile* tile);
+
+    /*
+    * Player name getter
+    */
+    std::string getPlayerName();
+
+    /*
+    * Prints a string representaion of player hand
+    */
+    std::string getPlayerHand();
+
+    /*
+    * Player score getter
+    */
+    int getPlayerScore();
+
+    /*
+    * Adds the scoreModifier to current player score
+    */
+    void addScore(int scoreModifier);
+
+private:
+    std::string* playerName;
+    int playerScore;
+
+    Hand* playerHand;
 };
 
 #endif  // PLAYER_H_
