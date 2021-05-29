@@ -74,7 +74,7 @@ std::string Board::printBoard() {
         }
         for (int j = 0; j < cols; j++) {
             if (boardVecs[i][j] == nullptr) {
-                boardAppearance.append("    " WALL);
+                boardAppearance.append("  " WALL);
             } else {
                 boardAppearance.append(boardVecs[i][j]->toString() + WALL);
             }
